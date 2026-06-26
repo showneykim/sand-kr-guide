@@ -9,118 +9,110 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#14100b; --bg2:#1b150e; --panel:#241b11; --panel2:#2c2114;
-  --edge:#3e2f1b; --edge2:#553f23;
-  --ink:#ece2cf; --muted:#b6a585; --faint:#8c7c60;
-  --brass:#dca94e; --brass-d:#b07d2e; --rust:#c1572a; --blood:#9e3b22;
-  --safe:#86b06a; --sky:#6fa8c4;
-  --maxw:1080px;
-  --shadow:0 10px 30px rgba(0,0,0,.45);
+  --bg:#13100b; --bg2:#1a150e; --panel:#221a10; --edge:#392b1a; --edge2:#4f3a21;
+  --ink:#e9dfcd; --muted:#ab9a7c; --faint:#7d6f56;
+  --brass:#d9a84c; --brass-d:#a9772a; --rust:#c1572a; --safe:#8aae66; --sky:#6fa3bd;
+  --maxw:920px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0; background:var(--bg); color:var(--ink);
+body{margin:0;background:var(--bg);color:var(--ink);
   font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
-  font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased;
-  background-image:
-    radial-gradient(1200px 500px at 80% -10%, rgba(220,169,78,.10), transparent 60%),
-    radial-gradient(900px 500px at -10% 20%, rgba(193,87,42,.07), transparent 55%);
-}
-a{color:var(--brass)}
-.lat{font-family:"Oswald",sans-serif;letter-spacing:.04em}
-/* ── top nav ── */
-.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(8px);
-  background:rgba(16,12,8,.82);border-bottom:1px solid var(--edge)}
-.topbar .in{max-width:var(--maxw);margin:0 auto;padding:10px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.brandmark{font-family:"Oswald";font-weight:700;letter-spacing:.18em;color:var(--brass);font-size:18px;text-transform:uppercase}
-.brandmark small{color:var(--faint);font-size:11px;letter-spacing:.1em;display:block;line-height:1}
-.navlinks{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
-.navlinks a{font-size:12.5px;color:var(--muted);text-decoration:none;padding:5px 9px;border:1px solid transparent;border-radius:4px;white-space:nowrap}
-.navlinks a:hover{color:var(--brass);border-color:var(--edge2);background:rgba(220,169,78,.06)}
-/* ── hero ── */
+  font-size:16.5px;line-height:1.72;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.08),transparent 60%);}
+a{color:var(--brass);text-decoration:none}
+a:hover{text-decoration:underline}
+.lat{font-family:"Oswald",sans-serif}
+strong{color:#fff;font-weight:600}
+em{color:var(--muted);font-style:normal}
+.k{font-family:"Oswald",monospace;background:#0d0a06;border:1px solid var(--edge2);color:var(--brass);
+  padding:1px 6px;border-radius:4px;font-size:.84em;letter-spacing:.02em;font-weight:600;white-space:nowrap}
+
+/* nav */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(9px);background:rgba(15,11,7,.85);border-bottom:1px solid var(--edge)}
+.topbar .in{max-width:var(--maxw);margin:0 auto;padding:11px 22px;display:flex;gap:14px;align-items:center}
+.brandmark{font-family:"Oswald";font-weight:700;letter-spacing:.2em;color:var(--brass);font-size:17px}
+.brandmark small{color:var(--faint);font-size:10.5px;letter-spacing:.12em;display:block;line-height:1;font-family:"Pretendard"}
+.navlinks{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
+.navlinks a{font-size:12px;color:var(--muted);padding:5px 8px;border-radius:5px}
+.navlinks a:hover{color:var(--brass);background:rgba(217,168,76,.07);text-decoration:none}
+@media(max-width:760px){.navlinks{display:none}}
+
+/* hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--edge)}
-.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.5;filter:saturate(1.1)}
-.hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,12,8,.35),rgba(16,12,8,.92))}
-.hero .in{position:relative;max-width:var(--maxw);margin:0 auto;padding:78px 20px 60px;text-align:center}
-.hero h1{font-family:"Oswald";font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  font-size:clamp(34px,6vw,62px);margin:0;color:#fff;text-shadow:0 4px 24px rgba(0,0,0,.7);line-height:1.02}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center 35%;opacity:.42}
+.hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,11,7,.45),rgba(15,11,7,.94))}
+.hero .in{position:relative;max-width:var(--maxw);margin:0 auto;padding:74px 22px 56px}
+.hero h1{font-family:"Oswald";font-weight:700;letter-spacing:.05em;font-size:clamp(32px,6vw,56px);
+  margin:0;color:#fff;line-height:1.02;text-shadow:0 4px 26px rgba(0,0,0,.7)}
 .hero h1 .b{color:var(--brass)}
-.hero .sub{font-size:clamp(15px,2.4vw,21px);color:var(--sand);margin-top:14px;font-weight:600;letter-spacing:.02em}
-.hero .tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:22px}
-.tag{font-size:12px;color:var(--muted);border:1px solid var(--edge2);border-radius:999px;padding:5px 12px;background:rgba(0,0,0,.25)}
-.tag b{color:var(--brass);font-weight:700}
-/* ── layout ── */
-main{max-width:var(--maxw);margin:0 auto;padding:0 20px 90px}
-section{padding:40px 0 8px;scroll-margin-top:64px}
-h2{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.05em;
-  font-size:clamp(20px,3.4vw,28px);color:var(--brass);margin:0 0 4px;
-  display:flex;align-items:center;gap:12px}
-h2 .num{font-size:.82em;color:var(--bg);background:var(--brass);min-width:1.9em;height:1.9em;
-  display:inline-flex;align-items:center;justify-content:center;border-radius:6px;font-weight:700;
-  box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)}
+.hero .sub{font-size:clamp(14px,2.3vw,19px);color:#cdb78f;margin-top:13px;font-weight:500}
+.hero .tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:20px}
+.tag{font-size:11.5px;color:var(--muted);border:1px solid var(--edge2);border-radius:999px;padding:4px 11px;background:rgba(0,0,0,.25)}
+.tag b{color:var(--brass);font-weight:600}
+
+/* layout */
+main{max-width:var(--maxw);margin:0 auto;padding:0 22px 80px}
+section{padding:44px 0 4px;scroll-margin-top:60px}
+h2{font-family:"Oswald";font-weight:600;letter-spacing:.04em;font-size:clamp(19px,3vw,25px);color:var(--brass);
+  margin:0 0 14px;display:flex;align-items:center;gap:13px}
+h2 .num{font-family:"Oswald";font-size:.92em;color:var(--bg);background:var(--brass);min-width:1.7em;height:1.7em;
+  display:inline-flex;align-items:center;justify-content:center;border-radius:6px;font-weight:700}
 h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge2),transparent)}
-.lead{color:var(--muted);font-size:15.5px;margin:2px 0 18px}
-h3{color:var(--sand);font-size:18px;margin:26px 0 8px;font-weight:700;letter-spacing:.01em}
-p{margin:10px 0}
-ul,ol{margin:10px 0;padding-left:22px}
-li{margin:7px 0}
-strong{color:#fff}
-code,.k{font-family:"Oswald",monospace;background:#0e0a06;border:1px solid var(--edge2);color:var(--brass);
-  padding:1px 7px;border-radius:4px;font-size:.86em;letter-spacing:.03em;font-weight:600;white-space:nowrap}
-/* ── cards ── */
-.card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--edge);
-  border-left:4px solid var(--brass-d);border-radius:8px;padding:20px 22px;margin:16px 0;box-shadow:var(--shadow)}
-/* ── callouts ── */
-.box{border-radius:8px;padding:14px 18px;margin:16px 0;border:1px solid var(--edge);background:var(--panel)}
-.box .t{font-weight:700;letter-spacing:.02em;margin:0 0 4px;display:flex;align-items:center;gap:8px}
-.box p{margin:6px 0}
-.tip{border-left:4px solid var(--brass);} .tip .t{color:var(--brass)}
-.warn{border-left:4px solid var(--rust);background:linear-gradient(180deg,rgba(193,87,42,.10),var(--panel))}
-.warn .t{color:#e08a5e}
-.warn::before{content:"";display:block;height:4px;margin:-14px -18px 12px;border-radius:8px 8px 0 0;
-  background:repeating-linear-gradient(45deg,#3a2a16,#3a2a16 12px,#5a3a12 12px,#5a3a12 24px)}
-.safe{border-left:4px solid var(--safe);background:linear-gradient(180deg,rgba(134,176,106,.10),var(--panel))}
-.safe .t{color:var(--safe)}
-.note{border-left:4px solid var(--sky)} .note .t{color:var(--sky)}
-/* ── figures ── */
-figure{margin:18px 0;background:#0d0a06;border:1px solid var(--edge2);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+.kicker{color:var(--muted);font-size:14.5px;margin:-6px 0 16px}
+h3{color:#d6c4a0;font-size:16.5px;margin:24px 0 8px;font-weight:600}
+p{margin:11px 0}
+ol,ul{margin:11px 0;padding-left:20px}
+ol li{margin:9px 0}ul li{margin:7px 0}
+ol{counter-reset:s}
+.steps{list-style:none;padding-left:0}
+.steps li{position:relative;padding-left:38px;margin:13px 0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:1px;
+  font-family:"Oswald";font-weight:600;font-size:13px;color:var(--brass);background:#0d0a06;
+  border:1px solid var(--edge2);width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+
+/* note lines */
+.note{border-left:3px solid var(--sky);background:rgba(111,163,189,.07);padding:11px 16px;margin:15px 0;border-radius:0 6px 6px 0;font-size:14.5px;color:var(--muted)}
+.note b{color:#a9cad8}
+.warn{border-left:3px solid var(--rust);background:rgba(193,87,42,.09);padding:11px 16px;margin:15px 0;border-radius:0 6px 6px 0;font-size:14.5px;color:#d3b69a}
+.warn b{color:#e0905f}
+.warn::first-letter{}
+.facts{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--edge);border-radius:8px;padding:6px 20px;margin:15px 0}
+.facts li{margin:9px 0;font-size:15px}
+.goal{font-family:inherit;border:1px solid var(--edge2);border-left:3px solid var(--brass);
+  background:linear-gradient(90deg,rgba(217,168,76,.10),transparent);padding:12px 18px;margin:18px 0;border-radius:0 6px 6px 0}
+.goal b{color:var(--brass)}
+
+/* figures */
+figure{margin:18px 0;background:#0c0906;border:1px solid var(--edge2);border-radius:8px;overflow:hidden}
 figure img{display:block;width:100%;height:auto}
 figure svg{display:block;width:100%;height:auto;background:#100c07}
-figcaption{padding:10px 16px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--edge);
-  background:linear-gradient(180deg,var(--panel),var(--bg2))}
-figcaption b{color:var(--brass)}
-.legend{margin:8px 0 0;padding:0;list-style:none;font-size:13px}
-.legend li{margin:3px 0;color:var(--muted)}
-.legend .n{display:inline-flex;width:1.5em;height:1.5em;align-items:center;justify-content:center;
-  background:var(--brass);color:var(--bg);border-radius:50%;font-weight:700;font-size:.78em;margin-right:7px;font-family:"Oswald"}
-/* ── tables ── */
-.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--edge);border-radius:8px}
-table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:480px}
-th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top}
-thead th{background:linear-gradient(180deg,#352714,#28200f);color:var(--brass);font-family:"Oswald";
-  text-transform:uppercase;letter-spacing:.05em;font-size:12.5px;font-weight:600}
-tbody tr:nth-child(even){background:rgba(255,255,255,.018)}
-td .k{font-size:.82em}
-/* ── two-col grid ── */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
-@media(max-width:720px){.grid2{grid-template-columns:1fr}}
-/* ── goal banner ── */
-.goal{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,rgba(220,169,78,.14),transparent);
-  border:1px solid var(--edge2);border-left:4px solid var(--brass);border-radius:8px;padding:14px 18px;margin:18px 0}
-.goal .ic{font-size:24px}
-.goal b{color:var(--brass)}
-/* ── footer ── */
+figcaption{padding:11px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--edge);background:var(--bg2)}
+figcaption b{color:#c9b58e;font-weight:600}
+.legend{margin:7px 0 0;padding:0;list-style:none;font-size:12.5px}
+.legend li{margin:4px 0;color:var(--muted)}
+.legend .n{display:inline-flex;width:1.45em;height:1.45em;align-items:center;justify-content:center;
+  background:var(--brass);color:var(--bg);border-radius:50%;font-weight:700;font-size:.76em;margin-right:7px;font-family:"Oswald";vertical-align:1px}
+
+/* tables */
+.tw{overflow-x:auto;margin:14px 0;border:1px solid var(--edge);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top}
+thead th{background:#2a2110;color:var(--brass);font-family:"Oswald";letter-spacing:.04em;font-size:12px;font-weight:600}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:rgba(255,255,255,.014)}
+td:first-child{color:#d6c4a0;font-weight:600;white-space:nowrap}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+
 footer{border-top:1px solid var(--edge);background:var(--bg2)}
-footer .in{max-width:var(--maxw);margin:0 auto;padding:26px 20px 50px;color:var(--faint);font-size:12.5px;line-height:1.7}
+footer .in{max-width:var(--maxw);margin:0 auto;padding:24px 22px 46px;color:var(--faint);font-size:12px;line-height:1.65}
 footer b{color:var(--muted)}
-.tocmini{margin:14px 0 0;font-size:12px;color:var(--faint)}
-.kbd-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.diag-cap{font-size:12px;fill:var(--faint)}
-hr.sep{border:0;border-top:1px solid var(--edge);margin:34px 0 0}
+.reflinks{font-size:12.5px;color:var(--faint);margin-top:8px}
 </style>
 </head>
 <body>
@@ -129,20 +121,11 @@ hr.sep{border:0;border-top:1px solid var(--edge);margin:34px 0 0}
   <div class="in">
     <div class="brandmark">SAND<small>한국어 입문 가이드</small></div>
     <nav class="navlinks">
-      <a href="#intro">이 게임은</a>
-      <a href="#before">시작 전</a>
-      <a href="#s1">①설치</a>
-      <a href="#s2">②모드</a>
-      <a href="#s3">③트램플러</a>
-      <a href="#s4">④출격</a>
-      <a href="#s5">⑤정비</a>
-      <a href="#s6">⑥조종</a>
-      <a href="#s7">⑦약탈</a>
-      <a href="#s8">⑧생존</a>
-      <a href="#s9">⑨추출</a>
-      <a href="#s10">⑩성장</a>
-      <a href="#faq">FAQ</a>
-      <a href="#ref">조작·용어</a>
+      <a href="#intro">개요</a><a href="#before">시작 전</a>
+      <a href="#s1">설치</a><a href="#s2">모드</a><a href="#s3">트램플러</a>
+      <a href="#s4">출격</a><a href="#s5">정비</a><a href="#s6">조종</a>
+      <a href="#s7">약탈</a><a href="#s8">전투</a><a href="#s9">추출</a>
+      <a href="#faq">FAQ</a><a href="#ref">참조</a>
     </nav>
   </div>
 </div>
@@ -152,486 +135,338 @@ hr.sep{border:0;border-top:1px solid var(--edge);margin:34px 0 0}
   <div class="veil"></div>
   <div class="in">
     <h1>SAND<br><span class="b">RAIDERS OF SOPHIE</span></h1>
-    <div class="sub">한국어 입문 가이드 · 설치부터 첫 추출까지</div>
+    <div class="sub">한국어 입문 가이드 — 설치부터 첫 추출까지</div>
     <div class="tags">
       <span class="tag">솔로~6인 <b>PvPvE 추출</b></span>
       <span class="tag">대체역사 <b>디젤펑크</b></span>
-      <span class="tag">얼리액세스 <b>2026</b></span>
-      <span class="tag"><b>공식 한국어 없음</b> · 비공식 팬 가이드</span>
+      <span class="tag"><b>비공식 팬 가이드</b></span>
     </div>
   </div>
 </header>
 
 <main>
 
-<!-- INTRO -->
 <section id="intro">
-  <h2>이 게임은?</h2>
-  <p class="lead">한 줄 요약 — 무엇을 하는 게임인지부터.</p>
-  <div class="card">
-    <p style="margin-top:0">거대한 보행 전쟁기계 <strong>트램플러(Trampler)</strong>를 직접 조립해, 사막 행성 <strong>소피(Sophie)</strong>의 폐허를 약탈하고, <strong>전리품을 들고 살아서 탈출(추출)</strong>하는 <strong>솔로~6인 협동 PvPvE 추출 슈터</strong>입니다.</p>
-    <ul>
-      <li><strong>PvPvE</strong> = 다른 플레이어와도, AI 몬스터(언데드 ‘우피르’ 등)와도 싸우는 방식.</li>
-      <li>쉽게 말해 <strong>“걸어 다니는 배(=내 기지)를 몰고 약탈 → 죽기 전에 챙겨서 탈출”</strong>. 죽으면 가져온 걸 잃을 수 있는 <strong>추출(extraction)</strong> 장르라, <strong>싸워 이기는 것보다 “살아서 들고 나오기”가 먼저</strong>입니다.</li>
-    </ul>
-  </div>
-
-  <h3>전체 흐름 한눈에</h3>
+  <h2>이 게임은</h2>
+  <p>거대 보행 기계 <strong>트램플러(Trampler)</strong>를 직접 조립해 사막 행성 <strong>소피(Sophie)</strong>의 폐허를 약탈하고, 전리품을 들고 살아 돌아오는 <strong>솔로~6인 PvPvE 추출 슈터</strong>. 다른 플레이어와도, 폐허의 언데드 ‘우피르’와도 싸운다.</p>
+  <p>죽으면 짐을 잃는 장르다. 그래서 <strong>이기는 것보다 살아 나오는 게 먼저</strong>다.</p>
   <figure>
-    <!-- LOOP DIAGRAM -->
-    <svg viewBox="0 0 1000 230" role="img" aria-label="핵심 게임 루프">
+    <svg viewBox="0 0 1000 168" role="img" aria-label="핵심 루프">
       <defs>
-        <marker id="ar" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
-          <path d="M0,0 L8,3 L0,6 Z" fill="#dca94e"/>
-        </marker>
-        <style>
-          .node{fill:#241b11;stroke:#553f23}
-          .lbl{font-family:Pretendard,sans-serif;fill:#ece2cf;font-weight:700}
-          .sub{font-family:Pretendard,sans-serif;fill:#b6a585}
-          .ico{font-size:22px}
-        </style>
+        <marker id="ar" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#d9a84c"/></marker>
+        <style>.nd{fill:#221a10;stroke:#4f3a21}.lb{font-family:Pretendard;fill:#e9dfcd;font-weight:600}.sb{font-family:Oswald;fill:#a9772a;letter-spacing:.06em}</style>
       </defs>
-      <!-- 5 nodes across -->
-      <g>
-        <rect class="node" x="14"  y="70" width="168" height="92" rx="8"/>
-        <text x="98"  y="100" text-anchor="middle" class="ico">🛠️</text>
-        <text x="98"  y="128" text-anchor="middle" class="lbl" font-size="16">모선에서 제작·연구</text>
-        <text x="98"  y="150" text-anchor="middle" class="sub" font-size="12">ORBIT</text>
-
-        <rect class="node" x="222" y="70" width="150" height="92" rx="8"/>
-        <text x="297" y="100" text-anchor="middle" class="ico">🚀</text>
-        <text x="297" y="128" text-anchor="middle" class="lbl" font-size="16">사막 출격</text>
-        <text x="297" y="150" text-anchor="middle" class="sub" font-size="12">EXPEDITION</text>
-
-        <rect class="node" x="412" y="70" width="150" height="92" rx="8"/>
-        <text x="487" y="100" text-anchor="middle" class="ico">📦</text>
-        <text x="487" y="128" text-anchor="middle" class="lbl" font-size="16">폐허 약탈</text>
-        <text x="487" y="150" text-anchor="middle" class="sub" font-size="12">LOOT</text>
-
-        <rect class="node" x="602" y="70" width="170" height="92" rx="8"/>
-        <text x="687" y="100" text-anchor="middle" class="ico">🚁</text>
-        <text x="687" y="128" text-anchor="middle" class="lbl" font-size="16">살아서 추출</text>
-        <text x="687" y="150" text-anchor="middle" class="sub" font-size="12">EXTRACT</text>
-
-        <rect class="node" x="812" y="70" width="174" height="92" rx="8" style="stroke:#dca94e"/>
-        <text x="899" y="100" text-anchor="middle" class="ico">📈</text>
-        <text x="899" y="128" text-anchor="middle" class="lbl" font-size="16">전리품으로 성장</text>
-        <text x="899" y="150" text-anchor="middle" class="sub" font-size="12">UPGRADE</text>
+      <g text-anchor="middle">
+        <rect class="nd" x="12"  y="44" width="168" height="80" rx="8"/>
+        <text x="96"  y="86"  class="lb" font-size="16">모선에서 제작·연구</text><text x="96"  y="108" class="sb" font-size="11">ORBIT</text>
+        <rect class="nd" x="220" y="44" width="150" height="80" rx="8"/>
+        <text x="295" y="86"  class="lb" font-size="16">사막 출격</text><text x="295" y="108" class="sb" font-size="11">EXPEDITION</text>
+        <rect class="nd" x="410" y="44" width="150" height="80" rx="8"/>
+        <text x="485" y="86"  class="lb" font-size="16">폐허 약탈</text><text x="485" y="108" class="sb" font-size="11">LOOT</text>
+        <rect class="nd" x="600" y="44" width="160" height="80" rx="8"/>
+        <text x="680" y="86"  class="lb" font-size="16">살아서 추출</text><text x="680" y="108" class="sb" font-size="11">EXTRACT</text>
+        <rect class="nd" x="800" y="44" width="188" height="80" rx="8" style="stroke:#d9a84c"/>
+        <text x="894" y="86"  class="lb" font-size="16">전리품으로 성장</text><text x="894" y="108" class="sb" font-size="11">UPGRADE</text>
       </g>
-      <!-- arrows -->
-      <path d="M182,116 L218,116" stroke="#dca94e" stroke-width="2.5" marker-end="url(#ar)"/>
-      <path d="M372,116 L408,116" stroke="#dca94e" stroke-width="2.5" marker-end="url(#ar)"/>
-      <path d="M562,116 L598,116" stroke="#dca94e" stroke-width="2.5" marker-end="url(#ar)"/>
-      <path d="M772,116 L808,116" stroke="#dca94e" stroke-width="2.5" marker-end="url(#ar)"/>
-      <!-- loop back -->
-      <path d="M899,70 C899,28 500,20 98,28 L98,66" fill="none" stroke="#b07d2e" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ar)"/>
-      <text x="500" y="18" text-anchor="middle" class="sub" font-size="12">반복하며 더 강한 트램플러로</text>
+      <path d="M180,84 L216,84" stroke="#d9a84c" stroke-width="2.2" marker-end="url(#ar)"/>
+      <path d="M370,84 L406,84" stroke="#d9a84c" stroke-width="2.2" marker-end="url(#ar)"/>
+      <path d="M560,84 L596,84" stroke="#d9a84c" stroke-width="2.2" marker-end="url(#ar)"/>
+      <path d="M760,84 L796,84" stroke="#d9a84c" stroke-width="2.2" marker-end="url(#ar)"/>
+      <path d="M894,44 C894,16 480,12 96,18 L96,40" fill="none" stroke="#a9772a" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#ar)"/>
     </svg>
-    <figcaption><b>핵심 루프</b> — 모선(ORBIT)에서 만들고 → 원정(EXPEDITION) 나가 약탈하고 → 살아서 추출하면 → 그 전리품으로 더 강해집니다.</figcaption>
+    <figcaption>모선에서 만들고 → 원정 나가 약탈하고 → 살아서 추출하면 → 전리품으로 강해진다. 이 한 바퀴를 반복하는 게임이다.</figcaption>
   </figure>
-
-  <div class="box note">
-    <p class="t">⏱️ 모래폭풍에 쫓기는 건 ‘Storm Dive’ 모드만!</p>
-    <p>시간에 쫓기는 모래폭풍은 <strong>Storm Dive 모드</strong>의 장치입니다. 입문용 <strong>Voyage 모드는 시간 제한이 없어</strong> 원할 때 천천히 탈출하면 돼요. (<a href="#s2">②단계</a> 참고)</p>
-  </div>
+  <div class="note">시간에 쫓기는 모래폭풍은 <b>Storm Dive 모드</b>의 장치다. 입문용 <b>Voyage 모드는 제한 시간이 없다.</b></div>
 </section>
 
-<!-- BEFORE -->
 <section id="before">
-  <h2>시작 전 알아둘 것</h2>
-  <div class="grid2">
-    <div class="card" style="margin:0">
-      <ul style="margin:0">
-        <li><strong>온라인 전용</strong>입니다(오프라인 없음). 한국엔 <strong>South Korea 서버</strong>가 있어 핑은 괜찮습니다.</li>
-        <li><strong>공식 한국어 없음.</strong> UI는 영어 — 이 가이드는 영↔한 용어를 같이 적어 둡니다.</li>
-        <li><strong>솔로도 가능하지만 불리합니다.</strong> 가능하면 친구/크루(최대 6인)와. 혼자라면 더더욱 이 가이드대로 천천히.</li>
-        <li><strong>얼리액세스</strong>라 버그·서버 끊김 가능 → <strong>무리 말고 일찍 빠지는 습관</strong>.</li>
-        <li>가격 약 $24.99, 권장 사양 높은 편(RAM 32GB·RTX 3080급). 설치 시 <strong>커널 안티치트</strong> 드라이버가 함께 깔립니다(온라인 슈터 공통).</li>
-      </ul>
-    </div>
-    <div class="box safe" style="margin:0">
-      <p class="t">✅ 한글패치? — 원본 플레이는 안전합니다</p>
-      <p>커뮤니티에 자동번역 한글패치가 있지만 <strong>글자 깨짐</strong> 보고가 있고, 이 게임은 <strong>커널 안티치트 + 항상-온라인</strong>이라 <strong>클라이언트 파일을 직접 수정하면 계정 제재(밴) 위험</strong>이 있습니다.</p>
-      <p>👉 <strong>패치를 깔지 않고 원본 그대로 플레이하면 제재 위험은 없습니다.</strong> 안티치트는 정상 게임 파일엔 관여하지 않아요. 영어가 부담되면 Steam 오버레이/브라우저 번역 + 이 가이드 용어집을 곁들이세요.</p>
-    </div>
-  </div>
+  <h2>시작 전에</h2>
+  <ul class="facts">
+    <li><strong>온라인 전용</strong> — 오프라인 모드 없음. <span class="k">South Korea</span> 서버 있음(핑 양호).</li>
+    <li><strong>공식 한국어 없음</strong> — UI는 영어. 이 가이드는 영↔한 용어를 함께 적는다.</li>
+    <li><strong>솔로는 불리</strong> — 가능하면 크루(최대 6인)와. 혼자면 더 천천히.</li>
+    <li><strong>얼리액세스</strong> — 버그·서버 끊김이 있다. 무리 말고 일찍 추출하는 습관.</li>
+    <li>약 <strong>$24.99</strong>, 권장 사양 높음(RAM 32GB·RTX 3080급). 설치 시 커널 안티치트 동봉.</li>
+  </ul>
+  <div class="warn"><b>한글패치는 권장하지 않는다.</b> 자동번역 패치가 돌지만 글자 깨짐이 있고, 커널 안티치트 + 항상-온라인이라 클라이언트 수정은 밴 위험이 따른다. <b>원본 그대로 플레이하면 위험은 없다</b> — 안티치트는 정상 게임 파일엔 관여하지 않는다. 영어가 부담되면 브라우저 번역과 이 가이드의 용어집으로 충분하다.</div>
 </section>
 
-<!-- STEP 1 -->
 <section id="s1">
   <h2><span class="num">1</span> 설치 &amp; 첫 실행</h2>
-  <ol>
-    <li><strong>Steam에서 <a href="https://store.steampowered.com/app/1431300/SAND_Raiders_of_Sophie/" target="_blank" rel="noopener">SAND: Raiders of Sophie</a></strong> 구매 → 설치.</li>
-    <li>게임 실행 → <strong>서버 리전 선택</strong> 화면에서 핑이 가장 낮은 곳. 한국이면 <strong>South Korea</strong>.</li>
-    <li><strong>컨트롤러(게임패드)</strong>면 → 해당 게임의 <span class="k">Steam Input</span>을 꺼 주세요(공식 권장).</li>
-    <li>막히면 <span class="k">F1</span> 또는 화면의 <span class="k">?</span> 아이콘으로 인게임 도움말.</li>
+  <ol class="steps">
+    <li>Steam에서 <a href="https://store.steampowered.com/app/1431300/SAND_Raiders_of_Sophie/" target="_blank" rel="noopener">SAND: Raiders of Sophie</a> 구매·설치.</li>
+    <li>실행 → 리전 선택에서 <strong>South Korea</strong>.</li>
+    <li>패드로 한다면 <span class="k">Steam Input</span> 끄기(공식 권장).</li>
+    <li>막히면 <span class="k">F1</span> 또는 화면의 <span class="k">?</span>로 도움말.</li>
   </ol>
   <figure>
-    <img src="assets/img/crop_region.png" alt="서버 리전 선택 화면">
-    <figcaption><b>서버 리전 선택</b> — 목록에서 <b>South Korea</b>를 고르세요.
-      <div class="box warn" style="margin:10px 0 0">
-        <p style="margin:0"><strong>⚠ 한 번 정하면 고정!</strong> 캐릭터의 <strong>창고·연구(테크트리)는 처음 고른 지역에 고정</strong>됩니다. (트램플러 설계도만 계정 전체 공유) — 그러니 South Korea로 정했으면 계속 그 지역에서 노세요.</p>
-      </div>
-    </figcaption>
+    <img src="assets/img/crop_region.png" alt="서버 리전 선택">
+    <figcaption>리전 선택 — 목록에서 <b>South Korea</b>.</figcaption>
   </figure>
+  <div class="warn"><b>한 번 정하면 고정.</b> 창고·연구(테크트리)는 그 지역에 묶인다. 계정 전체에서 공유되는 건 트램플러 설계도뿐이다.</div>
 </section>
 
-<!-- STEP 2 -->
 <section id="s2">
-  <h2><span class="num">2</span> 무조건 Voyage(항해) 모드부터</h2>
-  <div class="tw">
-    <table>
-      <thead><tr><th></th><th>Voyage (항해) — 입문 ✅</th><th>Storm Dive (스톰 다이브)</th></tr></thead>
-      <tbody>
-        <tr><td><b>제한 시간</b></td><td>없음 — 원할 때 탈출</td><td>제한 있음 — 폭풍이 맵을 삼킴</td></tr>
-        <tr><td><b>탈출 지점</b></td><td>항상 활성</td><td>폭풍 진행에 따라 활성/비활성</td></tr>
-        <tr><td><b>위험</b></td><td>낮음 (폭풍 강제 충돌 없음)</td><td>높음 (강제 PvP·시간 압박)</td></tr>
-        <tr><td><b>전리품</b></td><td>하위~중간</td><td>희귀 유물·고급 전리품</td></tr>
-        <tr><td><b>추천</b></td><td>첫 10~15시간 연습</td><td>익숙해진 뒤 도전</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <figure>
-    <img src="assets/img/crop_mode.png" alt="모드 선택 화면 — Voyage / RIVALS">
-    <figcaption><b>모드 선택 화면</b> (실제 인게임 UI). 가운데에서 <b>VOYAGE</b>를 고르고, 우측 <b>RIVALS</b>에서 상대 종류를 정해 <span class="k">ACCEPT</span>.
-      <ul class="legend">
-        <li><span class="n">1</span><b>VOYAGE</b> 선택 — “Unlimited match duration / Evacuation zones are always active” (무제한·탈출 상시).</li>
-        <li><span class="n">2</span><b>RIVALS = Solo only</b> — 혼자라면 이걸로! 솔로 상대끼리 매칭돼 한결 공평합니다. (팀이면 Small/Large Crews)</li>
-      </ul>
-    </figcaption>
-  </figure>
-  <div class="goal"><span class="ic">🎯</span><div><b>첫 목표:</b> Voyage(Solo only)에서 <b>정비 → 약탈 → 첫 추출</b> 한 사이클 성공! 그것만 되면 절반은 끝납니다.</div></div>
-</section>
-
-<!-- STEP 3 -->
-<section id="s3">
-  <h2><span class="num">3</span> 첫 트램플러(내 기지) 만들기</h2>
-  <p class="lead">트램플러 = 이동 수단 + 기지 + 창고 + 부활 거점 + 전투 플랫폼. 처음엔 <strong>기성 설계도(블루프린트)</strong>를 쓰세요.</p>
-  <ol>
-    <li>모선(<span class="k">ORBIT</span>) → <span class="k">BLUEPRINTS</span> → 미리 만들어진 설계도 선택 → <span class="k">Select</span>.</li>
-    <li>처음엔 <strong>무겁고 비싼 중장갑 말고, 가볍고 싼 중형</strong>으로. 느린 기체는 포위당해 죽습니다. 부서져도 싸게 재건되는 게 좋아요. <span class="k">Grumpy Walker</span>(제작비 ≈ 295크라운, Crew 3·Cannons 2)가 대표적인 초반 추천 설계도입니다.</li>
-  </ol>
-  <figure>
-    <!-- CORE COMPARTMENTS DIAGRAM -->
-    <svg viewBox="0 0 1000 300" role="img" aria-label="트램플러 핵심 구획">
-      <defs><style>
-        .ch{fill:#2c2114;stroke:#553f23}
-        .core{fill:#241b11;stroke:#dca94e;stroke-width:2}
-        .tt{font-family:Pretendard;fill:#ece2cf;font-weight:700}
-        .ts{font-family:Pretendard;fill:#b6a585}
-        .ttl{font-family:Oswald;fill:#dca94e;letter-spacing:.05em}
-      </style></defs>
-      <rect class="ch" x="40" y="210" width="920" height="60" rx="8"/>
-      <text x="500" y="247" text-anchor="middle" class="tt" font-size="17">🔩 섀시 (Chassis) — 걷는 기반 골격 · 크기에 따라 무게·수용량 결정</text>
-      <text x="40" y="40" class="ttl" font-size="15">필수 = 섀시 1 + 핵심 구획 4</text>
-      <g>
-        <rect class="core" x="40"  y="70" width="218" height="120" rx="8"/>
-        <text x="149" y="104" text-anchor="middle" font-size="26">🧭</text>
-        <text x="149" y="138" text-anchor="middle" class="tt" font-size="16">조향 (Steering)</text>
-        <text x="149" y="162" text-anchor="middle" class="ts" font-size="12.5">조종대(Control Panel)가</text>
-        <text x="149" y="180" text-anchor="middle" class="ts" font-size="12.5">여기 — 운전하는 곳</text>
-
-        <rect class="core" x="274" y="70" width="218" height="120" rx="8"/>
-        <text x="383" y="104" text-anchor="middle" font-size="26">⚛️</text>
-        <text x="383" y="138" text-anchor="middle" class="tt" font-size="16">모터-리액터</text>
-        <text x="383" y="162" text-anchor="middle" class="ts" font-size="12.5">가장 핵심! 동력원</text>
-        <text x="383" y="180" text-anchor="middle" class="ts" font-size="12.5">에너지 로드로 가동</text>
-
-        <rect class="core" x="508" y="70" width="218" height="120" rx="8"/>
-        <text x="617" y="104" text-anchor="middle" font-size="26">🛏️</text>
-        <text x="617" y="138" text-anchor="middle" class="tt" font-size="16">선장실 (Captain)</text>
-        <text x="617" y="162" text-anchor="middle" class="ts" font-size="12.5">부활 침대 + 나포 장치</text>
-
-        <rect class="core" x="742" y="70" width="218" height="120" rx="8"/>
-        <text x="851" y="104" text-anchor="middle" font-size="26">🪜</text>
-        <text x="851" y="138" text-anchor="middle" class="tt" font-size="16">입구 (Entrance)</text>
-        <text x="851" y="162" text-anchor="middle" class="ts" font-size="12.5">사다리로 오르는</text>
-        <text x="851" y="180" text-anchor="middle" class="ts" font-size="12.5">탑승 경로</text>
-      </g>
-    </svg>
-    <figcaption><b>트램플러 필수 구성</b> — 섀시 + 핵심 구획 4개. 기성 설계도엔 이미 다 들어 있어요. <span style="color:var(--brass)">설계도(블루프린트)는 계정 공유, 창고·연구는 지역 고정.</span></figcaption>
-  </figure>
-</section>
-
-<!-- STEP 4 -->
-<section id="s4">
-  <h2><span class="num">4</span> 보급품 싣고 출격(Deploy)</h2>
-  <p class="lead">출격 준비는 상단 3단계 탭으로 진행됩니다: <span class="k">I. GEAR UP</span> → <span class="k">II. LOAD THE TRAMPLER</span> → <span class="k">III. OVERVIEW</span> → <span class="k">READY</span>.</p>
-  <figure>
-    <img src="assets/img/crop_overview.png" alt="출격 준비 OVERVIEW 화면">
-    <figcaption><b>출격 준비 화면</b> (III. OVERVIEW). 보급품을 싣고 트램플러 상태를 점검한 뒤 <span class="k">READY</span>.
-      <ul class="legend">
-        <li><span class="n">1</span>상단 탭 <b>GEAR UP → LOAD THE TRAMPLER → OVERVIEW</b> 순서로 준비.</li>
-        <li><span class="n">2</span><b>보급 슬롯</b> — 무기·탄약·식량·에너지 로드 등을 실어요(예시 화면: 식량 50, 에너지 로드 5 등).</li>
-        <li><span class="n">3</span>우측 <b>트램플러 스탯</b> — 기동성·Crew·Cannons·Cargo·제작비 확인.</li>
-        <li><span class="n">4</span>하단 <b>READY</b>로 출격 (이 화면은 Storm Dive Solo 예시 — 첫판은 Voyage 권장).</li>
-      </ul>
-    </figcaption>
-  </figure>
-  <h3>가져갈 것 (게임이 첫 솔로용 권장 구성을 알려줌)</h3>
-  <div class="card">
-    <p style="margin:0">🍱 <strong>통조림</strong>(부활용) · 🔫 <strong>무기 2정 + 각 전용 탄약</strong> · 💥 <strong>대포 포탄</strong>(구경 맞춰) · 🔩 <strong>에너지 로드</strong>(연료). 예시 권장: 통조림 10 · 권총 2 · 탄약 100 · 포탄 40.</p>
-  </div>
-  <h3>크루 만들기 (같이 할 사람이 있으면)</h3>
-  <div class="box tip">
-    <p style="margin:0"><span class="k">EXPEDITION</span> 탭에서 <strong>Invite Friends</strong>(프렌드 초대) 또는 <strong>Use Invite Code</strong>(초대 코드)로 합류. 코드를 받으면 검색·친구추가 없이 바로(<span class="k">My Crew x/6</span>, 최대 6인). <strong>같은 서버 리전</strong>이어야 합니다. 혼자라면 한국 커뮤니티(DCInside <span class="k">sandthegame</span> 갤러리)에서 팀원을 구할 수 있어요.</p>
-  </div>
-</section>
-
-<!-- STEP 5 -->
-<section id="s5">
-  <h2><span class="num">5</span> 사막 도착: 출격 직후 정비</h2>
-  <div class="box warn">
-    <p class="t">⛔ 트램플러는 아무것도 켜지거나 장전된 채로 시작하지 않습니다</p>
-    <p style="margin:0">도착하면 직접 챙겨야 해요. 초보가 가장 많이 막히는 부분입니다.</p>
-  </div>
-  <ol>
-    <li>🍱 <strong>통조림을 냉장고에 넣기</strong> → 죽었을 때 <strong>트램플러 침대에서 부활(리스폰)</strong>. 없으면 부활 못 하거나 한참 대기.</li>
-    <li>🔩 <strong>에너지 로드 장전</strong> → 리액터 연료. 새 로드 1개당 <strong>약 10~12분 주행</strong>(종류·패치에 따라 다름). 신규는 로드 약 5개로 시작. 위치는 <strong>리액터(배기 굴뚝 아래)</strong>의 밸브에서 <span class="k">F</span>.</li>
-    <li>🔥 <strong>리액터 켜기</strong> → 바로 그 자리, <strong>리액터 옆 메인 스위치(굴뚝 아래)</strong>에서 <span class="k">F 길게</span>. 켜야 움직이고 대포도 쏩니다. <em>(켜면 검은 연기로 위치 노출 — 약탈·정차 중엔 끄기.)</em></li>
-    <li>💥 <strong>대포 장착 + 장전</strong> — ① 선반의 녹색 박스에서 대포(캐논 키트)를 집어 <strong>거치대에 대고 <span class="k">F</span></strong>로 설치 → ② <strong>구경 맞는</strong> 포탄을 <span class="k">Tab</span>으로 통째 옮겨 장전(<strong>40mm엔 40mm</strong>).</li>
-    <li>🔫 <strong>개인 무기 2정 + 전용 탄약</strong> — 예: 근중거리 권총 + 장거리 소총. 무기마다 탄약이 다르니 짝 맞춰. <strong>맨손으로 폐허 진입 = 거의 사망.</strong></li>
-  </ol>
-  <div class="box tip"><p style="margin:0">💡 멀티툴·쌍안경 같은 도구는 <strong>장비 휠</strong>에서 골라 손에 들어야 작동합니다. 키만 눌렀는데 안 되면 휠에서 슬롯을 확인하세요.</p></div>
-</section>
-
-<!-- STEP 6 -->
-<section id="s6">
-  <h2><span class="num">6</span> 조종 기초</h2>
-  <p>먼저 운전대로: <strong>조종대(Control Panel)</strong>는 <strong>조향(Steering) 구획 안</strong>에 있습니다. 그 앞에서 <span class="k">F</span>로 조타를 잡으면 움직여요. <em>(리액터가 켜져 있어야 합니다.)</em></p>
-  <div class="grid2">
-    <div>
-      <h3 style="margin-top:0">🚜 트램플러 운전</h3>
-      <div class="tw"><table>
-        <tbody>
-          <tr><td><span class="k">W</span> / <span class="k">S</span></td><td>전진 / 후진</td></tr>
-          <tr><td><span class="k">A</span> / <span class="k">D</span></td><td>좌회전 / 우회전</td></tr>
-          <tr><td><span class="k">Q</span> / <span class="k">E</span></td><td>좌 / 우 옆걸음(게걸음)</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-    <div>
-      <h3 style="margin-top:0">🚶 걸어다닐 때(도보)</h3>
-      <div class="tw"><table>
-        <tbody>
-          <tr><td><span class="k">WASD</span></td><td>이동 · <span class="k">Shift</span> 달리기 · <span class="k">Space</span> 점프</td></tr>
-          <tr><td><span class="k">F</span></td><td>상호작용(리액터·로드·라디오·줍기·조타)</td></tr>
-          <tr><td><span class="k">M</span> / <span class="k">B</span></td><td>지도 / 쌍안경</td></tr>
-          <tr><td><span class="k">Tab</span></td><td>인벤토리 / 상자 간 이송</td></tr>
-          <tr><td><span class="k">T</span></td><td>멀티툴(수리)</td></tr>
-        </tbody>
-      </table></div>
-    </div>
-  </div>
-  <div class="box tip"><p style="margin:0">💡 운전은 <strong>계속 누르고 있지 않아도</strong> 됩니다 — 값을 정하면 유지돼서 조종대를 떠나 수리·전투를 병행할 수 있어요(솔로에게 특히 중요).</p></div>
-</section>
-
-<!-- STEP 7 -->
-<section id="s7">
-  <h2><span class="num">7</span> 약탈 기초</h2>
-  <ol>
-    <li><strong>빈 녹색 박스를 손에 들고 다니세요.</strong> 개인 주머니는 아주 작습니다. 여분 박스는 <strong>트램플러 냉장고</strong>에, 월드 곳곳에도 흩어져 있어요. 박스를 든 채 집으면 박스에 담기고 넘치면 인벤토리로(<span class="k">Tab</span>으로 이송).</li>
-    <li><strong>처음엔 작은 관심지점(POI, Point of Interest)부터.</strong> 장비가 충분해지기 전엔 큰 섬에 무리해서 들어가지 마세요.</li>
-    <li><strong>줍는 것보다 “어디에 두느냐”가 중요!</strong> 아래 그림처럼 안전한 위치에 둬야 추출 때 인정됩니다.</li>
-    <li><strong>잠긴 상자(Locked Box)</strong>는 <strong>열쇠로 탈출 전에 미리 열어야</strong> 인정. 열쇠만 들고 나가면 소용없습니다.</li>
-    <li><strong>폐허엔 우피르(Upior, 언데드)</strong>가 있어요. 트램플러엔 약하지만 <strong>도보 플레이어를 떼로 덮쳐 죽입니다.</strong> 꼭 무기를 들고.</li>
-  </ol>
-  <figure>
-    <!-- SECURED VS LOST LOOT -->
-    <svg viewBox="0 0 1000 250" role="img" aria-label="안전 보관 vs 소실">
-      <defs><style>
-        .ok{fill:rgba(134,176,106,.10);stroke:#86b06a}
-        .no{fill:rgba(193,87,42,.10);stroke:#c1572a}
-        .h{font-family:Oswald;letter-spacing:.04em}
-        .t2{font-family:Pretendard;fill:#ece2cf;font-weight:700}
-        .s2{font-family:Pretendard;fill:#b6a585}
-      </style></defs>
-      <rect class="ok" x="20"  y="20" width="600" height="210" rx="10"/>
-      <text x="44" y="56" class="h" fill="#86b06a" font-size="20">✅ 추출 인정 (안전)</text>
-      <text x="44"  y="98"  class="t2" font-size="16">🎒 개인 인벤토리</text>
-      <text x="44"  y="138" class="t2" font-size="16">📦 손에 든 박스</text>
-      <text x="44"  y="178" class="t2" font-size="16">🗄️ 트램플러 선반·랙·화물칸</text>
-      <text x="44"  y="210" class="s2" font-size="13">→ 주운 건 Tab으로 여기에 옮겨두기</text>
-
-      <rect class="no" x="650" y="20" width="330" height="210" rx="10"/>
-      <text x="674" y="56" class="h" fill="#e08a5e" font-size="20">❌ 소실</text>
-      <text x="674" y="104" class="t2" font-size="16">🟫 갑판 바닥에</text>
-      <text x="674" y="130" class="t2" font-size="16">그냥 둔 물건</text>
-      <text x="674" y="172" class="s2" font-size="13">탈출하면</text>
-      <text x="674" y="196" class="s2" font-size="13">영구 소실!</text>
-    </svg>
-    <figcaption><b>전리품 보관 규칙</b> — 인벤토리 / 손박스 / 트램플러 보관에 있어야 추출 시 챙겨집니다. <b>바닥에 흩어두면 사라져요.</b></figcaption>
-  </figure>
-</section>
-
-<!-- STEP 8 -->
-<section id="s8">
-  <h2><span class="num">8</span> 안 죽고 버티기 (전투 기초)</h2>
-  <ul>
-    <li><strong>들킬 짓 줄이기:</strong> 약탈·정차 땐 <strong>리액터 끄기</strong>(연기로 위치 노출 + 연료 절약).</li>
-    <li><strong>피격당하면 바로 수리:</strong> <strong>멀티툴(Multi-Tool, <span class="k">T</span>)</strong>로 새는 파이프 등 경미한 손상 즉시 수리. 큰 손상(부서진 구획·벽)은 <strong>리페어 키트(Repair Kit)</strong> 필요(쓰기 전 <strong>리액터 OFF</strong>).</li>
-  </ul>
-  <figure>
-    <!-- TARGET PRIORITY -->
-    <svg viewBox="0 0 1000 210" role="img" aria-label="적 트램플러 공격 우선순위">
-      <defs>
-        <marker id="ar2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#c1572a"/></marker>
-        <style>
-          .st{fill:#241b11;stroke:#553f23}
-          .bg2{font-family:Oswald;fill:#dca94e}
-          .tt3{font-family:Pretendard;fill:#ece2cf;font-weight:700}
-          .ts3{font-family:Pretendard;fill:#b6a585}
-        </style>
-      </defs>
-      <text x="20" y="34" class="bg2" font-size="16">적 트램플러를 만나면 — 권장 공격 순서</text>
-      <g>
-        <rect class="st" x="20"  y="56" width="222" height="120" rx="8"/>
-        <circle cx="50" cy="86" r="15" fill="#c1572a"/><text x="50" y="91" text-anchor="middle" font-family="Oswald" fill="#fff" font-size="16">1</text>
-        <text x="74" y="91" class="tt3" font-size="17">다리 Legs</text>
-        <text x="40" y="124" class="ts3" font-size="13">기동력 깎기</text>
-        <text x="40" y="146" class="ts3" font-size="13">(완전 정지 아님,</text>
-        <text x="40" y="164" class="ts3" font-size="13">비틀거림+감속)</text>
-
-        <rect class="st" x="274" y="56" width="200" height="120" rx="8"/>
-        <circle cx="304" cy="86" r="15" fill="#c1572a"/><text x="304" y="91" text-anchor="middle" font-family="Oswald" fill="#fff" font-size="16">2</text>
-        <text x="328" y="91" class="tt3" font-size="17">대포 Cannon</text>
-        <text x="294" y="124" class="ts3" font-size="13">반격 차단</text>
-
-        <rect class="st" x="506" y="56" width="210" height="120" rx="8"/>
-        <circle cx="536" cy="86" r="15" fill="#c1572a"/><text x="536" y="91" text-anchor="middle" font-family="Oswald" fill="#fff" font-size="16">3</text>
-        <text x="560" y="91" class="tt3" font-size="17">조향 Steering</text>
-        <text x="526" y="124" class="ts3" font-size="13">완전 정지</text>
-        <text x="526" y="146" class="ts3" font-size="13">(필요할 때)</text>
-
-        <rect class="st" x="748" y="56" width="232" height="120" rx="8" style="stroke:#dca94e;stroke-width:2"/>
-        <circle cx="778" cy="86" r="15" fill="#9e3b22"/><text x="778" y="91" text-anchor="middle" font-family="Oswald" fill="#fff" font-size="16">4</text>
-        <text x="802" y="91" class="tt3" font-size="17">리액터 Reactor</text>
-        <text x="768" y="124" class="ts3" font-size="13">가장 빨리 격침!</text>
-        <text x="768" y="146" class="ts3" font-size="13">밑에 블랙박스 드롭</text>
-      </g>
-      <path d="M242,116 L270,116" stroke="#c1572a" stroke-width="2.5" marker-end="url(#ar2)"/>
-      <path d="M474,116 L502,116" stroke="#c1572a" stroke-width="2.5" marker-end="url(#ar2)"/>
-      <path d="M716,116 L744,116" stroke="#c1572a" stroke-width="2.5" marker-end="url(#ar2)"/>
-    </svg>
-    <figcaption><b>전투 우선순위</b> — 다리로 묶고 → 대포로 반격 차단 → (필요 시 조향으로 정지) → <b>리액터로 격침</b>. 피격당하면 즉시 멀티툴로 수리하며 싸우세요.</figcaption>
-  </figure>
-  <div class="box warn">
-    <p class="t">🚫 욕심내지 마세요</p>
-    <p style="margin:0">솔로 사망의 대부분은 <strong>이미 충분히 벌고 난 뒤</strong> “한 곳만 더” 하다 일어납니다. 게다가 <strong>핵(에임봇 등) 사용자</strong>에게 장비를 통째로 잃기도 해요 — <strong>한 번에 다 걸지 말고</strong>, 목표를 채우면 미련 없이 추출.</p>
-  </div>
-  <div class="box note"><p style="margin:0">💀 <strong>부활은 이렇게:</strong> 통조림이 있으면 트램플러 침대에서 부활. 하지만 <strong>트램플러 자체가 완전히 파괴되면</strong> 모선(궤도 정거장)으로 돌아가 새로 만들거나 기성품으로 복귀합니다.</p></div>
-</section>
-
-<!-- STEP 9 -->
-<section id="s9">
-  <h2><span class="num">9</span> 첫 추출(탈출)! <span style="font-size:.6em;color:var(--faint)">← 이번 가이드의 목표</span></h2>
-  <p class="lead">전리품을 <strong>영구히 보관하는 유일한 방법</strong>이 추출입니다.</p>
-  <figure>
-    <!-- EXTRACTION TIMELINE -->
-    <svg viewBox="0 0 1000 230" role="img" aria-label="추출 절차 타임라인">
-      <defs>
-        <marker id="ar3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#dca94e"/></marker>
-        <style>.cir{fill:#241b11;stroke:#dca94e;stroke-width:2}.tt4{font-family:Pretendard;fill:#ece2cf;font-weight:700}.ts4{font-family:Pretendard;fill:#b6a585}</style>
-      </defs>
-      <line x1="70" y1="70" x2="930" y2="70" stroke="#553f23" stroke-width="3"/>
-      <g text-anchor="middle">
-        <circle class="cir" cx="90"  cy="70" r="26"/><text x="90"  y="78" font-size="24">🗺️</text>
-        <text x="90"  y="124" class="tt4" font-size="14">탈출 구역</text>
-        <text x="90"  y="144" class="ts4" font-size="12">지도 흰 ‘문’ 아이콘</text>
-
-        <circle class="cir" cx="290" cy="70" r="26"/><text x="290" y="78" font-size="24">📡</text>
-        <text x="290" y="124" class="tt4" font-size="14">무전탑에서 호출</text>
-        <text x="290" y="144" class="ts4" font-size="12">F로 “Call Evacuation”</text>
-
-        <circle class="cir" cx="500" cy="70" r="26"/><text x="500" y="78" font-size="22">💨</text>
-        <text x="500" y="124" class="tt4" font-size="14">90초 + 초록 연기</text>
-        <text x="500" y="144" class="ts4" font-size="12">주변에 위치 광고!</text>
-
-        <circle class="cir" cx="710" cy="70" r="26"/><text x="710" y="78" font-size="22">🚁</text>
-        <text x="710" y="124" class="tt4" font-size="14">구조선 도착</text>
-        <text x="710" y="144" class="ts4" font-size="12">케이블 투하(~60초)</text>
-
-        <circle class="cir" cx="910" cy="70" r="26" style="stroke-width:3"/><text x="910" y="78" font-size="22">🎉</text>
-        <text x="910" y="124" class="tt4" font-size="14">탑승 = 탈출 성공</text>
-      </g>
-      <path d="M118,70 L262,70" stroke="#dca94e" stroke-width="2" marker-end="url(#ar3)"/>
-      <path d="M318,70 L472,70" stroke="#dca94e" stroke-width="2" marker-end="url(#ar3)"/>
-      <path d="M528,70 L682,70" stroke="#dca94e" stroke-width="2" marker-end="url(#ar3)"/>
-      <path d="M738,70 L882,70" stroke="#dca94e" stroke-width="2" marker-end="url(#ar3)"/>
-      <text x="500" y="195" text-anchor="middle" class="ts4" font-size="13">⚠ 타이머 취소 = 운전 / 적 트램플러 포격 / 적이 라디오 조작  →  처음부터 다시</text>
-    </svg>
-    <figcaption><b>추출 타임라인.</b> 무전탑 <strong>근처 평지</strong>에 트램플러를 세우고(완전히 끄지 말기), 탑에 올라 호출. 구조선은 <strong>무전탑 반경 안의 트램플러 보관물만</strong> 회수합니다.</figcaption>
-  </figure>
-  <div class="box tip"><p style="margin:0">💡 <strong>트램플러가 부서져도 도보로 탈출 가능</strong>합니다. 단 그땐 <strong>개인 인벤토리 + 손에 든 박스 1개</strong>만 챙겨져요. 그래도 빈손보단 낫습니다.</p></div>
-</section>
-
-<!-- STEP 10 -->
-<section id="s10">
-  <h2><span class="num">10</span> 추출 후: 돈과 성장</h2>
-  <ul>
-    <li><strong>상점(Shop / Storage)</strong>에서 전리품을 팔아 <strong>크라운(Crowns, 화폐)</strong>을 법니다(귀중품 일부는 추출 시 자동 환전). <strong>⚠ 탄약·치료킷·열쇠를 실수로 팔지 않게</strong> 주의!</li>
-    <li>크라운 + 재료로 <strong>테크트리(Tech Tree)</strong> 노드를 해금하면 <strong>새 트램플러 구획</strong>이 열립니다. <em>(해금은 레시피만 — 제작엔 재료가 또 들어요. 초반엔 필요 없는 노드에 낭비 금지.)</em></li>
-    <li>마음에 드는 트램플러는 <strong>블루프린트로 저장</strong> → 부서져도 재건.</li>
-    <li><strong>블랙박스(Black Box)</strong>는 테크트리 재료로 중요한데 <strong>적 트램플러 격침</strong>으로 주로 얻습니다(다 쓰면 개당 약 500크라운에 판매).</li>
-  </ul>
-  <div class="goal"><span class="ic">🏆</span><div>여기까지 한 사이클을 돌았다면 <b>입문 완료!</b> 이제 더 강한 트램플러를 설계하고, 익숙해지면 <b>Storm Dive</b>에 도전하세요.</div></div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <h2>자주 막히는 점 (FAQ)</h2>
+  <h2><span class="num">2</span> 무조건 Voyage 모드부터</h2>
   <div class="tw"><table>
-    <thead><tr><th>증상</th><th>원인 / 해결</th></tr></thead>
+    <thead><tr><th></th><th>Voyage (항해) · 입문</th><th>Storm Dive</th></tr></thead>
     <tbody>
-      <tr><td>트램플러가 안 움직여요</td><td><strong>리액터를 안 켰거나</strong>(굴뚝 아래 스위치 <span class="k">F</span> 길게), <strong>에너지 로드(연료) 없음</strong>. 운전은 <strong>조향 구획의 Control Panel</strong>에서.</td></tr>
-      <tr><td>죽었는데 부활을 못 해요</td><td><strong>냉장고에 통조림</strong>이 없어서. 트램플러가 완전 파괴됐다면 모선으로 복귀.</td></tr>
-      <tr><td>대포가 안 나가요</td><td><strong>대포 미장착</strong>(거치대에 <span class="k">F</span>) 또는 <strong>포탄 미장전 / 구경 불일치</strong>(40/70/80mm).</td></tr>
-      <tr><td>도구(멀티툴·쌍안경)가 안 써져요</td><td><strong>장비 휠</strong>에서 손에 들었는지 확인.</td></tr>
-      <tr><td>탈출 타이머가 자꾸 취소돼요</td><td><strong>운전 중 / 포격 맞음 / 적이 라디오 조작</strong>. 멈춰서 방어하며 버티기.</td></tr>
-      <tr><td>전리품이 사라졌어요</td><td>갑판 <strong>바닥에 둔 물건</strong>은 소실. <span class="k">Tab</span>으로 선반·박스·인벤토리에.</td></tr>
-      <tr><td>솔로가 너무 어려워요</td><td>정상입니다. <strong>Voyage(Solo only)에서 연습</strong>, 가능하면 <strong>크루</strong>와 함께.</td></tr>
+      <tr><td>제한 시간</td><td>없음 — 원할 때 탈출</td><td>있음 — 폭풍이 맵을 삼킴</td></tr>
+      <tr><td>탈출 지점</td><td>항상 활성</td><td>폭풍 진행에 따라</td></tr>
+      <tr><td>위험</td><td>낮음(강제 충돌 없음)</td><td>높음(강제 PvP)</td></tr>
+      <tr><td>전리품</td><td>하위~중간</td><td>희귀·고급</td></tr>
+    </tbody>
+  </table></div>
+  <figure>
+    <img src="assets/img/crop_mode.png" alt="모드 선택 화면">
+    <figcaption>모드 선택(실제 UI). 가운데에서 모드, 우측 <b>RIVALS</b>에서 상대 종류를 고르고 <span class="k">ACCEPT</span>.
+      <ul class="legend">
+        <li><span class="n">1</span>가운데 <b>VOYAGE</b> 선택.</li>
+        <li><span class="n">2</span>혼자라면 <b>RIVALS → Solo only</b> — 솔로끼리 매칭돼 공평하다.</li>
+      </ul>
+    </figcaption>
+  </figure>
+  <div class="goal">첫 목표는 단순하다. <b>Voyage에서 정비 → 약탈 → 첫 추출</b>을 한 바퀴 도는 것.</div>
+</section>
+
+<section id="s3">
+  <h2><span class="num">3</span> 첫 트램플러 만들기</h2>
+  <p class="kicker">트램플러 = 이동 수단이자 기지·창고·부활 거점·전투 플랫폼. 처음엔 기성 설계도를 쓴다.</p>
+  <ol class="steps">
+    <li>모선(<span class="k">ORBIT</span>) → <span class="k">BLUEPRINTS</span>에서 기성 설계도 선택 → <span class="k">Select</span>.</li>
+    <li>가볍고 싼 <strong>중형</strong>으로. 느린 중장갑은 포위당한다. <span class="k">Grumpy Walker</span>(≈295크라운)가 무난한 초반 기체다.</li>
+  </ol>
+  <figure>
+    <svg viewBox="0 0 1000 250" role="img" aria-label="트램플러 핵심 구획">
+      <defs><style>.ch{fill:#241b11;stroke:#4f3a21}.co{fill:#1d160e;stroke:#d9a84c}.tt{font-family:Pretendard;fill:#e9dfcd;font-weight:600}.ts{font-family:Pretendard;fill:#a89876}.cap{font-family:Oswald;fill:#a9772a;letter-spacing:.05em}</style></defs>
+      <text x="40" y="30" class="cap" font-size="13">필수 = 섀시 1 + 핵심 구획 4</text>
+      <g text-anchor="middle">
+        <rect class="co" x="40"  y="46" width="218" height="116" rx="8"/>
+        <text x="149" y="92"  class="tt" font-size="16">조향 Steering</text>
+        <text x="149" y="118" class="ts" font-size="12.5">조종대가 여기 — 운전</text>
+        <rect class="co" x="274" y="46" width="218" height="116" rx="8"/>
+        <text x="383" y="92"  class="tt" font-size="16">모터-리액터</text>
+        <text x="383" y="118" class="ts" font-size="12.5">핵심 동력원 · 1순위 표적</text>
+        <rect class="co" x="508" y="46" width="218" height="116" rx="8"/>
+        <text x="617" y="92"  class="tt" font-size="16">선장실 Captain</text>
+        <text x="617" y="118" class="ts" font-size="12.5">부활 침대 + 나포 장치</text>
+        <rect class="co" x="742" y="46" width="218" height="116" rx="8"/>
+        <text x="851" y="92"  class="tt" font-size="16">입구 Entrance</text>
+        <text x="851" y="118" class="ts" font-size="12.5">사다리 탑승 경로</text>
+        <rect class="ch" x="40" y="178" width="920" height="48" rx="8"/>
+        <text x="500" y="207" class="tt" font-size="15">섀시 Chassis — 걷는 기반 골격 · 크기가 무게와 수용량을 정한다</text>
+      </g>
+    </svg>
+    <figcaption>섀시 + 핵심 구획 4개. 기성 설계도엔 모두 들어 있다. 설계도는 계정 공유, 창고·연구는 지역 고정.</figcaption>
+  </figure>
+</section>
+
+<section id="s4">
+  <h2><span class="num">4</span> 보급 싣고 출격</h2>
+  <p class="kicker">출격 준비는 상단 3단계 탭으로: <span class="k">GEAR UP</span> → <span class="k">LOAD THE TRAMPLER</span> → <span class="k">OVERVIEW</span> → <span class="k">READY</span>.</p>
+  <figure>
+    <img src="assets/img/crop_overview.png" alt="출격 준비 화면">
+    <figcaption>출격 준비(OVERVIEW). 보급을 싣고 트램플러 상태를 점검한 뒤 <span class="k">READY</span>.
+      <ul class="legend">
+        <li><span class="n">1</span>상단 탭 순서로 진행.</li>
+        <li><span class="n">2</span>보급 슬롯 — 무기·탄약·식량·에너지 로드.</li>
+        <li><span class="n">3</span>우측 스탯 — 기동성·Crew·Cannons·제작비.</li>
+      </ul>
+    </figcaption>
+  </figure>
+  <p><strong>가져갈 것</strong> — 통조림(부활용), 무기 2정과 전용 탄약, 대포 포탄(구경 맞춰), 에너지 로드. 게임이 알려주는 첫 솔로 권장 구성은 통조림 10·권총 2·탄약 100·포탄 40 정도다.</p>
+  <div class="note"><b>크루.</b> <span class="k">EXPEDITION</span> 탭에서 <b>Invite Friends</b> 또는 <b>Use Invite Code</b>로 합류(최대 6인, 같은 리전). 혼자면 DCInside <span class="k">sandthegame</span> 갤러리에서 팀원을 구할 수 있다.</div>
+</section>
+
+<section id="s5">
+  <h2><span class="num">5</span> 사막 도착: 정비</h2>
+  <div class="warn"><b>아무것도 켜지거나 장전된 채 시작하지 않는다.</b> 도착 직후 직접 챙겨야 한다 — 초보가 가장 많이 막히는 곳이다.</div>
+  <ol class="steps">
+    <li><strong>통조림을 냉장고에</strong> — 죽으면 트램플러 침대에서 부활. 없으면 부활 못 하거나 오래 기다린다.</li>
+    <li><strong>에너지 로드 장전</strong> — 리액터(배기 굴뚝 아래) 밸브에서 <span class="k">F</span>. 로드 1개당 약 10~12분 주행, 신규는 5개로 시작.</li>
+    <li><strong>리액터 켜기</strong> — 같은 자리 메인 스위치에서 <span class="k">F</span> 길게. 켜야 움직이고 대포도 쏜다. <em>켜면 검은 연기로 위치가 노출되니 약탈·정차 중엔 끈다.</em></li>
+    <li><strong>대포 장착·장전</strong> — 녹색 박스의 캐논 키트를 거치대에 <span class="k">F</span>로 설치 → 구경 맞는 포탄을 <span class="k">Tab</span>으로 옮겨 장전(40mm엔 40mm).</li>
+    <li><strong>개인 무기 2정 + 탄약</strong> — 근중거리 권총 + 장거리 소총. 맨손으로 폐허에 들어가면 죽는다.</li>
+  </ol>
+  <div class="note">멀티툴·쌍안경은 <b>장비 휠</b>에서 손에 들어야 작동한다. 키만 눌렀는데 안 되면 휠을 확인.</div>
+</section>
+
+<section id="s6">
+  <h2><span class="num">6</span> 조종</h2>
+  <p>운전대(Control Panel)는 <strong>조향 구획 안</strong>에 있다. 그 앞에서 <span class="k">F</span>로 조타를 잡으면 움직인다. 리액터가 켜져 있어야 한다.</p>
+  <div class="grid2">
+    <div class="tw"><table>
+      <thead><tr><th colspan="2">트램플러 운전</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">W</span><span class="k">S</span></td><td>전진 / 후진</td></tr>
+        <tr><td><span class="k">A</span><span class="k">D</span></td><td>좌 / 우 회전</td></tr>
+        <tr><td><span class="k">Q</span><span class="k">E</span></td><td>좌 / 우 옆걸음</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th colspan="2">도보</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">F</span></td><td>상호작용(리액터·줍기·조타)</td></tr>
+        <tr><td><span class="k">M</span><span class="k">B</span></td><td>지도 / 쌍안경</td></tr>
+        <tr><td><span class="k">Tab</span></td><td>인벤토리·상자 이송</td></tr>
+        <tr><td><span class="k">T</span></td><td>멀티툴(수리)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="note">운전은 누르고 있지 않아도 된다. 값을 정해두면 유지되니, 조종대를 떠나 수리·전투를 병행할 수 있다.</div>
+</section>
+
+<section id="s7">
+  <h2><span class="num">7</span> 약탈</h2>
+  <ol class="steps">
+    <li><strong>빈 녹색 박스를 들고 다닌다.</strong> 개인 주머니는 작다. 여분은 트램플러 냉장고에, 월드 곳곳에도 있다. 박스를 든 채 집으면 박스에 담긴다.</li>
+    <li><strong>작은 관심지점(POI)부터.</strong> 장비가 충분해지기 전엔 큰 섬에 무리해 들어가지 않는다.</li>
+    <li><strong>잠긴 상자는 탈출 전에 열쇠로 열어야</strong> 인정된다. 열쇠만 들고 나가면 소용없다.</li>
+    <li><strong>폐허엔 우피르(언데드).</strong> 트램플러엔 약하지만 도보 플레이어는 떼로 덮친다. 무기는 항상.</li>
+  </ol>
+  <figure>
+    <svg viewBox="0 0 1000 200" role="img" aria-label="전리품 보관 규칙">
+      <defs><style>.ok{fill:rgba(138,174,102,.09);stroke:#8aae66}.no{fill:rgba(193,87,42,.09);stroke:#c1572a}.h{font-family:Oswald;letter-spacing:.03em}.t2{font-family:Pretendard;fill:#e9dfcd;font-weight:600}.s2{font-family:Pretendard;fill:#a89876}</style></defs>
+      <rect class="ok" x="20" y="20" width="600" height="160" rx="9"/>
+      <text x="44" y="52" class="h" fill="#8aae66" font-size="17">추출 인정 — 안전</text>
+      <text x="48" y="90"  class="t2" font-size="15">✓  개인 인벤토리</text>
+      <text x="48" y="120" class="t2" font-size="15">✓  손에 든 박스</text>
+      <text x="48" y="150" class="t2" font-size="15">✓  트램플러 선반·랙·화물칸</text>
+      <rect class="no" x="650" y="20" width="330" height="160" rx="9"/>
+      <text x="674" y="52" class="h" fill="#e0905f" font-size="17">소실</text>
+      <text x="678" y="96"  class="t2" font-size="15">✗  갑판 바닥에</text>
+      <text x="678" y="122" class="t2" font-size="15">    그냥 둔 물건</text>
+      <text x="678" y="156" class="s2" font-size="12.5">탈출하면 영구 소실</text>
+    </svg>
+    <figcaption>주운 것은 <span class="k">Tab</span>으로 선반·박스·인벤토리에 옮긴다. 바닥에 흩어두면 추출 때 사라진다.</figcaption>
+  </figure>
+</section>
+
+<section id="s8">
+  <h2><span class="num">8</span> 전투와 생존</h2>
+  <p>약탈·정차 중엔 <strong>리액터를 끈다</strong>(연기로 위치 노출). 피격당하면 <strong>멀티툴(<span class="k">T</span>)</strong>로 즉시 수리하고, 큰 손상은 <strong>리페어 키트</strong>로(쓰기 전 리액터 OFF).</p>
+  <figure>
+    <svg viewBox="0 0 1000 168" role="img" aria-label="적 트램플러 공격 우선순위">
+      <defs>
+        <marker id="ar2" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#c1572a"/></marker>
+        <style>.st{fill:#221a10;stroke:#4f3a21}.t3{font-family:Pretendard;fill:#e9dfcd;font-weight:600}.s3{font-family:Pretendard;fill:#a89876}.bd{font-family:Oswald;fill:#fff;font-size:15px}</style>
+      </defs>
+      <text x="20" y="28" class="bd" fill="#d9a84c" font-size="14">적 트램플러 — 공격 순서</text>
+      <g>
+        <rect class="st" x="20"  y="42" width="222" height="106" rx="8"/>
+        <circle cx="48" cy="70" r="14" fill="#c1572a"/><text x="48" y="75" text-anchor="middle" class="bd">1</text>
+        <text x="72" y="75" class="t3" font-size="16">다리 Legs</text>
+        <text x="40" y="106" class="s3" font-size="12.5">기동력 깎기</text>
+        <text x="40" y="126" class="s3" font-size="12.5">(정지 아님·감속)</text>
+        <rect class="st" x="274" y="42" width="196" height="106" rx="8"/>
+        <circle cx="302" cy="70" r="14" fill="#c1572a"/><text x="302" y="75" text-anchor="middle" class="bd">2</text>
+        <text x="326" y="75" class="t3" font-size="16">대포 Cannon</text>
+        <text x="294" y="106" class="s3" font-size="12.5">반격 차단</text>
+        <rect class="st" x="502" y="42" width="206" height="106" rx="8"/>
+        <circle cx="530" cy="70" r="14" fill="#c1572a"/><text x="530" y="75" text-anchor="middle" class="bd">3</text>
+        <text x="554" y="75" class="t3" font-size="16">조향 Steering</text>
+        <text x="522" y="106" class="s3" font-size="12.5">완전 정지(필요 시)</text>
+        <rect class="st" x="740" y="42" width="240" height="106" rx="8" style="stroke:#d9a84c"/>
+        <circle cx="768" cy="70" r="14" fill="#9e3b22"/><text x="768" y="75" text-anchor="middle" class="bd">4</text>
+        <text x="792" y="75" class="t3" font-size="16">리액터 Reactor</text>
+        <text x="760" y="106" class="s3" font-size="12.5">가장 빨리 격침</text>
+        <text x="760" y="126" class="s3" font-size="12.5">밑에 블랙박스 드롭</text>
+      </g>
+      <path d="M242,95 L270,95" stroke="#c1572a" stroke-width="2.2" marker-end="url(#ar2)"/>
+      <path d="M470,95 L498,95" stroke="#c1572a" stroke-width="2.2" marker-end="url(#ar2)"/>
+      <path d="M708,95 L736,95" stroke="#c1572a" stroke-width="2.2" marker-end="url(#ar2)"/>
+    </svg>
+    <figcaption>다리로 묶고 → 대포로 반격 차단 → (필요 시 조향으로 정지) → 리액터로 격침.</figcaption>
+  </figure>
+  <div class="warn"><b>욕심내지 않는다.</b> 솔로 사망의 대부분은 이미 충분히 번 뒤 “한 곳만 더” 하다 일어난다. 핵 사용자에게 통째로 털리기도 한다. 목표를 채웠으면 미련 없이 추출.</div>
+  <div class="note">통조림이 있으면 트램플러 침대에서 부활한다. 트램플러 자체가 파괴되면 모선으로 돌아가 다시 만든다.</div>
+</section>
+
+<section id="s9">
+  <h2><span class="num">9</span> 첫 추출</h2>
+  <p class="kicker">전리품을 영구히 보관하는 유일한 방법.</p>
+  <figure>
+    <svg viewBox="0 0 1000 180" role="img" aria-label="추출 절차">
+      <defs>
+        <marker id="ar3" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#d9a84c"/></marker>
+        <style>.ci{fill:#221a10;stroke:#d9a84c;stroke-width:2}.t4{font-family:Pretendard;fill:#e9dfcd;font-weight:600}.s4{font-family:Pretendard;fill:#a89876}.bn{font-family:Oswald;fill:#d9a84c;font-size:18px}</style>
+      </defs>
+      <line x1="80" y1="56" x2="920" y2="56" stroke="#4f3a21" stroke-width="2.5"/>
+      <g text-anchor="middle">
+        <circle class="ci" cx="90"  cy="56" r="22"/><text x="90"  y="63" class="bn">1</text>
+        <text x="90"  y="104" class="t4" font-size="13.5">탈출 구역으로</text><text x="90"  y="122" class="s4" font-size="11.5">지도 흰 ‘문’ 아이콘</text>
+        <circle class="ci" cx="297" cy="56" r="22"/><text x="297" y="63" class="bn">2</text>
+        <text x="297" y="104" class="t4" font-size="13.5">무전탑에서 호출</text><text x="297" y="122" class="s4" font-size="11.5">F로 Call Evacuation</text>
+        <circle class="ci" cx="503" cy="56" r="22"/><text x="503" y="63" class="bn">3</text>
+        <text x="503" y="104" class="t4" font-size="13.5">90초 · 초록 연기</text><text x="503" y="122" class="s4" font-size="11.5">주변에 위치 노출</text>
+        <circle class="ci" cx="710" cy="56" r="22"/><text x="710" y="63" class="bn">4</text>
+        <text x="710" y="104" class="t4" font-size="13.5">구조선·케이블</text><text x="710" y="122" class="s4" font-size="11.5">약 60초</text>
+        <circle class="ci" cx="910" cy="56" r="22" style="stroke-width:3"/><text x="910" y="63" class="bn">5</text>
+        <text x="910" y="104" class="t4" font-size="13.5">탑승 = 성공</text>
+      </g>
+      <path d="M114,56 L271,56" stroke="#d9a84c" stroke-width="1.8" marker-end="url(#ar3)"/>
+      <path d="M321,56 L477,56" stroke="#d9a84c" stroke-width="1.8" marker-end="url(#ar3)"/>
+      <path d="M527,56 L684,56" stroke="#d9a84c" stroke-width="1.8" marker-end="url(#ar3)"/>
+      <path d="M734,56 L884,56" stroke="#d9a84c" stroke-width="1.8" marker-end="url(#ar3)"/>
+      <text x="500" y="160" text-anchor="middle" class="s4" font-size="12.5">취소 조건 — 운전 / 적 트램플러 포격 / 적이 라디오 조작. 그러면 처음부터 다시.</text>
+    </svg>
+    <figcaption>무전탑 <b>근처 평지</b>에 트램플러를 세우고(완전히 끄지 말 것) 탑에 올라 호출한다. 구조선은 반경 안의 트램플러 보관물만 회수한다.</figcaption>
+  </figure>
+  <div class="note">트램플러가 부서져도 도보로 탈출할 수 있다. 단 개인 인벤토리와 손에 든 박스 1개만 챙겨진다.</div>
+  <div class="goal">여기까지 한 바퀴 돌았다면 <b>입문 완료.</b> 더 강한 트램플러를 설계하고, 익숙해지면 Storm Dive에 도전한다.</div>
+</section>
+
+<section id="faq">
+  <h2>막히는 점</h2>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td>안 움직임</td><td>리액터를 안 켰거나(굴뚝 아래 <span class="k">F</span> 길게) 연료 없음. 운전은 조향 구획에서.</td></tr>
+      <tr><td>부활 안 됨</td><td>냉장고에 통조림이 없다. 트램플러가 파괴됐으면 모선으로 복귀.</td></tr>
+      <tr><td>대포 안 나감</td><td>미장착(거치대에 <span class="k">F</span>) 또는 포탄 미장전·구경 불일치.</td></tr>
+      <tr><td>도구 안 써짐</td><td>장비 휠에서 손에 들었는지 확인.</td></tr>
+      <tr><td>추출이 취소됨</td><td>운전 중·포격 맞음·적이 라디오 조작. 멈춰 방어하며 버틴다.</td></tr>
+      <tr><td>전리품 사라짐</td><td>바닥에 둔 물건은 소실. <span class="k">Tab</span>으로 선반·박스에.</td></tr>
+      <tr><td>솔로가 너무 힘듦</td><td>정상이다. Voyage·Solo only로 연습, 가능하면 크루와.</td></tr>
     </tbody>
   </table></div>
 </section>
 
-<!-- REF -->
 <section id="ref">
-  <h2>조작키 · 용어 빠른 참조</h2>
+  <h2>조작키 · 용어</h2>
   <div class="grid2">
-    <div>
-      <h3 style="margin-top:0">조작키 요약</h3>
-      <div class="tw"><table><tbody>
-        <tr><td><span class="k">F</span></td><td>상호작용(리액터·로드·라디오·조타·줍기)</td></tr>
-        <tr><td><span class="k">WASD</span></td><td>이동 / 운전(전후·회전)</td></tr>
-        <tr><td><span class="k">Q</span><span class="k">E</span></td><td>트램플러 옆걸음</td></tr>
+    <div class="tw"><table>
+      <thead><tr><th colspan="2">조작키</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">F</span></td><td>상호작용(리액터·줍기·조타·라디오)</td></tr>
+        <tr><td><span class="k">WASD</span></td><td>이동 / 운전</td></tr>
+        <tr><td><span class="k">Q</span><span class="k">E</span></td><td>옆걸음</td></tr>
         <tr><td><span class="k">M</span><span class="k">B</span></td><td>지도 / 쌍안경</td></tr>
-        <tr><td><span class="k">Tab</span></td><td>인벤토리 / 상자 이송</td></tr>
-        <tr><td><span class="k">T</span></td><td>멀티툴(수리)</td></tr>
-        <tr><td><span class="k">F1</span></td><td>인게임 도움말</td></tr>
-      </tbody></table></div>
-    </div>
-    <div>
-      <h3 style="margin-top:0">핵심 용어</h3>
-      <div class="tw"><table><tbody>
-        <tr><td>Trampler</td><td>트램플러 — 보행 기지/전투기계</td></tr>
-        <tr><td>Sophie</td><td>소피 — 사막 행성(무대)</td></tr>
-        <tr><td>Extraction</td><td>추출 — 전리품 들고 탈출</td></tr>
+        <tr><td><span class="k">Tab</span></td><td>인벤토리·상자 이송</td></tr>
+        <tr><td><span class="k">T</span></td><td>멀티툴</td></tr>
+        <tr><td><span class="k">F1</span></td><td>도움말</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th colspan="2">용어</th></tr></thead>
+      <tbody>
+        <tr><td>Trampler</td><td>트램플러 — 보행 기지·전투기계</td></tr>
+        <tr><td>Sophie</td><td>소피 — 사막 행성</td></tr>
+        <tr><td>Extraction</td><td>추출 — 들고 탈출</td></tr>
         <tr><td>Crowns</td><td>크라운 — 화폐</td></tr>
-        <tr><td>Upior</td><td>우피르 — 언데드 PvE 적</td></tr>
-        <tr><td>Tech Tree</td><td>테크트리 — 구획 연구·해금</td></tr>
+        <tr><td>Upior</td><td>우피르 — 언데드 적</td></tr>
         <tr><td>Black Box</td><td>블랙박스 — 격침 드롭, 테크 재료</td></tr>
-      </tbody></table></div>
-    </div>
+      </tbody>
+    </table></div>
   </div>
-  <p class="tocmini">더 깊은 자료: <code>docs/02_게임_전체개요.md</code> (세계관·시스템 총정리) · <code>docs/03_용어집.md</code> (전체 용어집) · <code>docs/01_인게임튜토리얼_원본정리.md</code> (튜토리얼 원문)</p>
+  <p class="reflinks">깊은 자료 — <code class="k">docs/02_게임_전체개요.md</code> · <code class="k">docs/03_용어집.md</code> · <code class="k">docs/01_인게임튜토리얼_원본정리.md</code></p>
 </section>
 
 </main>
 
 <footer>
   <div class="in">
-    <p><b>⚖️ 고지</b> — 이 문서는 팬이 만든 <b>비공식 한국어 입문 가이드</b>입니다. <b>게임 파일을 수정·배포하지 않는 순수 텍스트 안내문</b>이며, 개발사 Hologryph · TowerHaus 및 퍼블리셔 tinyBuild와 아무런 제휴·후원·승인 관계가 없습니다. 게임의 모든 권리는 이들에게 있습니다.</p>
-    <p>얼리액세스(2026-06-22 출시) 기준 정보라 패치로 달라질 수 있고, 일부 수치는 커뮤니티 자료에 근거한 추정입니다 — <b>인게임에서 직접 확인</b>을 권장합니다. 안티치트 명칭은 Steam 페이지 기준 BattlEye로 표기(일부 자료는 EAC 언급). <b>권리자 요청 시 즉시 배포를 중단합니다.</b></p>
+    <p><b>고지</b> — 팬이 만든 비공식 한국어 입문 가이드. 게임 파일을 수정·배포하지 않는 텍스트 안내문이며, 개발사 Hologryph·TowerHaus 및 퍼블리셔 tinyBuild와 제휴·후원 관계가 없다. 모든 권리는 이들에게 있다.</p>
+    <p>얼리액세스(2026-06-22) 기준이라 패치로 달라질 수 있고, 일부 수치는 커뮤니티 자료 추정이다 — 인게임 확인을 권장한다. 안티치트는 Steam 페이지 기준 BattlEye 표기. 권리자 요청 시 즉시 배포를 중단한다.</p>
   </div>
 </footer>
 
