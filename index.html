@@ -39,12 +39,13 @@ em{color:var(--muted);font-style:normal}
 .navlinks{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
 .navlinks a{font-size:12px;color:var(--muted);padding:5px 8px;border-radius:5px}
 .navlinks a:hover{color:var(--brass);background:rgba(217,168,76,.07);text-decoration:none}
-@media(max-width:760px){.navlinks{display:none}}
+@media(max-width:760px){.topbar .in{padding:9px 12px;gap:8px}.brandmark small{display:none}.navlinks{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.navlinks::-webkit-scrollbar{display:none}.navlinks a{padding:5px 7px}}
 
 /* hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--edge)}
-.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center 35%;opacity:.42}
-.hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,11,7,.45),rgba(15,11,7,.94))}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center 32%;opacity:.5;filter:saturate(1.05) contrast(1.02);transform:scale(1.04)}
+.hero .veil{position:absolute;inset:0;background:radial-gradient(125% 95% at 50% 28%,transparent,rgba(15,11,7,.5) 68%,rgba(15,11,7,.97)),linear-gradient(180deg,rgba(15,11,7,.28),rgba(15,11,7,.32) 55%,var(--bg))}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--brass-d),transparent);opacity:.55}
 .hero .in{position:relative;max-width:var(--maxw);margin:0 auto;padding:74px 22px 56px}
 .hero h1{font-family:"Oswald";font-weight:700;letter-spacing:.05em;font-size:clamp(32px,6vw,56px);
   margin:0;color:#fff;line-height:1.02;text-shadow:0 4px 26px rgba(0,0,0,.7)}
@@ -113,9 +114,24 @@ footer{border-top:1px solid var(--edge);background:var(--bg2)}
 footer .in{max-width:var(--maxw);margin:0 auto;padding:24px 22px 46px;color:var(--faint);font-size:12px;line-height:1.65}
 footer b{color:var(--muted)}
 .reflinks{font-size:12.5px;color:var(--faint);margin-top:8px}
+
+/* progress · interactions */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;transition:width .12s ease-out;
+  background:linear-gradient(90deg,var(--brass-d),var(--brass))}
+.navlinks a.active{color:var(--brass);background:rgba(217,168,76,.12)}
+figure img{cursor:zoom-in}
+#lb{position:fixed;inset:0;z-index:100;background:rgba(8,6,4,.93);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+#lb.on{display:flex}
+#lb img{max-width:96vw;max-height:92vh;border:1px solid var(--edge2);border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.65)}
+.kbcard{display:flex;gap:14px;align-items:flex-start;margin:6px 0 2px;padding:16px 20px;border-radius:8px;
+  background:linear-gradient(110deg,rgba(217,168,76,.10),var(--panel));border:1px solid var(--edge2);border-left:3px solid var(--brass)}
+.kbcard .ttl{font-family:"Oswald";color:var(--brass);font-size:14px;letter-spacing:.05em;margin:0 0 5px}
+.kbcard p{margin:0;font-size:14px;color:var(--muted);line-height:1.6}
+.kbcard a{font-weight:600}
 </style>
 </head>
 <body>
+<div id="progress"></div>
 
 <div class="topbar">
   <div class="in">
@@ -458,7 +474,12 @@ footer b{color:var(--muted)}
       </tbody>
     </table></div>
   </div>
-  <p class="reflinks">더 깊은 자료 — <a href="docs/kb/README.md">지식베이스(12개 주제 전체 데이터)</a> · <a href="docs/02_게임_전체개요.md">게임 전체 개요</a> · <a href="docs/03_용어집.md">용어집</a></p>
+  <div class="kbcard">
+    <div>
+      <p class="ttl">더 깊이 — 지식베이스</p>
+      <p>트램플러 빌드·테크트리·무기·자원·전략 등 12개 주제 심층 데이터와, AI 자동생성 위키의 허위 정보를 가려낸 <a href="https://github.com/showneykim/sand-kr-guide/blob/main/docs/kb/_%EA%B2%80%EC%A6%9D.md" target="_blank" rel="noopener">교차검증 노트</a>. → <a href="https://github.com/showneykim/sand-kr-guide/tree/main/docs/kb" target="_blank" rel="noopener">지식베이스 열기</a></p>
+    </div>
+  </div>
 </section>
 
 </main>
@@ -470,5 +491,28 @@ footer b{color:var(--muted)}
   </div>
 </footer>
 
+<div id="lb"><img alt="확대 이미지"></div>
+<script>
+(function(){
+  var pb=document.getElementById('progress'),h=document.documentElement;
+  function prog(){var m=(h.scrollHeight-h.clientHeight)||1;pb.style.width=((h.scrollTop||0)/m*100)+'%';}
+  document.addEventListener('scroll',prog,{passive:true});prog();
+  var links=[].slice.call(document.querySelectorAll('.navlinks a'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){var a=map[e.target.id];if(a){links.forEach(function(x){x.classList.remove('active');});a.classList.add('active');}}});
+    },{rootMargin:'-45% 0px -50% 0px'});
+    [].slice.call(document.querySelectorAll('main section[id]')).forEach(function(s){io.observe(s);});
+  }
+  var lb=document.getElementById('lb'),li=lb.querySelector('img');
+  [].slice.call(document.querySelectorAll('figure img')).forEach(function(im){
+    im.addEventListener('click',function(){li.src=im.src;lb.classList.add('on');});
+  });
+  function close(){lb.classList.remove('on');li.removeAttribute('src');}
+  lb.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
 </body>
 </html>
