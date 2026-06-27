@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>테크트리 (한국어) — 샌드: 레이더스 오브 소피</title>
+<meta name="description" content="SAND: Raiders of Sophie 테크트리 한국어 — 3팩션·4티어·95개 노드를 검색·열람">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic",sans-serif;font-size:16px;line-height:1.6;
+ background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(9px);background:rgba(15,11,7,.86);border-bottom:1px solid var(--edge)}
+.topbar .in{max-width:1180px;margin:0 auto;padding:11px 22px;display:flex;gap:14px;align-items:center}
+.brand{font-family:"Oswald";font-weight:700;letter-spacing:.2em;color:var(--brass);font-size:17px}
+.tabs{margin-left:auto;display:flex;gap:6px}
+.tabs a{font-size:13px;color:var(--muted);padding:6px 13px;border:1px solid var(--edge2);border-radius:6px}
+.tabs a.on{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}
+.tabs a:hover{text-decoration:none;color:var(--brass)}
+.tabs a.on:hover{color:var(--bg)}
+header.h{max-width:1180px;margin:0 auto;padding:30px 22px 8px}
+header.h h1{font-family:"Oswald";font-weight:700;letter-spacing:.04em;font-size:clamp(24px,4vw,34px);margin:0;color:#fff}
+header.h .sub{color:var(--muted);margin:8px 0 0;font-size:15px;max-width:760px}
+header.h .sub b{color:var(--brass)}
+.howto{max-width:1180px;margin:16px auto 0;padding:0 22px}
+.howto .box{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--edge);border-left:3px solid var(--brass);border-radius:8px;padding:13px 18px;font-size:14px;color:var(--muted)}
+.howto .box b{color:var(--brass)}
+.ctrl{position:sticky;top:51px;z-index:40;background:rgba(15,11,7,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--edge);margin-top:18px}
+.ctrl .in{max-width:1180px;margin:0 auto;padding:12px 22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#q{flex:1;min-width:180px;background:#0d0a06;border:1px solid var(--edge2);color:var(--ink);border-radius:7px;padding:9px 13px;font-size:14px;font-family:inherit}
+#q:focus{outline:none;border-color:var(--brass)}
+.fbtns{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{font-family:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:1px solid var(--edge2);border-radius:999px;padding:6px 12px;cursor:pointer}
+.fbtn[data-f]:not([data-f=all]){border-color:color-mix(in srgb,var(--col) 55%,var(--edge2))}
+.fbtn.active{color:#fff;background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent);border-color:var(--col,var(--brass))}
+#count{font-size:12.5px;color:var(--faint);margin-left:auto;white-space:nowrap}
+main{max-width:1180px;margin:0 auto;padding:6px 22px 80px}
+.fac{margin:30px 0 0}
+.fac-h{display:flex;flex-direction:column;gap:2px;padding:12px 0 10px;border-bottom:1px solid var(--edge);position:relative}
+.fac-h h2{font-family:"Oswald";font-weight:600;font-size:20px;margin:0;color:var(--col);display:flex;align-items:center;gap:10px;letter-spacing:.02em}
+.fac-h .dot{position:absolute;left:-22px;top:18px;width:9px;height:9px;border-radius:50%;background:var(--col);box-shadow:0 0 10px var(--col)}
+.fac-en{font-family:"Oswald";color:var(--faint);font-size:13px;font-weight:500;letter-spacing:.03em}
+.fac-n{font-size:12px;color:var(--bg);background:var(--col);border-radius:999px;padding:1px 9px;font-weight:700}
+.fac-role{margin:2px 0 0;font-size:13.5px;color:var(--muted)}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+@media(max-width:880px){.tiers{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.tiers{grid-template-columns:1fr}}
+.tier-h{font-family:"Oswald";font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;
+ display:flex;align-items:center;gap:7px;padding:0 2px 8px;border-bottom:1px dashed var(--edge2);margin-bottom:9px}
+.tier-h .rom{display:inline-flex;min-width:1.6em;height:1.6em;align-items:center;justify-content:center;background:#0d0a06;border:1px solid var(--col);color:var(--col);border-radius:5px;font-weight:700;font-size:.85em}
+.tier-h .tcount{margin-left:auto;color:var(--faint);font-weight:500}
+.tn{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--edge);border-left:3px solid var(--col);
+ border-radius:7px;padding:8px 11px;margin:0 0 8px}
+.tn-h{display:flex;align-items:baseline;gap:8px}
+.tn-ko{font-weight:600;color:var(--ink);font-size:14px;flex:1}
+.tn-cost{font-family:"Oswald";color:var(--brass);font-size:13px;font-weight:600;white-space:nowrap}
+.tn-cost::before{content:"◈ ";color:var(--brass-d);font-size:.85em}
+.tn-m{display:flex;align-items:center;gap:8px;margin-top:2px}
+.tn-en{font-family:"Oswald";color:var(--faint);font-size:11px;flex:1;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tn-cat{font-size:10.5px;color:var(--muted);background:#0d0a06;border:1px solid var(--edge2);border-radius:4px;padding:1px 6px;white-space:nowrap}
+.tn.hide,.tier.hide,.fac.hide{display:none}
+.empty{color:var(--faint);font-size:12px;padding:6px 2px}
+footer{border-top:1px solid var(--edge);background:var(--bg2)}
+footer .in{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--faint);font-size:12px;line-height:1.65}
+footer b{color:var(--muted)}footer a{color:var(--muted)}
+</style></head>
+<body>
+<div class="topbar"><div class="in">
+  <span class="brand">SAND</span>
+  <div class="tabs"><a href="index.html">입문 가이드</a><a class="on" href="tech.html">테크트리</a></div>
+</div></div>
+
+<header class="h">
+  <h1>테크트리 <span style="color:var(--brass)">한국어</span></h1>
+  <p class="sub">연구로 새 트램플러 부품을 해금한다. <b>3개 팩션 · 4개 티어 · 95개 노드</b>를 한국어로 검색·열람하세요. 영어 UI에서 길을 잃지 않도록.</p>
+</header>
+<div class="howto"><div class="box">
+  <b>읽는 법.</b> 노드를 <b>해금</b>하면 그 부품의 <b>레시피(설계도)만</b> 열립니다 — 실제로 에디터에서 만들 땐 <b>재료가 또</b> 듭니다. 비용 <b>◈는 크라운(Crowns)</b>. 상위 티어는 크라운 외에 희귀 재료(Crystal·Ficus·Black Box 등)도 필요합니다(상세 재료는 <a href="https://github.com/showneykim/sand-kr-guide/blob/main/docs/kb/02_%ED%85%8C%ED%81%AC%ED%8A%B8%EB%A6%AC_%ED%8C%A9%EC%85%98.md">지식베이스</a> 참고).
+</div></div>
+
+<div class="ctrl"><div class="in">
+  <input id="q" type="search" placeholder="검색 — 한글/영문 부품명, 카테고리 (예: 캐논, 섀시, reactor)" autocomplete="off">
+  <div class="fbtns"><button class="fbtn active" data-f="all">전체</button><button class="fbtn" data-f="#4493f8" style="--col:#4493f8">고들레프스키 원정대</button><button class="fbtn" data-f="#6fb24a" style="--col:#6fb24a">K.K. 란트베어</button><button class="fbtn" data-f="#e3a008" style="--col:#e3a008">카이저의 친구들</button></div>
+  <span id="count"></span>
+</div></div>
+
+<main id="tree">
+<section class="fac" data-fac="#4493f8" style="--col:#4493f8"><div class="fac-h"><span class="dot"></span><h2>고들레프스키 원정대 <span class="fac-en">Godlewski&#x27;s Expedition</span><span class="fac-n">31</span></h2><p class="fac-role">트램플러의 뼈대와 심장 — 섀시·동력(리액터/엔진/로드)·승무원실·생활·유틸리티</p></div><div class="tiers"><div class="tier"><div class="tier-h"><span class="rom">I</span>Tier 1<span class="tcount">8</span></div><div class="tn" data-s="계단 (여러 종) stairs (multiple) 구조·이동" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">계단 (여러 종)</span><span class="tn-cost">600</span></div><div class="tn-m"><span class="tn-en">Stairs (multiple)</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="승무원실 crew room 승무원·생활" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">승무원실</span><span class="tn-cost">700</span></div><div class="tn-m"><span class="tn-en">Crew Room</span><span class="tn-cat">승무원·생활</span></div></div>
+<div class="tn" data-s="소형 섀시 small chassis 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">소형 섀시</span><span class="tn-cost">900</span></div><div class="tn-m"><span class="tn-en">Small Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="모터-리액터 motor-reactor 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">모터-리액터</span><span class="tn-cost">1,000</span></div><div class="tn-m"><span class="tn-en">Motor-Reactor</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="프레임 계단 framed stairs 구조·이동" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">프레임 계단</span><span class="tn-cost">1,250</span></div><div class="tn-m"><span class="tn-en">Framed Stairs</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="에너지 로드 energy rod 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">에너지 로드</span><span class="tn-cost">1,500</span></div><div class="tn-m"><span class="tn-en">Energy Rod</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="구급킷 medkit 승무원·생활" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">구급킷</span><span class="tn-cost">1,500</span></div><div class="tn-m"><span class="tn-en">MedKit</span><span class="tn-cat">승무원·생활</span></div></div>
+<div class="tn" data-s="모터-리액터 motor-reactor 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">모터-리액터</span><span class="tn-cost">1,750</span></div><div class="tn-m"><span class="tn-en">Motor-Reactor</span><span class="tn-cat">동력</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">II</span>Tier 2<span class="tcount">11</span></div><div class="tn" data-s="목재 복도 wooden corridor 구조·이동" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">목재 복도</span><span class="tn-cost">2,750</span></div><div class="tn-m"><span class="tn-en">Wooden Corridor</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="선장실 captain&#x27;s cabin 승무원·생활" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">선장실</span><span class="tn-cost">2,800</span></div><div class="tn-m"><span class="tn-en">Captain&#x27;s Cabin</span><span class="tn-cat">승무원·생활</span></div></div>
+<div class="tn" data-s="중형 섀시 (83u-b) middling chassis (83u-b) 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">중형 섀시 (83U-B)</span><span class="tn-cost">3,200</span></div><div class="tn-m"><span class="tn-en">Middling Chassis (83U-B)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="중형 섀시 (83u-l) middling chassis (83u-l) 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">중형 섀시 (83U-L)</span><span class="tn-cost">3,200</span></div><div class="tn-m"><span class="tn-en">Middling Chassis (83U-L)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="모터-리액터 motor-reactor 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">모터-리액터</span><span class="tn-cost">3,250</span></div><div class="tn-m"><span class="tn-en">Motor-Reactor</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="승무원실 crew room 승무원·생활" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">승무원실</span><span class="tn-cost">3,500</span></div><div class="tn-m"><span class="tn-en">Crew Room</span><span class="tn-cat">승무원·생활</span></div></div>
+<div class="tn" data-s="모터-리액터 motor-reactor 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">모터-리액터</span><span class="tn-cost">4,000</span></div><div class="tn-m"><span class="tn-en">Motor-Reactor</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="승무원실 (k81v) crew room (k81v) 승무원·생활" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">승무원실 (K81v)</span><span class="tn-cost">4,300</span></div><div class="tn-m"><span class="tn-en">Crew Room (K81v)</span><span class="tn-cat">승무원·생활</span></div></div>
+<div class="tn" data-s="승무원실 (mb77e) crew room (mb77e) 승무원·생활" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">승무원실 (MB77e)</span><span class="tn-cost">4,300</span></div><div class="tn-m"><span class="tn-en">Crew Room (MB77e)</span><span class="tn-cat">승무원·생활</span></div></div>
+<div class="tn" data-s="소형 엔진 small engine 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">소형 엔진</span><span class="tn-cost">4,900</span></div><div class="tn-m"><span class="tn-en">Small Engine</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="삽 shovel 도구" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">삽</span><span class="tn-cost">5,000</span></div><div class="tn-m"><span class="tn-en">Shovel</span><span class="tn-cat">도구</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">III</span>Tier 3<span class="tcount">9</span></div><div class="tn" data-s="금속 복도 metal corridor 구조·이동" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">금속 복도</span><span class="tn-cost">5,500</span></div><div class="tn-m"><span class="tn-en">Metal Corridor</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="대형 섀시 great chassis 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">대형 섀시</span><span class="tn-cost">5,700</span></div><div class="tn-m"><span class="tn-en">Great Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="중형 엔진 medium engine 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">중형 엔진</span><span class="tn-cost">6,300</span></div><div class="tn-m"><span class="tn-en">Medium Engine</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="모터-리액터 motor-reactor 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">모터-리액터</span><span class="tn-cost">6,500</span></div><div class="tn-m"><span class="tn-en">Motor-Reactor</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="대형 섀시 (79h-b) great chassis (79h-b) 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">대형 섀시 (79H-B)</span><span class="tn-cost">6,700</span></div><div class="tn-m"><span class="tn-en">Great Chassis (79H-B)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="대형 섀시 (79h-l) great chassis (79h-l) 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">대형 섀시 (79H-L)</span><span class="tn-cost">6,700</span></div><div class="tn-m"><span class="tn-en">Great Chassis (79H-L)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="모터-리액터 motor-reactor 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">모터-리액터</span><span class="tn-cost">7,600</span></div><div class="tn-m"><span class="tn-en">Motor-Reactor</span><span class="tn-cat">동력</span></div></div>
+<div class="tn" data-s="제작 재료 crafting materials 화물·자원" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">제작 재료</span><span class="tn-cost">8,000</span></div><div class="tn-m"><span class="tn-en">Crafting Materials</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="연막탄 smoke grenade 도구" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">연막탄</span><span class="tn-cost">8,000</span></div><div class="tn-m"><span class="tn-en">Smoke Grenade</span><span class="tn-cat">도구</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">IV</span>Tier 4<span class="tcount">3</span></div><div class="tn" data-s="왕급 섀시 royal chassis 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">왕급 섀시</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Royal Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="왕급 섀시 royal chassis 섀시" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">왕급 섀시</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Royal Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="무연 에너지 로드 smokeless energy rod 동력" data-fac="#4493f8"><div class="tn-h"><span class="tn-ko">무연 에너지 로드</span><span class="tn-cost">12,000</span></div><div class="tn-m"><span class="tn-en">Smokeless Energy Rod</span><span class="tn-cat">동력</span></div></div></div></div></section><section class="fac" data-fac="#6fb24a" style="--col:#6fb24a"><div class="fac-h"><span class="dot"></span><h2>K.K. 란트베어 <span class="fac-en">K.K. Landwehr</span><span class="fac-n">28</span></h2><p class="fac-role">방어와 백병 화력 — 조타·장갑·개인무기·포실·공성 장비·개량탄</p></div><div class="tiers"><div class="tier"><div class="tier-h"><span class="rom">I</span>Tier 1<span class="tcount">9</span></div><div class="tn" data-s="프레임 조타 framed steering 조타" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">프레임 조타</span><span class="tn-cost">700</span></div><div class="tn-m"><span class="tn-en">Framed Steering</span><span class="tn-cat">조타</span></div></div>
+<div class="tn" data-s="소형 병기 공방 small armament workshop 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">소형 병기 공방</span><span class="tn-cost">700</span></div><div class="tn-m"><span class="tn-en">Small Armament Workshop</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="포 갑판 (여러 종) artillery decks (multiple) 대포·포" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">포 갑판 (여러 종)</span><span class="tn-cost">1,000</span></div><div class="tn-m"><span class="tn-en">Artillery Decks (multiple)</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="목재 현관 wooden vestibule 구조·이동" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">목재 현관</span><span class="tn-cost">1,000</span></div><div class="tn-m"><span class="tn-en">Wooden Vestibule</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="대형 개방 조타 (여러 종) large open steering (multiple) 조타" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">대형 개방 조타 (여러 종)</span><span class="tn-cost">1,250</span></div><div class="tn-m"><span class="tn-en">Large Open Steering (multiple)</span><span class="tn-cat">조타</span></div></div>
+<div class="tn" data-s="대형 프레임 조타 (여러 종) large framed steering (multiple) 조타" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">대형 프레임 조타 (여러 종)</span><span class="tn-cost">1,250</span></div><div class="tn-m"><span class="tn-en">Large Framed Steering (multiple)</span><span class="tn-cat">조타</span></div></div>
+<div class="tn" data-s="무기(연구) weapons 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">무기(연구)</span><span class="tn-cost">1,500</span></div><div class="tn-m"><span class="tn-en">Weapons</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="장갑(연구) armor 장갑" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑(연구)</span><span class="tn-cost">1,500</span></div><div class="tn-m"><span class="tn-en">Armor</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="프레임 포 갑판 framed artillery deck 대포·포" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">프레임 포 갑판</span><span class="tn-cost">1,750</span></div><div class="tn-m"><span class="tn-en">Framed Artillery Deck</span><span class="tn-cat">대포·포</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">II</span>Tier 2<span class="tcount">8</span></div><div class="tn" data-s="대형 병기 공방 large armament workshop 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">대형 병기 공방</span><span class="tn-cost">2,750</span></div><div class="tn-m"><span class="tn-en">Large Armament Workshop</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="조타 steering 조타" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">조타</span><span class="tn-cost">3,000</span></div><div class="tn-m"><span class="tn-en">Steering</span><span class="tn-cat">조타</span></div></div>
+<div class="tn" data-s="장갑 포실 armored artillery compartment 대포·포" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑 포실</span><span class="tn-cost">3,250</span></div><div class="tn-m"><span class="tn-en">Armored Artillery Compartment</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="장갑판 armor plate 장갑" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑판</span><span class="tn-cost">3,500</span></div><div class="tn-m"><span class="tn-en">Armor Plate</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="시한폭탄 time bomb 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">시한폭탄</span><span class="tn-cost">4,000</span></div><div class="tn-m"><span class="tn-en">Time Bomb</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="무기(연구) weapons 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">무기(연구)</span><span class="tn-cost">4,000</span></div><div class="tn-m"><span class="tn-en">Weapons</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="장갑 포 갑판 (여러 종) armored artillery decks (multiple) 대포·포" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑 포 갑판 (여러 종)</span><span class="tn-cost">4,000</span></div><div class="tn-m"><span class="tn-en">Armored Artillery Decks (multiple)</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="충각 battering ram 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">충각</span><span class="tn-cost">4,500</span></div><div class="tn-m"><span class="tn-en">Battering Ram</span><span class="tn-cat">무기·공성</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">III</span>Tier 3<span class="tcount">8</span></div><div class="tn" data-s="장갑판 armor plate 장갑" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑판</span><span class="tn-cost">5,500</span></div><div class="tn-m"><span class="tn-en">Armor Plate</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="장갑(연구) armor 장갑" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑(연구)</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Armor</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="장갑 현관 armored vestibule 장갑" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">장갑 현관</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Armored Vestibule</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="조타 steering 조타" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">조타</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Steering</span><span class="tn-cat">조타</span></div></div>
+<div class="tn" data-s="총안 embrasure 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">총안</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Embrasure</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="조타 steering 조타" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">조타</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Steering</span><span class="tn-cat">조타</span></div></div>
+<div class="tn" data-s="프레임 장갑 포 갑판 framed armored artillery deck 대포·포" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">프레임 장갑 포 갑판</span><span class="tn-cost">6,500</span></div><div class="tn-m"><span class="tn-en">Framed Armored Artillery Deck</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="수류탄 grenade 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">수류탄</span><span class="tn-cost">7,500</span></div><div class="tn-m"><span class="tn-en">Grenade</span><span class="tn-cat">무기·공성</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">IV</span>Tier 4<span class="tcount">3</span></div><div class="tn" data-s="밀폐 포실 enclosed artillery compartment 대포·포" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">밀폐 포실</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Enclosed Artillery Compartment</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="개량탄 improved ammo 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">개량탄</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Improved Ammo</span><span class="tn-cat">무기·공성</span></div></div>
+<div class="tn" data-s="무기(연구) weapons 무기·공성" data-fac="#6fb24a"><div class="tn-h"><span class="tn-ko">무기(연구)</span><span class="tn-cost">12,000</span></div><div class="tn-m"><span class="tn-en">Weapons</span><span class="tn-cat">무기·공성</span></div></div></div></div></section><section class="fac" data-fac="#e3a008" style="--col:#e3a008"><div class="fac-h"><span class="dot"></span><h2>카이저의 친구들 <span class="fac-en">Kaiser&#x27;s Friends</span><span class="fac-n">36</span></h2><p class="fac-role">대포 화력과 적재 — 캐논/오토캐논/샷건캐논·화물 보관·갑판·섀시 변형</p></div><div class="tiers"><div class="tier"><div class="tier-h"><span class="rom">I</span>Tier 1<span class="tcount">6</span></div><div class="tn" data-s="목재 갑판 (여러 종) wooden decks (multiple) 구조·이동" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">목재 갑판 (여러 종)</span><span class="tn-cost">600</span></div><div class="tn-m"><span class="tn-en">Wooden Decks (multiple)</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="발코니 (여러 종) balconies (multiple) 구조·이동" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">발코니 (여러 종)</span><span class="tn-cost">1,300</span></div><div class="tn-m"><span class="tn-en">Balconies (multiple)</span><span class="tn-cat">구조·이동</span></div></div>
+<div class="tn" data-s="화물 갑판 cargo deck 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물 갑판</span><span class="tn-cost">1,400</span></div><div class="tn-m"><span class="tn-en">Cargo Deck</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="샷건 캐논 shotgun cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">샷건 캐논</span><span class="tn-cost">1,500</span></div><div class="tn-m"><span class="tn-en">Shotgun Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="오토캐논 auto cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">오토캐논</span><span class="tn-cost">1,500</span></div><div class="tn-m"><span class="tn-en">Auto Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="소형 섀시 small chassis 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">소형 섀시</span><span class="tn-cost">1,700</span></div><div class="tn-m"><span class="tn-en">Small Chassis</span><span class="tn-cat">섀시</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">II</span>Tier 2<span class="tcount">11</span></div><div class="tn" data-s="장갑 발코니 (여러 종) armored balconies (multiple) 장갑" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">장갑 발코니 (여러 종)</span><span class="tn-cost">2,500</span></div><div class="tn-m"><span class="tn-en">Armored Balconies (multiple)</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="중형 섀시 (kf-b hole) middling chassis (kf-b hole) 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">중형 섀시 (KF-B Hole)</span><span class="tn-cost">3,000</span></div><div class="tn-m"><span class="tn-en">Middling Chassis (KF-B Hole)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="중형 섀시 (kf-l hole) middling chassis (kf-l hole) 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">중형 섀시 (KF-L Hole)</span><span class="tn-cost">3,000</span></div><div class="tn-m"><span class="tn-en">Middling Chassis (KF-L Hole)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="화물 적재고 cargo hold 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물 적재고</span><span class="tn-cost">3,500</span></div><div class="tn-m"><span class="tn-en">Cargo Hold</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="화물 적재고 cargo hold 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물 적재고</span><span class="tn-cost">4,000</span></div><div class="tn-m"><span class="tn-en">Cargo Hold</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="캐논 cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">캐논</span><span class="tn-cost">5,000</span></div><div class="tn-m"><span class="tn-en">Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="샷건 캐논 shotgun cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">샷건 캐논</span><span class="tn-cost">5,000</span></div><div class="tn-m"><span class="tn-en">Shotgun Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="오토캐논 autocannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">오토캐논</span><span class="tn-cost">5,000</span></div><div class="tn-m"><span class="tn-en">Autocannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="화물칸 (l자형) cargo bay (l-shape) 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물칸 (L자형)</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Cargo Bay (L-Shape)</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="화물칸 (평행형) cargo bay (parallel) 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물칸 (평행형)</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Cargo Bay (Parallel)</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="화물칸 (u자형) cargo bay (u-shape) 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물칸 (U자형)</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Cargo Bay (U-Shape)</span><span class="tn-cat">화물·자원</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">III</span>Tier 3<span class="tcount">9</span></div><div class="tn" data-s="장갑 갑판 armored deck 장갑" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">장갑 갑판</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Armored Deck</span><span class="tn-cat">장갑</span></div></div>
+<div class="tn" data-s="화물 구획 cargo compartment 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물 구획</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Cargo Compartment</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="대형 섀시 great chassis 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">대형 섀시</span><span class="tn-cost">6,000</span></div><div class="tn-m"><span class="tn-en">Great Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="자원(연구) resources 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">자원(연구)</span><span class="tn-cost">7,000</span></div><div class="tn-m"><span class="tn-en">Resources</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="화물 적재고 cargo hold 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물 적재고</span><span class="tn-cost">7,000</span></div><div class="tn-m"><span class="tn-en">Cargo Hold</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="대형 섀시 (kf-b trench) great chassis (kf-b trench) 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">대형 섀시 (KF-B Trench)</span><span class="tn-cost">7,000</span></div><div class="tn-m"><span class="tn-en">Great Chassis (KF-B Trench)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="대형 섀시 (kf-l trench) great chassis (kf-l trench) 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">대형 섀시 (KF-L Trench)</span><span class="tn-cost">7,000</span></div><div class="tn-m"><span class="tn-en">Great Chassis (KF-L Trench)</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="캐논 cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">캐논</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="샷건 캐논 shotgun cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">샷건 캐논</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Shotgun Cannon</span><span class="tn-cat">대포·포</span></div></div></div><div class="tier"><div class="tier-h"><span class="rom">IV</span>Tier 4<span class="tcount">10</span></div><div class="tn" data-s="오토캐논 autocannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">오토캐논</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Autocannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="화물칸 (l자형) cargo bay (l-shape) 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물칸 (L자형)</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Cargo Bay (L-Shape)</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="화물칸 (평행형) cargo bay (parallel) 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물칸 (평행형)</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Cargo Bay (Parallel)</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="화물칸 (u자형) cargo bay (u-shape) 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">화물칸 (U자형)</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Cargo Bay (U-Shape)</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="자원(연구) resources 화물·자원" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">자원(연구)</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Resources</span><span class="tn-cat">화물·자원</span></div></div>
+<div class="tn" data-s="왕급 섀시 royal chassis 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">왕급 섀시</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Royal Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="왕급 섀시 royal chassis 섀시" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">왕급 섀시</span><span class="tn-cost">9,000</span></div><div class="tn-m"><span class="tn-en">Royal Chassis</span><span class="tn-cat">섀시</span></div></div>
+<div class="tn" data-s="캐논 cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">캐논</span><span class="tn-cost">12,000</span></div><div class="tn-m"><span class="tn-en">Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="샷건 캐논 shotgun cannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">샷건 캐논</span><span class="tn-cost">12,000</span></div><div class="tn-m"><span class="tn-en">Shotgun Cannon</span><span class="tn-cat">대포·포</span></div></div>
+<div class="tn" data-s="오토캐논 autocannon 대포·포" data-fac="#e3a008"><div class="tn-h"><span class="tn-ko">오토캐논</span><span class="tn-cost">12,000</span></div><div class="tn-m"><span class="tn-en">Autocannon</span><span class="tn-cat">대포·포</span></div></div></div></div></section>
+</main>
+
+<footer><div class="in">
+  <p><b>데이터 출처.</b> 테크트리의 노드·비용·구조는 게임 인게임 데이터이며, 커뮤니티 팬 데이터베이스 <a href="https://sand-help.com/tech" target="_blank" rel="noopener">sand-help.com</a>(비공식)을 참조해 교차확인했습니다. 본 페이지는 그 데이터를 <b>한국어로 재구성한 독자 제작물</b>로, sand-help의 코드·디자인을 복제하지 않았습니다. 핵심 비용은 본 가이드 지식베이스의 검증값과 일치함을 확인했습니다.</p>
+  <p>비공식 팬 가이드 · 얼리액세스(2026-06-22) 기준이라 수치·명칭은 패치로 바뀔 수 있습니다 — 인게임 확인 권장. 게임의 모든 권리는 Hologryph·TowerHaus·tinyBuild에 있습니다.</p>
+</div></footer>
+
+<script>
+(function(){
+  var nodes=[].slice.call(document.querySelectorAll('.tn'));
+  var tiers=[].slice.call(document.querySelectorAll('.tier'));
+  var facs=[].slice.call(document.querySelectorAll('.fac'));
+  var q=document.getElementById('q'),count=document.getElementById('count');
+  var fsel='all';
+  function apply(){
+    var term=q.value.trim().toLowerCase();var shown=0;
+    nodes.forEach(function(n){
+      var ok=(fsel==='all'||n.dataset.fac===fsel)&&(!term||n.dataset.s.indexOf(term)>=0);
+      n.classList.toggle('hide',!ok); if(ok)shown++;
+    });
+    tiers.forEach(function(t){var any=t.querySelector('.tn:not(.hide)');t.classList.toggle('hide',!any);});
+    facs.forEach(function(f){var any=f.querySelector('.tn:not(.hide)');f.classList.toggle('hide',!any);});
+    count.textContent=shown+' / 95 노드';
+  }
+  q.addEventListener('input',apply);
+  [].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.fbtn').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active');fsel=b.dataset.f;apply();
+    });
+  });
+  apply();
+})();
+</script>
+</body></html>
