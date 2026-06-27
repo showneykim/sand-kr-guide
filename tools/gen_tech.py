@@ -26,13 +26,13 @@ BASE_KO = {
  "Stairs":"계단","Framed Stairs":"프레임 계단","Crew Room":"승무원실","Captain's Cabin":"선장실",
  "Small Chassis":"소형 섀시","Middling Chassis":"중형 섀시","Great Chassis":"대형 섀시","Royal Chassis":"왕급 섀시",
  "Motor-Reactor":"모터-리액터","Energy Rod":"에너지 로드","Smokeless Energy Rod":"무연 에너지 로드",
- "Small Engine":"소형 엔진","Medium Engine":"중형 엔진","MedKit":"구급킷","Shovel":"삽",
+ "Small Engine":"소형 엔진","Medium Engine":"중형 엔진","MedKit":"메드킷","Shovel":"삽",
  "Wooden Corridor":"목재 복도","Metal Corridor":"금속 복도","Crafting Materials":"제작 재료","Smoke Grenade":"연막탄",
  "Framed Steering":"프레임 조타","Steering":"조타","Large Open Steering":"대형 개방 조타","Large Framed Steering":"대형 프레임 조타",
  "Small Armament Workshop":"소형 병기 공방","Large Armament Workshop":"대형 병기 공방",
  "Artillery Decks":"포 갑판","Framed Artillery Deck":"프레임 포 갑판","Armored Artillery Decks":"장갑 포 갑판",
  "Framed Armored Artillery Deck":"프레임 장갑 포 갑판","Armored Artillery Compartment":"장갑 포실","Enclosed Artillery Compartment":"밀폐 포실",
- "Wooden Vestibule":"목재 현관","Armored Vestibule":"장갑 현관",
+ "Wooden Vestibule":"목재 진입구","Armored Vestibule":"장갑 진입구",
  "Weapons":"무기(연구)","Armor":"장갑(연구)","Armor Plate":"장갑판","Improved Ammo":"개량탄",
  "Time Bomb":"시한폭탄","Battering Ram":"충각","Embrasure":"총안","Grenade":"수류탄",
  "Wooden Decks":"목재 갑판","Armored Deck":"장갑 갑판","Balconies":"발코니","Armored Balconies":"장갑 발코니",
@@ -86,10 +86,11 @@ def esc(s): return html.escape(str(s))
 
 # ---- build node cards ----
 def node_card(n):
-    return (f'<div class="tn" data-s="{esc((n["ko"]+" "+n["name"]+" "+n["cat"]).lower())}" data-fac="{n["fac"]}">'
+    key = (n["ko"]+" "+n["name"]+" "+n["name"].replace(" ","")+" "+n["cat"]).lower()
+    return (f'<div class="tn" data-s="{esc(key)}" data-fac="{n["fac"]}">'
             f'<div class="tn-h"><span class="tn-ko">{esc(n["ko"])}</span>'
-            f'<span class="tn-cost">{n["cost"]:,}</span></div>'
-            f'<div class="tn-m"><span class="tn-en">{esc(n["name"])}</span>'
+            f'<span class="tn-cost">{n["cost"]:,}<span class="sr-only"> 크라운</span></span></div>'
+            f'<div class="tn-m"><span class="tn-en" title="{esc(n["name"])}">{esc(n["name"])}</span>'
             f'<span class="tn-cat">{esc(n["cat"])}</span></div></div>')
 
 sections = []
@@ -110,8 +111,8 @@ for fac in FAC_ORDER:
         f'<div class="tiers">{"".join(cols)}</div></section>')
 
 # faction filter buttons
-fbtns = '<button class="fbtn active" data-f="all">전체</button>' + "".join(
-    f'<button class="fbtn" data-f="{f}" style="--col:{FAC[f][2]}">{esc(FAC[f][1])}</button>' for f in FAC_ORDER)
+fbtns = '<button class="fbtn active" data-f="all" aria-pressed="true">전체</button>' + "".join(
+    f'<button class="fbtn" data-f="{f}" aria-pressed="false" style="--col:{FAC[f][2]}">{esc(FAC[f][1])}</button>' for f in FAC_ORDER)
 
 total = len(nodes)
 HTML = f'''<!DOCTYPE html>
@@ -127,6 +128,7 @@ HTML = f'''<!DOCTYPE html>
 body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic",sans-serif;font-size:16px;line-height:1.6;
  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}}
 a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
+.sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}
 .topbar{{position:sticky;top:0;z-index:50;backdrop-filter:blur(9px);background:rgba(15,11,7,.86);border-bottom:1px solid var(--edge)}}
 .topbar .in{{max-width:1180px;margin:0 auto;padding:11px 22px;display:flex;gap:14px;align-items:center}}
 .brand{{font-family:"Oswald";font-weight:700;letter-spacing:.2em;color:var(--brass);font-size:17px}}
@@ -142,14 +144,14 @@ header.h .sub b{{color:var(--brass)}}
 .howto{{max-width:1180px;margin:16px auto 0;padding:0 22px}}
 .howto .box{{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--edge);border-left:3px solid var(--brass);border-radius:8px;padding:13px 18px;font-size:14px;color:var(--muted)}}
 .howto .box b{{color:var(--brass)}}
-.ctrl{{position:sticky;top:51px;z-index:40;background:rgba(15,11,7,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--edge);margin-top:18px}}
+.ctrl{{position:sticky;top:56px;z-index:40;background:rgba(15,11,7,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--edge);margin-top:18px}}
 .ctrl .in{{max-width:1180px;margin:0 auto;padding:12px 22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}}
 #q{{flex:1;min-width:180px;background:#0d0a06;border:1px solid var(--edge2);color:var(--ink);border-radius:7px;padding:9px 13px;font-size:14px;font-family:inherit}}
 #q:focus{{outline:none;border-color:var(--brass)}}
 .fbtns{{display:flex;gap:6px;flex-wrap:wrap}}
 .fbtn{{font-family:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:1px solid var(--edge2);border-radius:999px;padding:6px 12px;cursor:pointer}}
-.fbtn[data-f]:not([data-f=all]){{border-color:color-mix(in srgb,var(--col) 55%,var(--edge2))}}
-.fbtn.active{{color:#fff;background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent);border-color:var(--col,var(--brass))}}
+.fbtn[data-f]:not([data-f=all]){{border-color:var(--edge2);border-color:color-mix(in srgb,var(--col) 55%,var(--edge2))}}
+.fbtn.active{{color:#fff;border-color:var(--col,var(--brass));background:rgba(217,168,76,.22);background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent)}}
 #count{{font-size:12.5px;color:var(--faint);margin-left:auto;white-space:nowrap}}
 main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 .fac{{margin:30px 0 0}}
@@ -173,7 +175,7 @@ main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 .tn-cost{{font-family:"Oswald";color:var(--brass);font-size:13px;font-weight:600;white-space:nowrap}}
 .tn-cost::before{{content:"◈ ";color:var(--brass-d);font-size:.85em}}
 .tn-m{{display:flex;align-items:center;gap:8px;margin-top:2px}}
-.tn-en{{font-family:"Oswald";color:var(--faint);font-size:11px;flex:1;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.tn-en{{font-family:"Oswald";color:var(--muted);font-size:11px;flex:1;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 .tn-cat{{font-size:10.5px;color:var(--muted);background:#0d0a06;border:1px solid var(--edge2);border-radius:4px;padding:1px 6px;white-space:nowrap}}
 .tn.hide,.tier.hide,.fac.hide{{display:none}}
 .empty{{color:var(--faint);font-size:12px;padding:6px 2px}}
@@ -189,14 +191,14 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 
 <header class="h">
   <h1>테크트리 <span style="color:var(--brass)">한국어</span></h1>
-  <p class="sub">연구로 새 트램플러 부품을 해금한다. <b>3개 팩션 · 4개 티어 · {total}개 노드</b>를 한국어로 검색·열람하세요. 영어 UI에서 길을 잃지 않도록.</p>
+  <p class="sub">연구로 새 트램플러 부품을 해금합니다. <b>3개 진영 · 4개 티어 · {total}개 노드</b>를 한국어로 검색·열람하세요. 영어 UI에서 길을 잃지 않도록.</p>
 </header>
 <div class="howto"><div class="box">
   <b>읽는 법.</b> 노드를 <b>해금</b>하면 그 부품의 <b>레시피(설계도)만</b> 열립니다 — 실제로 에디터에서 만들 땐 <b>재료가 또</b> 듭니다. 비용 <b>◈는 크라운(Crowns)</b>. 상위 티어는 크라운 외에 희귀 재료(Crystal·Ficus·Black Box 등)도 필요합니다(상세 재료는 <a href="https://github.com/showneykim/sand-kr-guide/blob/main/docs/kb/02_%ED%85%8C%ED%81%AC%ED%8A%B8%EB%A6%AC_%ED%8C%A9%EC%85%98.md">지식베이스</a> 참고).
 </div></div>
 
 <div class="ctrl"><div class="in">
-  <input id="q" type="search" placeholder="검색 — 한글/영문 부품명, 카테고리 (예: 캐논, 섀시, reactor)" autocomplete="off">
+  <input id="q" type="search" aria-label="부품 이름·카테고리 검색" placeholder="검색 — 한글/영문 부품명, 카테고리 (예: 캐논, 섀시, reactor)" autocomplete="off">
   <div class="fbtns">{fbtns}</div>
   <span id="count"></span>
 </div></div>
@@ -217,6 +219,9 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
   var facs=[].slice.call(document.querySelectorAll('.fac'));
   var q=document.getElementById('q'),count=document.getElementById('count');
   var fsel='all';
+  var emptyEl=document.createElement('p');emptyEl.className='empty';emptyEl.setAttribute('role','status');
+  emptyEl.textContent='검색 결과가 없습니다.';emptyEl.style.display='none';
+  document.getElementById('tree').appendChild(emptyEl);
   function apply(){{
     var term=q.value.trim().toLowerCase();var shown=0;
     nodes.forEach(function(n){{
@@ -225,13 +230,14 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
     }});
     tiers.forEach(function(t){{var any=t.querySelector('.tn:not(.hide)');t.classList.toggle('hide',!any);}});
     facs.forEach(function(f){{var any=f.querySelector('.tn:not(.hide)');f.classList.toggle('hide',!any);}});
-    count.textContent=shown+' / {total} 노드';
+    emptyEl.style.display=shown?'none':'block';
+    count.textContent=shown+' / '+nodes.length+' 노드';
   }}
   q.addEventListener('input',apply);
   [].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){{
     b.addEventListener('click',function(){{
-      document.querySelectorAll('.fbtn').forEach(function(x){{x.classList.remove('active');}});
-      b.classList.add('active');fsel=b.dataset.f;apply();
+      document.querySelectorAll('.fbtn').forEach(function(x){{x.classList.remove('active');x.setAttribute('aria-pressed','false');}});
+      b.classList.add('active');b.setAttribute('aria-pressed','true');fsel=b.dataset.f;apply();
     }});
   }});
   apply();
@@ -239,6 +245,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </script>
 </body></html>'''
 
+HTML = HTML.replace('font-family:"Oswald"','font-family:"Oswald",sans-serif')
 open(os.path.join(ROOT,"tech.html"),"w",encoding="utf-8").write(HTML)
 print("wrote tech.html", len(HTML),"bytes ;", total,"nodes")
 print("팩션별:", {FAC[f][1]:sum(len(v) for v in G[f].values()) for f in FAC_ORDER})
