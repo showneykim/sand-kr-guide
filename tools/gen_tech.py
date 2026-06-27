@@ -5,6 +5,8 @@ import json, html, re, os
 ROOT = os.path.expanduser("~/sand-kr-guide")
 SCRATCH = "/tmp/claude-1000/-home-shawnkim/accddb21-599c-4336-be46-bd6fd94b1a98/scratchpad"
 nodes = json.load(open(os.path.join(SCRATCH, "nodes_full.json")))
+DESCP = os.path.join(SCRATCH, "desc_ko.json")
+DESC = json.load(open(DESCP)) if os.path.exists(DESCP) else {}  # slug -> 한국어 설명
 
 FAC = {  # faction slug -> (ko, color, role)
  "godlewski": ("고들레프스키 원정대", "#4493f8", "트램플러의 뼈대와 심장 — 섀시·동력(리액터/엔진/로드)·승무원실·생활·유틸리티"),
@@ -80,6 +82,8 @@ for n in nodes:
         "ko": n["ko"], "en": n["name"], "fac": n["facko"], "col": n["col"],
         "tier": ROMAN[n["tier"]], "cat": n["cat"], "crowns": n["crowns"],
         "mats": mats, "pre": pre,
+        "unlocks": [[u.get("name",""), icon_base(u.get("icon","")), DESC.get(u.get("slug",""),"")]
+                    for u in (n.get("unlocks") or [])],
     }
 
 # group
@@ -204,6 +208,10 @@ main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 #tip .m .amt{{margin-left:auto;font-family:"Oswald",sans-serif;color:var(--brass);font-weight:600}}
 #tip .m.crown .amt{{color:#e7c87a}}
 #tip .t-pre{{font-size:12px;color:var(--muted);line-height:1.5}}
+#tip .u{{display:flex;gap:7px;margin:5px 0}}
+#tip .u img{{width:28px;height:28px;object-fit:contain;flex:none;border:1px solid var(--edge2);border-radius:5px;background:#0d0a06;padding:2px}}
+#tip .u-n{{font-weight:600;color:var(--ink);font-size:12px;line-height:1.3}}
+#tip .u-d{{color:var(--muted);font-size:11px;line-height:1.45;margin-top:1px}}
 #tip .t-note{{margin-top:9px;padding-top:8px;border-top:1px solid var(--edge);font-size:10.5px;color:var(--faint);line-height:1.5}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
 footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--faint);font-size:12px;line-height:1.65}}
@@ -278,8 +286,10 @@ var TECH={TECH_JSON};
   function build(d){{
     var mats=d.mats.map(function(m){{return '<div class="m"><img src="assets/tech_icons/'+esc(m[2])+'" alt="">'+esc(m[0])+'<span class="amt">×'+fmt(m[1])+'</span></div>';}}).join('');
     var pre=d.pre.length?('<div class="t-sec">선행 연구</div><div class="t-pre">'+d.pre.map(esc).join(' · ')+'</div>'):'';
+    var unl=(d.unlocks&&d.unlocks.length)?('<div class="t-sec">해금 아이템</div>'+d.unlocks.map(function(u){{return '<div class="u"><img src="assets/tech_icons/'+esc(u[1])+'" alt=""><div><div class="u-n">'+esc(u[0])+'</div>'+(u[2]?'<div class="u-d">'+esc(u[2])+'</div>':'')+'</div></div>';}}).join('')):'';
     return '<div class="t-h"><span class="t-ko">'+esc(d.ko)+'</span><span class="t-en">'+esc(d.en)+'</span></div>'
       +'<div class="t-meta"><b>'+esc(d.fac)+'</b> · Tier '+esc(d.tier)+' · '+esc(d.cat)+'</div>'
+      +unl
       +'<div class="t-sec">해금 비용</div>'
       +'<div class="m crown"><img src="assets/tech_icons/icon_item_coinCrown.png" alt="">크라운<span class="amt">'+fmt(d.crowns)+'</span></div>'
       +mats+pre
