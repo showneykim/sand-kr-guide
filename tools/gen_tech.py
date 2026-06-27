@@ -4,8 +4,8 @@ import json, html, re, os
 
 ROOT = os.path.expanduser("~/sand-kr-guide")
 SCRATCH = "/tmp/claude-1000/-home-shawnkim/accddb21-599c-4336-be46-bd6fd94b1a98/scratchpad"
-nodes = json.load(open(os.path.join(SCRATCH, "nodes_full.json")))
-DESCP = os.path.join(SCRATCH, "desc_ko.json")
+nodes = json.load(open(os.path.join(ROOT, "tools/tech_nodes.json")))
+DESCP = os.path.join(ROOT, "tools/tech_desc_ko.json")
 DESC = json.load(open(DESCP)) if os.path.exists(DESCP) else {}  # slug -> 한국어 설명
 
 FAC = {  # faction slug -> (ko, color, role)
@@ -220,7 +220,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 <body>
 <div class="topbar"><div class="in">
   <span class="brand">SAND</span>
-  <div class="tabs"><a href="index.html">입문 가이드</a><a class="on" href="tech.html">테크트리</a></div>
+  <div class="tabs"><a href="index.html">입문 가이드</a><a class="on" href="tech.html">테크트리</a><a href="items.html">아이템 도감</a></div>
 </div></div>
 
 <header class="h">
