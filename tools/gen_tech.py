@@ -87,11 +87,16 @@ def esc(s): return html.escape(str(s))
 # ---- build node cards ----
 def node_card(n):
     key = (n["ko"]+" "+n["name"]+" "+n["name"].replace(" ","")+" "+n["cat"]).lower()
+    ico = "assets/tech_icons/" + (n["glyph"].rsplit("/",1)[-1] if n.get("glyph") else "")
     return (f'<div class="tn" data-s="{esc(key)}" data-fac="{n["fac"]}">'
-            f'<div class="tn-h"><span class="tn-ko">{esc(n["ko"])}</span>'
-            f'<span class="tn-cost">{n["cost"]:,}<span class="sr-only"> 크라운</span></span></div>'
-            f'<div class="tn-m"><span class="tn-en" title="{esc(n["name"])}">{esc(n["name"])}</span>'
-            f'<span class="tn-cat">{esc(n["cat"])}</span></div></div>')
+            f'<img class="tn-ico" src="{esc(ico)}" alt="" loading="lazy" decoding="async">'
+            f'<div class="tn-body">'
+            f'<span class="tn-ko">{esc(n["ko"])}</span>'
+            f'<span class="tn-en" title="{esc(n["name"])}">{esc(n["name"])}</span>'
+            f'<span class="tn-foot">'
+            f'<span class="tn-cost"><img class="coin" src="assets/tech_icons/icon_item_coinCrown.png" alt="">{n["cost"]:,}<span class="sr-only"> 크라운</span></span>'
+            f'<span class="tn-cat">{esc(n["cat"])}</span></span>'
+            f'</div></div>')
 
 sections = []
 for fac in FAC_ORDER:
@@ -168,15 +173,18 @@ main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
  display:flex;align-items:center;gap:7px;padding:0 2px 8px;border-bottom:1px dashed var(--edge2);margin-bottom:9px}}
 .tier-h .rom{{display:inline-flex;min-width:1.6em;height:1.6em;align-items:center;justify-content:center;background:#0d0a06;border:1px solid var(--col);color:var(--col);border-radius:5px;font-weight:700;font-size:.85em}}
 .tier-h .tcount{{margin-left:auto;color:var(--faint);font-weight:500}}
-.tn{{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--edge);border-left:3px solid var(--col);
- border-radius:7px;padding:8px 11px;margin:0 0 8px}}
-.tn-h{{display:flex;align-items:baseline;gap:8px}}
-.tn-ko{{font-weight:600;color:var(--ink);font-size:14px;flex:1}}
-.tn-cost{{font-family:"Oswald";color:var(--brass);font-size:13px;font-weight:600;white-space:nowrap}}
-.tn-cost::before{{content:"◈ ";color:var(--brass-d);font-size:.85em}}
-.tn-m{{display:flex;align-items:center;gap:8px;margin-top:2px}}
-.tn-en{{font-family:"Oswald";color:var(--muted);font-size:11px;flex:1;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
-.tn-cat{{font-size:10.5px;color:var(--muted);background:#0d0a06;border:1px solid var(--edge2);border-radius:4px;padding:1px 6px;white-space:nowrap}}
+.tn{{display:flex;gap:10px;align-items:center;background:linear-gradient(180deg,#241b11,#191309);border:1px solid var(--edge);
+ border-left:3px solid var(--col);border-radius:8px;padding:7px 9px;margin:0 0 8px;transition:transform .08s ease,border-color .12s,box-shadow .12s}}
+.tn:hover{{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.35)}}
+.tn-ico{{width:54px;height:54px;flex:none;object-fit:contain;padding:3px;border:1px solid var(--edge2);border-radius:7px;
+ background:radial-gradient(circle at 50% 36%,rgba(255,255,255,.07),transparent 70%),#0d0a06}}
+.tn-body{{flex:1;min-width:0}}
+.tn-ko{{display:block;font-weight:600;color:var(--ink);font-size:13.5px;line-height:1.25}}
+.tn-en{{display:block;font-family:"Oswald";color:var(--muted);font-size:10.5px;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}}
+.tn-foot{{display:flex;align-items:center;gap:8px;margin-top:4px}}
+.tn-cost{{display:inline-flex;align-items:center;gap:4px;font-family:"Oswald";color:var(--brass);font-size:12.5px;font-weight:600;white-space:nowrap}}
+.tn-cost .coin{{width:15px;height:15px;object-fit:contain}}
+.tn-cat{{font-size:10px;color:var(--muted);background:#0d0a06;border:1px solid var(--edge2);border-radius:4px;padding:1px 6px;white-space:nowrap;margin-left:auto}}
 .tn.hide,.tier.hide,.fac.hide{{display:none}}
 .empty{{color:var(--faint);font-size:12px;padding:6px 2px}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
@@ -208,7 +216,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </main>
 
 <footer><div class="in">
-  <p><b>데이터 출처.</b> 테크트리의 노드·비용·구조는 게임 인게임 데이터이며, 커뮤니티 팬 데이터베이스 <a href="https://sand-help.com/tech" target="_blank" rel="noopener">sand-help.com</a>(비공식)을 참조해 교차확인했습니다. 본 페이지는 그 데이터를 <b>한국어로 재구성한 독자 제작물</b>로, sand-help의 코드·디자인을 복제하지 않았습니다. 핵심 비용은 본 가이드 지식베이스의 검증값과 일치함을 확인했습니다.</p>
+  <p><b>데이터 출처.</b> 테크트리의 노드·비용·구조는 게임 인게임 데이터이며, 커뮤니티 팬 데이터베이스 <a href="https://sand-help.com/tech" target="_blank" rel="noopener">sand-help.com</a>(비공식)을 참조해 교차확인했습니다. 노드 아이콘은 게임 내 부품 에셋으로 sand-help.com을 통해 수집했습니다. 본 페이지는 이 데이터를 <b>한국어로 재구성한 독자 제작물</b>로, sand-help의 코드·디자인 자체는 복제하지 않았습니다. 핵심 비용은 본 가이드 지식베이스의 검증값과 일치함을 확인했습니다.</p>
   <p>비공식 팬 가이드 · 얼리액세스(2026-06-22) 기준이라 수치·명칭은 패치로 바뀔 수 있습니다 — 인게임 확인 권장. 게임의 모든 권리는 Hologryph·TowerHaus·tinyBuild에 있습니다.</p>
 </div></footer>
 
