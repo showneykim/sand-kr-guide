@@ -16,7 +16,15 @@ STAT_KO = {"Range":"사거리","Reload":"재장전","Damage":"피해","Magazine"
   "Rate of Fire":"연사 속도","Fire Rate":"연사 속도","Accuracy":"명중률","Penetration":"관통",
   "Capacity":"용량","Weight":"무게","Energy":"에너지","Duration":"지속시간","Healing":"회복량",
   "Workbench tier":"작업대 티어","Workbench Tier":"작업대 티어","Sell Value":"판매가","Category":"카테고리",
-  "Spread":"탄퍼짐","Magazine Size":"탄창","Caliber":"구경","Value":"가치","Slot":"슬롯","Ammo":"탄약"}
+  "Spread":"탄퍼짐","Magazine Size":"탄창","Caliber":"구경","Value":"가치","Slot":"슬롯","Ammo":"탄약",
+  "Armor":"장갑","Fire rate":"연사 속도","Penetrates":"관통","Rarity":"희귀도","Regen":"재생","Splash Damage":"범위 피해",
+  "Velocity":"탄속","Damage (Player)":"피해(플레이어)","Damage (Trampler)":"피해(트램플러)"}
+VALUE_KO = {
+  "Autocannon":"오토캐논","Carryable Object":"휴대품","Carryable Objects":"휴대품","Energetic":"에너지 무기",
+  "Food":"식량","Grenade":"수류탄","Medical Supplies":"의료품","Money":"화폐","Raw Materials":"원자재",
+  "Shotgun":"샷건","Single-Shot Rifle":"단발 라이플","Semi-Automatic Pistol":"반자동 권총","Pistol":"권총",
+  "Revolver":"리볼버","Rifle":"라이플","Naval":"함포","Sniper":"저격","Rocket":"로켓","Valuables":"귀중품",
+  "Common":"일반","Uncommon":"고급","Rare":"희귀","Noteworthy":"특별","Yes":"예","No":"아니오"}
 MAT_KO = {"Scrap Metal":"고철","Metal Rods":"금속 막대","Weapon Parts":"무기 부품","Mechanical Parts":"기계 부품",
   "Fabric":"천","Fabric Scraps":"천 조각","Threads":"실","Gunpowder":"화약","High-Grade Gunpowder":"고급 화약",
   "Scrapped Ammo":"폐탄약","Optic Lenses":"광학 렌즈","Reinforced Leather Strips":"강화 가죽끈","Mixtures":"혼합물",
@@ -28,6 +36,29 @@ def esc(s): return html.escape(str(s or ""))
 def ko_cat(c): return CAT_KO.get(c, c or "기타")
 def ko_stat(l): return STAT_KO.get(l, l)
 def ko_mat(m): return MAT_KO.get(m, m)
+def ko_val(v):
+    v = str(v or "")
+    if v in VALUE_KO: return VALUE_KO[v]
+    v = re.sub(r'\bCrowns?\b', '크라운', v)
+    v = v.replace('delay', '지연')
+    return v
+OBT_TERMS = [
+ ("Suspicious Pile of Sand","수상한 모래 더미"),("Valuables Safe","귀중품 금고"),("Medical Cabinet","의료 보관함"),
+ ("Weapon Crate","무기 상자"),("Food Crate","식량 상자"),("Crate of Shells","포탄 상자"),
+ ("Ironclad Loot Box","아이언클래드 전리품 상자"),("District Officer's Portable Safe","구역 담당관 금고"),
+ ("Crate of 1889 Chardonnay","1889 샤르도네 상자"),("Canned Sea Deer XL","바다사슴 통조림 XL"),
+ ("Dreadnought crates","드레드노트 상자"),("Very Rare","매우 희귀"),("drop rate","드롭률"),
+ ("Purchasable via","구매 —"),("Purchase with","구매 —"),("Purchase","구매"),
+ ("Unlocked by","해금 —"),("Unlocked via","해금 —"),("after unlocking","해금 후"),
+ ("tech unlock","테크 해금"),("technology","테크"),("tech","테크"),
+ ("Crowns","크라운"),("Crown","크라운"),("Crafted","제작"),("Loot","전리품"),("Buy","구매"),
+ ("Scrapped Ammo","폐탄약"),("Leviathan Skin","리바이어던 가죽"),("produces","생산"),
+ ("Armament","병기 공방"),("Utility","유틸리티"),("Workbench","작업대"),("Tier","티어"),
+]
+def ko_obt(s):
+    s = str(s or "")
+    for en, ko in OBT_TERMS: s = s.replace(en, ko)
+    return s
 def icon_of(it):
     ic = icons.get(it["slug"])
     return "assets/tech_icons/" + ic.rsplit("/",1)[-1] if ic else ""
@@ -48,10 +79,11 @@ for it in data:
     DETAIL.append({
         "name": it.get("name",""), "cat": it["_catko"], "col": CAT_COL.get(it.get("category"),"#d9a84c"),
         "icon": it["_icon"], "desc": it.get("description_ko","") or it.get("description_en",""),
-        "stats": [[ko_stat(s["label"]), s["value"]] for s in it.get("stats",[])],
+        "stats": [[ko_stat(s["label"]), ko_val(s["value"])] for s in it.get("stats",[])],
         "recipe": [[ko_mat(r["item"]), r["amount"]] for r in it.get("recipe",[])],
-        "workbench": it.get("workbench",""), "sell": it.get("sellValue",""),
-        "obtained": it.get("obtainedFrom",[]), "usedIn": it.get("usedIn",[]), "ammo": it.get("compatibleAmmo",[]),
+        "workbench": ko_obt(it.get("workbench","")), "sell": ko_val(it.get("sellValue","")),
+        "obtained": [ko_obt(o) for o in it.get("obtainedFrom",[])],
+        "usedIn": [ko_obt(u) for u in it.get("usedIn",[])], "ammo": it.get("compatibleAmmo",[]),
     })
 slug2idx = {it["slug"]: i for i,it in enumerate(data)}
 
@@ -87,7 +119,7 @@ HTML = f'''<!DOCTYPE html>
 <style>
 :root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic",sans-serif;font-size:16px;line-height:1.6;
+body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:16px;line-height:1.6;
  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}}
 a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
 .sr-only{{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}}
@@ -98,6 +130,7 @@ a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
 .tabs a{{font-size:13px;color:var(--muted);padding:6px 13px;border:1px solid var(--edge2);border-radius:6px}}
 .tabs a.on{{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}}
 .tabs a:hover{{text-decoration:none;color:var(--brass)}}.tabs a.on:hover{{color:var(--bg)}}
+@media(max-width:520px){{.topbar .in{{padding:9px 12px;gap:8px;flex-wrap:wrap}}.brand{{font-size:15px}}.tabs a{{padding:5px 9px;font-size:12px}}}}
 header.h{{max-width:1180px;margin:0 auto;padding:30px 22px 8px}}
 header.h h1{{font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.04em;font-size:clamp(24px,4vw,34px);margin:0;color:#fff}}
 header.h .sub{{color:var(--muted);margin:8px 0 0;font-size:15px;max-width:780px}}
@@ -110,7 +143,7 @@ header.h .sub b{{color:var(--brass)}}
 .fbtn{{font-family:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:1px solid var(--edge2);border-radius:999px;padding:6px 12px;cursor:pointer}}
 .fbtn[data-f]:not([data-f=all]){{border-color:var(--edge2);border-color:color-mix(in srgb,var(--col) 55%,var(--edge2))}}
 .fbtn.active{{color:#fff;border-color:var(--col,var(--brass));background:rgba(217,168,76,.22);background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent)}}
-#count{{font-size:12.5px;color:var(--faint);margin-left:auto;white-space:nowrap}}
+#count{{font-size:12.5px;color:var(--muted);margin-left:auto;white-space:nowrap}}
 main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:11px}}
 .it{{display:flex;gap:10px;align-items:center;text-align:left;font-family:inherit;cursor:pointer;
@@ -147,7 +180,7 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px}}
 #mod .chip{{font-size:12px;color:var(--ink);background:#0d0a06;border:1px solid var(--edge2);border-radius:6px;padding:3px 9px}}
 #mod .chip b{{color:var(--brass);font-family:"Oswald",sans-serif}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
-footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--faint);font-size:12px;line-height:1.65}}
+footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}}
 footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </style></head>
 <body>
@@ -158,7 +191,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 
 <header class="h">
   <h1>아이템 도감 <span style="color:var(--brass)">한국어</span></h1>
-  <p class="sub"><b>{total}개 아이템</b>의 한국어 설명·스탯·제작 레시피·획득처·판매가. 카드를 <b>클릭하면 상세</b>가 열립니다. 무기·탄약·자원·도구·의료·의복까지.</p>
+  <p class="sub"><b>{total}개 아이템</b>의 한국어 설명·스탯·제작 레시피·획득처·판매가. 카드를 <b>클릭하면 상세</b>가 열립니다. 무기·포·탄약·자원·도구·의료·의복까지.</p>
 </header>
 
 <div class="ctrl"><div class="in">
@@ -204,13 +237,14 @@ var ITEMS={DETAIL_JSON};
   }});
   apply();
   // modal
-  var ov=document.getElementById('ov'),mod=document.getElementById('mod');
+  var ov=document.getElementById('ov'),mod=document.getElementById('mod'),_prev=null;
   function esc(s){{return String(s==null?'':s).replace(/[&<>]/g,function(c){{return {{'&':'&amp;','<':'&lt;','>':'&gt;'}}[c];}});}}
   function rows(arr){{return arr.map(function(r){{return '<div class="row"><span class="k">'+esc(r[0])+'</span><span class="v">'+esc(r[1])+'</span></div>';}}).join('');}}
   function chips(arr){{return '<div class="chips">'+arr.map(function(x){{return '<span class="chip">'+esc(x)+'</span>';}}).join('')+'</div>';}}
   function recipe(arr){{return '<div class="chips">'+arr.map(function(r){{return '<span class="chip">'+esc(r[0])+' <b>×'+esc(r[1])+'</b></span>';}}).join('')+'</div>';}}
   function open(i){{
     var d=ITEMS[i]; if(!d)return;
+    _prev=document.activeElement;
     mod.style.setProperty('--col',d.col);
     var h='<div class="m-h"><img class="m-ic" src="'+esc(d.icon)+'" alt=""><div class="m-tt"><div class="m-n">'+esc(d.name)+'</div><div class="m-c">'+esc(d.cat)+'</div></div><button class="m-x" aria-label="닫기">×</button></div><div class="m-b">';
     if(d.desc) h+='<p class="m-desc">'+esc(d.desc)+'</p>';
@@ -223,9 +257,9 @@ var ITEMS={DETAIL_JSON};
     h+='</div>';
     mod.innerHTML=h; ov.classList.add('on');
     mod.querySelector('.m-x').addEventListener('click',close);
-    mod.scrollTop=0;
+    mod.scrollTop=0; mod.querySelector('.m-x').focus();
   }}
-  function close(){{ ov.classList.remove('on'); }}
+  function close(){{ ov.classList.remove('on'); if(_prev&&_prev.focus)_prev.focus(); }}
   cards.forEach(function(c){{ c.addEventListener('click',function(){{ open(+c.dataset.i); }}); }});
   ov.addEventListener('click',function(e){{ if(e.target===ov)close(); }});
   document.addEventListener('keydown',function(e){{ if(e.key==='Escape')close(); }});

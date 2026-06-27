@@ -94,7 +94,7 @@ for n in nodes: G[n["faction"]][n["tier"]].append(n)
 def node_card(n):
     key = (n["ko"]+" "+n["name"]+" "+n["name"].replace(" ","")+" "+n["cat"]).lower()
     ico = "assets/tech_icons/" + icon_base(n.get("glyphIcon"))
-    return (f'<div class="tn" data-s="{esc(key)}" data-fac="{n["faction"]}" data-slug="{esc(n["slug"])}" tabindex="0">'
+    return (f'<div class="tn" role="button" data-s="{esc(key)}" data-fac="{n["faction"]}" data-slug="{esc(n["slug"])}" tabindex="0">'
             f'<img class="tn-ico" src="{esc(ico)}" alt="" loading="lazy" decoding="async">'
             f'<div class="tn-body">'
             f'<span class="tn-ko">{esc(n["ko"])}</span>'
@@ -136,7 +136,7 @@ HTML = f'''<!DOCTYPE html>
 <style>
 :root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a}}
 *{{box-sizing:border-box}}
-body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic",sans-serif;font-size:16px;line-height:1.6;
+body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:16px;line-height:1.6;
  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}}
 a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
 .sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}
@@ -147,6 +147,7 @@ a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
 .tabs a{{font-size:13px;color:var(--muted);padding:6px 13px;border:1px solid var(--edge2);border-radius:6px}}
 .tabs a.on{{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}}
 .tabs a:hover{{text-decoration:none;color:var(--brass)}}.tabs a.on:hover{{color:var(--bg)}}
+@media(max-width:520px){{.topbar .in{{padding:9px 12px;gap:8px;flex-wrap:wrap}}.brand{{font-size:15px}}.tabs a{{padding:5px 9px;font-size:12px}}}}
 header.h{{max-width:1180px;margin:0 auto;padding:30px 22px 8px}}
 header.h h1{{font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.04em;font-size:clamp(24px,4vw,34px);margin:0;color:#fff}}
 header.h .sub{{color:var(--muted);margin:8px 0 0;font-size:15px;max-width:780px}}
@@ -162,7 +163,7 @@ header.h .sub b{{color:var(--brass)}}
 .fbtn{{font-family:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:1px solid var(--edge2);border-radius:999px;padding:6px 12px;cursor:pointer}}
 .fbtn[data-f]:not([data-f=all]){{border-color:var(--edge2);border-color:color-mix(in srgb,var(--col) 55%,var(--edge2))}}
 .fbtn.active{{color:#fff;border-color:var(--col,var(--brass));background:rgba(217,168,76,.22);background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent)}}
-#count{{font-size:12.5px;color:var(--faint);margin-left:auto;white-space:nowrap}}
+#count{{font-size:12.5px;color:var(--muted);margin-left:auto;white-space:nowrap}}
 main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 .fac{{margin:30px 0 0}}
 .fac-h{{display:flex;flex-direction:column;gap:2px;padding:12px 0 10px;border-bottom:1px solid var(--edge);position:relative}}
@@ -214,7 +215,7 @@ main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 #tip .u-d{{color:var(--muted);font-size:11px;line-height:1.45;margin-top:1px}}
 #tip .t-note{{margin-top:9px;padding-top:8px;border-top:1px solid var(--edge);font-size:10.5px;color:var(--faint);line-height:1.5}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
-footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--faint);font-size:12px;line-height:1.65}}
+footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}}
 footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </style></head>
 <body>
@@ -280,7 +281,7 @@ var TECH={TECH_JSON};
   apply();
 
   // ---- 호버 툴팁: 재료·선행연구 ----
-  var tip=document.getElementById('tip'),pinned=null;
+  var tip=document.getElementById('tip'),pinned=null,lastCard=null;
   function esc(s){{return String(s).replace(/[&<>]/g,function(c){{return {{'&':'&amp;','<':'&lt;','>':'&gt;'}}[c];}});}}
   function fmt(n){{return n.toLocaleString('en-US');}}
   function build(d){{
@@ -304,18 +305,22 @@ var TECH={TECH_JSON};
   function show(card){{
     var d=TECH[card.dataset.slug]; if(!d)return;
     tip.style.setProperty('--col',d.col); tip.innerHTML=build(d);
-    tip.classList.add('on'); tip.setAttribute('aria-hidden','false'); place(card);
+    tip.classList.add('on'); tip.setAttribute('aria-hidden','false');
+    if(lastCard&&lastCard!==card)lastCard.removeAttribute('aria-describedby');
+    card.setAttribute('aria-describedby','tip'); lastCard=card; place(card);
   }}
-  function hide(){{ if(pinned)return; tip.classList.remove('on'); tip.setAttribute('aria-hidden','true'); }}
+  function clearDesc(){{ if(lastCard){{lastCard.removeAttribute('aria-describedby');lastCard=null;}} }}
+  function hide(){{ if(pinned)return; tip.classList.remove('on'); tip.setAttribute('aria-hidden','true'); clearDesc(); }}
+  function unpin(){{ pinned=null; tip.classList.remove('on'); tip.setAttribute('aria-hidden','true'); clearDesc(); }}
   nodes.forEach(function(c){{
     c.addEventListener('pointerenter',function(){{ if(!pinned) show(c); }});
     c.addEventListener('pointerleave',hide);
     c.addEventListener('focus',function(){{ show(c); }});
     c.addEventListener('blur',hide);
-    c.addEventListener('click',function(e){{ e.stopPropagation(); if(pinned===c){{pinned=null;hide();}} else {{pinned=c;show(c);}} }});
+    c.addEventListener('click',function(e){{ e.stopPropagation(); if(pinned===c){{unpin();}} else {{pinned=c;show(c);}} }});
   }});
-  document.addEventListener('click',function(){{ if(pinned){{pinned=null;tip.classList.remove('on');}} }});
-  document.addEventListener('keydown',function(e){{ if(e.key==='Escape'){{pinned=null;tip.classList.remove('on');}} }});
+  document.addEventListener('click',function(){{ if(pinned)unpin(); }});
+  document.addEventListener('keydown',function(e){{ if(e.key==='Escape')unpin(); }});
   window.addEventListener('scroll',function(){{ if(pinned)place(pinned); }},{{passive:true}});
 }})();
 </script>
