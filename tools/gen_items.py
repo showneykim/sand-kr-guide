@@ -114,6 +114,14 @@ HTML = f'''<!DOCTYPE html>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>아이템 도감 (한국어) — 샌드: 레이더스 오브 소피</title>
 <meta name="description" content="SAND: Raiders of Sophie 아이템 도감 한국어 — {total}개 아이템의 설명·스탯·제작·획득처">
+<meta name="theme-color" content="#13100b">
+<meta property="og:type" content="website"><meta property="og:site_name" content="SAND 한국어 가이드">
+<meta property="og:title" content="아이템 도감 (한국어) — 샌드: 레이더스 오브 소피">
+<meta property="og:description" content="아이템의 설명·스탯·제작·획득처를 한국어로.">
+<meta property="og:image" content="https://showneykim.github.io/sand-kr-guide/assets/img/crop_hero.webp">
+<meta property="og:url" content="https://showneykim.github.io/sand-kr-guide/items.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%2313100b'/%3E%3Ctext%20x='16'%20y='23'%20font-size='21'%20font-weight='700'%20fill='%23d9a84c'%20text-anchor='middle'%20font-family='sans-serif'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -185,7 +193,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </style></head>
 <body>
 <div class="topbar"><div class="in">
-  <span class="brand">SAND</span>
+  <a class="brand" href="index.html" style="text-decoration:none" aria-label="홈 — 입문 가이드">SAND</a>
   <div class="tabs"><a href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a class="on" href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a></div>
 </div></div>
 
