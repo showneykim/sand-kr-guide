@@ -5,6 +5,41 @@ import json, html, os
 ROOT = os.path.expanduser("~/sand-kr-guide")
 P = json.load(open(os.path.join(ROOT, "tools/parts_data.json")))["parts"]
 
+import re as _re
+_SP = os.path.join(ROOT, "tools/parts_stats.json")
+STATS = {x["slug"]: x["stats"] for x in (json.load(open(_SP))["items"] if os.path.exists(_SP) else [])}
+STAT_KO = {
+ "Dimensions":"치수","치수":"치수","Health":"내구도","내구도":"내구도","Weight":"무게","무게":"무게",
+ "Energy Consumption":"에너지 소모","에너지 소비":"에너지 소모","Weight Capacity":"적재 한도","적재 용량":"적재 한도",
+ "Item Slots":"적재 슬롯","Magazine":"탄창","Reload":"재장전","Fire rate":"연사 속도","Velocity":"탄속",
+ "Penetrates":"관통","Range":"사거리","Type":"종류","Energy Capacity":"에너지 용량","에너지 용량":"에너지 용량",
+ "Rated Power":"정격 출력","정격 출력":"정격 출력","Crew Slots":"승무원 슬롯","승무원 슬롯":"승무원 슬롯",
+ "Damage":"피해","Damage (Trampler)":"피해(트램플러)","Damage (Player)":"피해(플레이어)","Splash Damage":"범위 피해",
+ "Weight Compensation":"무게 보정","Armor":"장갑","Regen":"재생",
+}
+SVAL_KO = {"Yes":"예","No":"아니오","Shotgun":"샷건","Single-Shot Rifle":"단발 라이플","Semi-Automatic Pistol":"반자동 권총",
+ "Pistol":"권총","Rifle":"라이플","Revolver":"리볼버","Autocannon":"오토캐논","Naval":"함포","Sniper":"저격"}
+BAR = {"내구도","무게","에너지 소모","적재 한도","에너지 용량","적재 슬롯","정격 출력","피해","무게 보정","장갑","범위 피해","피해(트램플러)","피해(플레이어)"}
+def _num(v):
+    m = _re.match(r'^\s*([\d,]+(?:\.\d+)?)', str(v))
+    return float(m.group(1).replace(',','')) if m else None
+def _norm(slug):
+    r=[]
+    for s in STATS.get(slug, []):
+        lab = STAT_KO.get(s["label"], s["label"]); val = SVAL_KO.get(s["value"], s["value"])
+        r.append((lab, val, _num(s["value"]) if lab in BAR else None))
+    return r
+_MAX = {}
+for _sl in STATS:
+    for lab, val, n in _norm(_sl):
+        if n is not None: _MAX[lab] = max(_MAX.get(lab, 0), n)
+def stat_rows(slug):
+    out=[]
+    for lab, val, n in _norm(slug):
+        pct = round(n/_MAX[lab]*100) if (n is not None and _MAX.get(lab,0) > 0) else 0
+        out.append([lab, val, pct])
+    return out
+
 CAT_ORDER = ["섀시","동력","조향","대포·포","무기·공성","장갑","화물·보관","승무원·생활","구조·이동","도구·유틸","기타"]
 CAT_COL = {"섀시":"#4493f8","동력":"#d9a84c","조향":"#6fa3bd","대포·포":"#c1572a","무기·공성":"#cf6a4a",
            "장갑":"#9a8358","화물·보관":"#e3a008","승무원·생활":"#8aae66","구조·이동":"#b07d8a","도구·유틸":"#6fb24a","기타":"#7d6f56"}
@@ -21,7 +56,7 @@ for p in P:
         "name": p["name"], "cat": p["cat"], "col": CAT_COL.get(p["cat"], "#d9a84c"),
         "icon": "assets/tech_icons/" + p["icon"], "desc": p["desc"],
         "fac": p["faction"], "tier": p["tier"], "crowns": p["crowns"],
-        "mats": p["mats"], "node": p["node"],
+        "mats": p["mats"], "node": p["node"], "stats": stat_rows(p["slug"]),
     })
 
 def card(p, i):
@@ -92,7 +127,7 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px}}
  border-radius:8px;padding:8px 10px;transition:transform .08s,border-color .12s,box-shadow .12s;color:var(--ink)}}
 .it:hover,.it:focus{{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.35);outline:none;border-color:color-mix(in srgb,var(--col) 50%,var(--edge))}}
 .it-ic{{width:46px;height:46px;flex:none;object-fit:contain;padding:2px;border:1px solid var(--edge2);border-radius:7px;
- background:radial-gradient(circle at 50% 36%,rgba(255,255,255,.07),transparent 70%),#0d0a06}}
+ background:linear-gradient(rgba(217,168,76,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(217,168,76,.05) 1px,transparent 1px),radial-gradient(circle at 50% 36%,rgba(255,255,255,.06),transparent 70%),#0d0a06;background-size:8px 8px,8px 8px,auto,auto}}
 .it-body{{min-width:0;display:flex;flex-direction:column}}
 .it-n{{font-weight:600;font-size:12.5px;line-height:1.2;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 .it-c{{font-size:10.5px;color:var(--col);font-weight:600;margin-top:1px}}
@@ -115,6 +150,15 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px}}
 #mod .row:last-child{{border-bottom:0}}#mod .row .k{{color:var(--muted)}}#mod .row .v{{color:var(--ink);font-weight:600;font-family:"Oswald",sans-serif}}
 #mod .chips{{display:flex;flex-wrap:wrap;gap:6px}}
 #mod .chip{{font-size:12px;color:var(--ink);background:#0d0a06;border:1px solid var(--edge2);border-radius:6px;padding:3px 9px}}#mod .chip b{{color:var(--brass);font-family:"Oswald",sans-serif}}
+#mod .strow{{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(79,58,33,.5)}}
+#mod .strow:last-child{{border-bottom:0}}
+#mod .strow .sk{{color:var(--muted);font-size:13px;flex:1}}
+#mod .strow .sv{{font-family:"Oswald",sans-serif;color:#fff;font-weight:600;font-size:14px}}
+#mod .strow .bar{{flex-basis:100%;height:5px;background:#0d0a06;border:1px solid var(--edge2);border-radius:3px;overflow:hidden;margin-top:1px}}
+#mod .strow .bar i{{display:block;height:100%;background:linear-gradient(90deg,var(--brass-d),var(--brass))}}
+#mod .mchip{{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);background:#0d0a06;border:1px solid var(--edge2);border-radius:6px;padding:3px 9px 3px 5px}}
+#mod .mchip img{{width:17px;height:17px;object-fit:contain}}#mod .mchip b{{color:var(--brass);font-family:"Oswald",sans-serif;margin-left:1px}}
+#mod .cost{{display:inline-flex;align-items:center;gap:6px;font-family:"Oswald",sans-serif;color:var(--brass);font-weight:700;font-size:15px}}#mod .cost img{{width:18px;height:18px;object-fit:contain}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
 footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}}footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </style></head>
@@ -186,16 +230,17 @@ var PARTS={DETAIL_JSON};
   apply();
   var ov=document.getElementById('ov'),mod=document.getElementById('mod'),_prev=null;
   function esc(s){{return String(s==null?'':s).replace(/[&<>]/g,function(c){{return {{'&':'&amp;','<':'&lt;','>':'&gt;'}}[c];}});}}
-  function chips(arr){{return '<div class="chips">'+arr.map(function(r){{return '<span class="chip">'+esc(r[0])+' <b>×'+esc(r[1])+'</b></span>';}}).join('')+'</div>';}}
+  function chips(arr){{return '<div class="chips">'+arr.map(function(r){{return '<span class="mchip"><img src="assets/tech_icons/'+esc(r[2])+'" alt="">'+esc(r[0])+' <b>×'+esc(r[1])+'</b></span>';}}).join('')+'</div>';}}
+  function statRows(arr){{return arr.map(function(s){{var bar=s[2]>0?'<span class="bar"><i style="width:'+s[2]+'%"></i></span>':'';return '<div class="strow"><span class="sk">'+esc(s[0])+'</span><span class="sv">'+esc(s[1])+'</span>'+bar+'</div>';}}).join('');}}
   function open(i){{
     var d=PARTS[i]; if(!d)return; _prev=document.activeElement;
     mod.style.setProperty('--col',d.col);
     var h='<div class="m-h"><img class="m-ic" src="'+esc(d.icon)+'" alt=""><div class="m-tt"><div class="m-n">'+esc(d.name)+'</div><div class="m-c">'+esc(d.cat)+'</div></div><button class="m-x" aria-label="닫기">×</button></div><div class="m-b">';
     if(d.desc) h+='<p class="m-desc">'+esc(d.desc)+'</p>';
-    h+='<div class="sec">해금 정보</div>';
-    h+='<div class="row"><span class="k">연구 진영</span><span class="v">'+esc(d.fac)+'</span></div>';
-    h+='<div class="row"><span class="k">연구 노드</span><span class="v">'+esc(d.node)+' · T'+esc(d.tier)+'</span></div>';
-    h+='<div class="row"><span class="k">해금 비용</span><span class="v">'+esc(d.crowns.toLocaleString('en-US'))+' 크라운</span></div>';
+    if(d.stats&&d.stats.length){{ h+='<div class="sec">스탯</div>'+statRows(d.stats); }}
+    h+='<div class="sec">해금</div>';
+    h+='<div class="row"><span class="k">연구</span><span class="v">'+esc(d.fac)+' · '+esc(d.node)+' · T'+esc(d.tier)+'</span></div>';
+    h+='<div class="row"><span class="k">비용</span><span class="cost"><img src="assets/tech_icons/icon_item_coinCrown.png" alt="">'+esc(d.crowns.toLocaleString('en-US'))+'</span></div>';
     if(d.mats&&d.mats.length){{ h+='<div class="sec">추가 재료</div>'+chips(d.mats); }}
     h+='</div>';
     mod.innerHTML=h; ov.classList.add('on');
