@@ -82,6 +82,7 @@ for n in nodes:
         "ko": n["ko"], "en": n["name"], "fac": n["facko"], "col": n["col"],
         "tier": ROMAN[n["tier"]], "cat": n["cat"], "crowns": n["crowns"],
         "mats": mats, "pre": pre,
+        "pres": [p for p in n.get("prereqs", []) if p in slug2],
         "unlocks": [[u.get("name",""), icon_base(u.get("icon","")), DESC.get(u.get("slug",""),"")]
                     for u in (n.get("unlocks") or [])],
     }
@@ -94,11 +95,23 @@ for n in nodes: G[n["faction"]][n["tier"]].append(n)
 def node_card(n):
     key = (n["ko"]+" "+n["name"]+" "+n["name"].replace(" ","")+" "+n["cat"]).lower()
     ico = "assets/tech_icons/" + icon_base(n.get("glyphIcon"))
+    nun = len(n.get("unlocks") or [])
+    ub = f'<span class="tn-ub" title="{nun}종 해금">+{nun-1}</span>' if nun > 1 else ""
+    prs = n.get("prereqs") or []
+    pre1 = ""
+    if prs and prs[0] in slug2:
+        pp = slug2[prs[0]]
+        pre1 = (f'<span class="tn-pre" data-jump="{esc(pp["slug"])}" role="button" tabindex="0" '
+                f'title="선행 연구: {esc(pp["ko"])} (Tier {ROMAN[pp["tier"]]}) — 눌러서 이동">'
+                f'<span class="pre-l">선행</span>'
+                f'<span class="pre-n">{esc(pp["ko"])}</span>'
+                f'<span class="pre-t">{ROMAN[pp["tier"]]}</span></span>')
     return (f'<div class="tn" role="button" data-s="{esc(key)}" data-fac="{n["faction"]}" data-slug="{esc(n["slug"])}" tabindex="0">'
-            f'<img class="tn-ico" src="{esc(ico)}" alt="" loading="lazy" decoding="async">'
+            f'<span class="tn-ico-w"><img class="tn-ico" src="{esc(ico)}" alt="" loading="lazy" decoding="async">{ub}</span>'
             f'<div class="tn-body">'
             f'<span class="tn-ko">{esc(n["ko"])}</span>'
             f'<span class="tn-en" title="{esc(n["name"])}">{esc(n["name"])}</span>'
+            f'{pre1}'
             f'<span class="tn-foot">'
             f'<span class="tn-cost"><img class="coin" src="assets/tech_icons/icon_item_coinCrown.png" alt="">{n["crowns"]:,}<span class="sr-only"> 크라운</span></span>'
             f'<span class="tn-cat">{esc(n["cat"])}</span></span>'
@@ -191,6 +204,19 @@ main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 .tn-cost{{display:inline-flex;align-items:center;gap:4px;font-family:"Oswald",sans-serif;color:var(--brass);font-size:12.5px;font-weight:600;white-space:nowrap}}
 .tn-cost .coin{{width:15px;height:15px;object-fit:contain}}
 .tn-cat{{font-size:10px;color:var(--muted);background:#0d0a06;border:1px solid var(--edge2);border-radius:4px;padding:1px 6px;white-space:nowrap;margin-left:auto}}
+.tn-ico-w{{position:relative;flex:none;display:inline-flex}}
+.tn-ub{{position:absolute;right:-5px;bottom:-5px;min-width:17px;height:17px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;font-family:"Oswald",sans-serif;font-size:10px;font-weight:700;color:var(--bg);background:var(--brass);border:1.5px solid var(--bg);border-radius:999px;line-height:1}}
+.tn-pre{{display:inline-flex;align-items:center;gap:5px;margin-top:5px;max-width:100%;min-width:0;align-self:flex-start;font-size:11px;color:var(--muted);background:#0d0a06;border:1px solid var(--edge2);border-radius:5px;padding:2px 7px;cursor:pointer;line-height:1.25;transition:border-color .12s,color .12s}}
+.tn-pre:hover,.tn-pre:focus{{border-color:var(--col);color:var(--ink);outline:none}}
+.tn-pre .pre-l{{color:var(--faint);font-size:9px;font-family:"Oswald",sans-serif;letter-spacing:.07em;flex:none}}
+.tn-pre .pre-n{{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}}
+.tn-pre .pre-t{{color:var(--col);font-family:"Oswald",sans-serif;font-weight:600;font-size:9.5px;flex:none}}
+.tn.dim{{opacity:.24;filter:saturate(.4)}}
+.tn.lin{{border-color:color-mix(in srgb,var(--col) 55%,var(--edge));box-shadow:0 0 0 1px color-mix(in srgb,var(--col) 38%,transparent),0 5px 16px rgba(0,0,0,.4)}}
+.tn.lin-self{{border-color:var(--col);box-shadow:0 0 0 2px color-mix(in srgb,var(--col) 65%,transparent),0 8px 22px rgba(0,0,0,.5)}}
+.tn.lin-self .tn-ko{{color:#fff}}
+.tn.flash{{animation:tnflash .9s ease}}
+@keyframes tnflash{{0%,100%{{box-shadow:0 0 0 0 transparent}}30%{{box-shadow:0 0 0 3px color-mix(in srgb,var(--col) 80%,transparent)}}}}
 .tn.hide,.tier.hide,.fac.hide{{display:none}}
 .empty{{color:var(--faint);font-size:13px;padding:20px 2px}}
 /* tooltip */
@@ -214,6 +240,12 @@ main{{max-width:1180px;margin:0 auto;padding:6px 22px 80px}}
 #tip .u-n{{font-weight:600;color:var(--ink);font-size:12px;line-height:1.3}}
 #tip .u-d{{color:var(--muted);font-size:11px;line-height:1.45;margin-top:1px}}
 #tip .t-note{{margin-top:9px;padding-top:8px;border-top:1px solid var(--edge);font-size:10.5px;color:var(--faint);line-height:1.5}}
+#linbar{{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:95;display:none;align-items:center;gap:12px;background:linear-gradient(180deg,#251c12,#140f09);border:1px solid var(--edge2);border-radius:999px;padding:8px 8px 8px 17px;box-shadow:0 14px 40px rgba(0,0,0,.6);font-size:12.5px;color:var(--ink)}}
+#linbar.on{{display:flex}}
+#linbar .lb-t b{{color:var(--brass);font-family:"Oswald",sans-serif}}
+#linbar button{{font-family:inherit;font-size:12px;color:var(--bg);background:var(--brass);border:0;border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600}}
+#linbar button:hover{{background:#e8bd63}}
+@media(max-width:520px){{#linbar{{bottom:10px;font-size:11.5px;padding:7px 7px 7px 13px;gap:8px}}}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
 footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}}
 footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
@@ -243,6 +275,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </main>
 
 <div id="tip" role="tooltip" aria-hidden="true"></div>
+<div id="linbar"><span class="lb-t"></span><button type="button">전체 보기</button></div>
 
 <footer><div class="in">
   <p><b>데이터 출처.</b> 테크트리의 노드·비용·재료·선행조건은 게임 인게임 데이터이며, 커뮤니티 팬 데이터베이스 <a href="https://sand-help.com/tech" target="_blank" rel="noopener">sand-help.com</a>(비공식)에서 가져와 교차확인했습니다. 노드·재료 아이콘은 게임 내 에셋입니다. 본 페이지는 이 데이터를 <b>한국어로 재구성한 독자 제작물</b>로, sand-help의 코드·디자인 자체는 복제하지 않았습니다. 핵심 비용은 본 가이드 지식베이스의 검증값과 일치함을 확인했습니다.</p>
@@ -261,6 +294,7 @@ var TECH={TECH_JSON};
   emptyEl.textContent='검색 결과가 없습니다.';emptyEl.style.display='none';
   document.getElementById('tree').appendChild(emptyEl);
   function apply(){{
+    if(typeof clearLineage==='function')clearLineage();
     var term=q.value.trim().toLowerCase();var shown=0;
     nodes.forEach(function(n){{
       var ok=(fsel==='all'||n.dataset.fac===fsel)&&(!term||n.dataset.s.indexOf(term)>=0);
@@ -279,6 +313,35 @@ var TECH={TECH_JSON};
     }});
   }});
   apply();
+
+  // ---- 계보(선행/후속) 하이라이트 ----
+  var PAR={{}},CHI={{}};
+  Object.keys(TECH).forEach(function(s){{ var pr=TECH[s].pres||[]; PAR[s]=pr; for(var i=0;i<pr.length;i++){{ (CHI[pr[i]]=CHI[pr[i]]||[]).push(s); }} }});
+  function walk(s,map,acc){{ var a=map[s]||[]; for(var i=0;i<a.length;i++){{ if(!acc[a[i]]){{ acc[a[i]]=1; walk(a[i],map,acc); }} }} return acc; }}
+  function setLineage(slug){{
+    clearLineage();
+    var anc=walk(slug,PAR,{{}}),desc=walk(slug,CHI,{{}});
+    for(var i=0;i<nodes.length;i++){{
+      var n=nodes[i],s=n.dataset.slug;
+      if(s===slug)n.classList.add('lin-self');
+      else if(anc[s]||desc[s])n.classList.add('lin');
+      else n.classList.add('dim');
+    }}
+    var lb=document.getElementById('linbar');
+    lb.querySelector('.lb-t').innerHTML='계보 — 선행 <b>'+Object.keys(anc).length+'</b> · 후속 <b>'+Object.keys(desc).length+'</b>';
+    lb.classList.add('on');
+  }}
+  function clearLineage(){{
+    for(var i=0;i<nodes.length;i++)nodes[i].classList.remove('dim','lin','lin-self','flash');
+    var lb=document.getElementById('linbar'); if(lb)lb.classList.remove('on');
+  }}
+  function jumpTo(slug){{
+    var t=document.querySelector('.tn[data-slug="'+slug.replace(/"/g,'')+'"]'); if(!t)return;
+    if(q.value){{ q.value=''; apply(); }}
+    t.scrollIntoView({{behavior:'smooth',block:'center'}});
+    pinned=t; show(t); setLineage(slug);
+    t.classList.add('flash'); setTimeout(function(){{ t.classList.remove('flash'); }},900);
+  }}
 
   // ---- 호버 툴팁: 재료·선행연구 ----
   var tip=document.getElementById('tip'),pinned=null,lastCard=null;
@@ -311,14 +374,23 @@ var TECH={TECH_JSON};
   }}
   function clearDesc(){{ if(lastCard){{lastCard.removeAttribute('aria-describedby');lastCard=null;}} }}
   function hide(){{ if(pinned)return; tip.classList.remove('on'); tip.setAttribute('aria-hidden','true'); clearDesc(); }}
-  function unpin(){{ pinned=null; tip.classList.remove('on'); tip.setAttribute('aria-hidden','true'); clearDesc(); }}
+  function unpin(){{ pinned=null; tip.classList.remove('on'); tip.setAttribute('aria-hidden','true'); clearDesc(); clearLineage(); }}
   nodes.forEach(function(c){{
     c.addEventListener('pointerenter',function(){{ if(!pinned) show(c); }});
     c.addEventListener('pointerleave',hide);
     c.addEventListener('focus',function(){{ show(c); }});
     c.addEventListener('blur',hide);
-    c.addEventListener('click',function(e){{ e.stopPropagation(); if(pinned===c){{unpin();}} else {{pinned=c;show(c);}} }});
+    c.addEventListener('click',function(e){{
+      var jt=e.target.closest&&e.target.closest('.tn-pre');
+      if(jt){{ e.stopPropagation(); jumpTo(jt.getAttribute('data-jump')); return; }}
+      e.stopPropagation();
+      if(pinned===c){{ unpin(); }} else {{ pinned=c; show(c); setLineage(c.dataset.slug); }}
+    }});
   }});
+  [].slice.call(document.querySelectorAll('.tn-pre')).forEach(function(p){{
+    p.addEventListener('keydown',function(e){{ if(e.key==='Enter'||e.key===' '){{ e.preventDefault(); e.stopPropagation(); jumpTo(p.getAttribute('data-jump')); }} }});
+  }});
+  document.getElementById('linbar').querySelector('button').addEventListener('click',function(e){{ e.stopPropagation(); unpin(); }});
   document.addEventListener('click',function(){{ if(pinned)unpin(); }});
   document.addEventListener('keydown',function(e){{ if(e.key==='Escape')unpin(); }});
   window.addEventListener('scroll',function(){{ if(pinned)place(pinned); }},{{passive:true}});
