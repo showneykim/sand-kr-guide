@@ -274,7 +274,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--mu
 
 <div class="intro">
   <figure>
-    <img src="assets/img/bp_editor.png" alt="트램플러 에디터">
+    <img src="assets/img/bp_editor.webp" alt="트램플러 에디터" width="1700" height="618" loading="lazy" decoding="async">
     <figcaption><b>트램플러 에디터.</b> 좌측 라이브러리(<span style="color:var(--brass)">아래 카탈로그</span>)에서 부품을 골라 섀시 위에 조립합니다. 우측 스탯·우하단 검증(STRUCTURE/OVERHANG/REACHABILITY/UTILITY)이 모두 충족돼야 출격.</figcaption>
   </figure>
   <details class="guide"><summary>에디터·검증 규칙 빠르게 보기</summary>
