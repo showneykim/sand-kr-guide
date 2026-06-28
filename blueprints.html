@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블루프린트 공략 (한국어) — 샌드: 레이더스 오브 소피</title>
+<meta name="description" content="SAND: Raiders of Sophie 트램플러 블루프린트(에디터) 공략 — 필수 구획·스탯·검증 규칙·빌드 원형">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a;--rust:#c1572a;--safe:#8aae66;--sky:#6fa3bd;--maxw:1000px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:16.5px;line-height:1.72;
+ background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.08),transparent 60%)}
+a{color:var(--brass);text-decoration:none}a:hover{text-decoration:underline}
+strong{color:#fff;font-weight:600}em{color:var(--muted);font-style:normal}
+.k{font-family:"Oswald",monospace;background:#0d0a06;border:1px solid var(--edge2);color:var(--brass);padding:1px 6px;border-radius:4px;font-size:.84em;font-weight:600;white-space:nowrap}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(9px);background:rgba(15,11,7,.86);border-bottom:1px solid var(--edge)}
+.topbar .in{max-width:var(--maxw);margin:0 auto;padding:11px 22px;display:flex;gap:14px;align-items:center}
+.brand{font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.2em;color:var(--brass);font-size:17px}
+.tabs{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.tabs a{font-size:13px;color:var(--muted);padding:6px 13px;border:1px solid var(--edge2);border-radius:6px}
+.tabs a.on{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}
+.tabs a:hover{text-decoration:none;color:var(--brass)}.tabs a.on:hover{color:var(--bg)}
+@media(max-width:560px){.topbar .in{padding:9px 12px;gap:8px;flex-wrap:wrap}.brand{font-size:15px}.tabs a{padding:5px 9px;font-size:12px}}
+header.h{max-width:var(--maxw);margin:0 auto;padding:30px 22px 6px}
+header.h h1{font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.04em;font-size:clamp(24px,4vw,34px);margin:0;color:#fff}
+header.h .sub{color:var(--muted);margin:8px 0 0;font-size:15px;max-width:760px}
+header.h .sub b{color:var(--brass)}
+main{max-width:var(--maxw);margin:0 auto;padding:0 22px 80px}
+section{padding:34px 0 4px;scroll-margin-top:60px}
+h2{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.04em;font-size:clamp(19px,3vw,25px);color:var(--brass);margin:0 0 12px;display:flex;align-items:center;gap:12px}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge2),transparent)}
+.kicker{color:var(--muted);font-size:14.5px;margin:-4px 0 14px}
+p{margin:10px 0}ul,ol{margin:10px 0;padding-left:20px}li{margin:6px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px;margin:14px 0}
+.c{background:linear-gradient(180deg,#241b11,#191309);border:1px solid var(--edge);border-left:3px solid var(--col,var(--brass-d));border-radius:8px;padding:13px 15px}
+.c .t{font-weight:600;color:#fff;font-size:15px;display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.c .en{font-family:"Oswald",sans-serif;color:var(--faint);font-size:11px;letter-spacing:.02em;font-weight:500}
+.c .d{color:var(--muted);font-size:13.5px;margin-top:5px;line-height:1.55}
+.c .tag{font-size:10.5px;color:var(--bg);background:var(--col,var(--brass));border-radius:4px;padding:0 6px;font-weight:700;font-family:"Oswald"}
+.note{border-left:3px solid var(--sky);background:rgba(111,163,189,.07);padding:11px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:14.5px;color:var(--muted)}
+.note b{color:#a9cad8}
+.warn{border-left:3px solid var(--rust);background:rgba(193,87,42,.09);padding:11px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:14.5px;color:#d3b69a}.warn b{color:#e0905f}
+.tip{border-left:3px solid var(--brass);background:rgba(217,168,76,.08);padding:11px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:14.5px;color:var(--muted)}.tip b{color:var(--brass)}
+figure{margin:16px 0;background:#0c0906;border:1px solid var(--edge2);border-radius:8px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;cursor:zoom-in}
+figcaption{padding:11px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--edge);background:var(--bg2)}
+figcaption b{color:#c9b58e}
+.legend{margin:7px 0 0;padding:0;list-style:none;font-size:12.5px}.legend li{margin:4px 0;color:var(--muted)}
+.legend .n{display:inline-flex;width:1.45em;height:1.45em;align-items:center;justify-content:center;background:var(--brass);color:var(--bg);border-radius:50%;font-weight:700;font-size:.76em;margin-right:7px;font-family:"Oswald";vertical-align:1px}
+.tw{overflow-x:auto;margin:14px 0;border:1px solid var(--edge);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--edge);vertical-align:top}
+thead th{background:#2a2110;color:var(--brass);font-family:"Oswald";letter-spacing:.04em;font-size:12px;font-weight:600}
+tbody tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:rgba(255,255,255,.014)}
+td:first-child{color:#d6c4a0;font-weight:600;white-space:nowrap}
+.goal{border:1px solid var(--edge2);border-left:3px solid var(--brass);background:linear-gradient(90deg,rgba(217,168,76,.10),transparent);padding:12px 18px;margin:16px 0;border-radius:0 6px 6px 0}.goal b{color:var(--brass)}
+#lb{position:fixed;inset:0;z-index:100;background:rgba(8,6,4,.93);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}#lb.on{display:flex}#lb img{max-width:96vw;max-height:92vh;border:1px solid var(--edge2);border-radius:8px}
+footer{border-top:1px solid var(--edge);background:var(--bg2)}
+footer .in{max-width:var(--maxw);margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}footer b{color:var(--muted)}
+</style></head>
+<body>
+<div class="topbar"><div class="in">
+  <span class="brand">SAND</span>
+  <div class="tabs"><a href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a class="on" href="blueprints.html">블루프린트</a></div>
+</div></div>
+
+<header class="h">
+  <h1>블루프린트 공략 <span style="color:var(--brass)">한국어</span></h1>
+  <p class="sub"><b>트램플러 에디터</b>로 나만의 보행 기지를 설계·저장하는 법. <b>필수 구획 · 스탯 읽기 · 빌드 검증 규칙 · 빌드 원형</b>까지. 설계도(블루프린트)는 <b>계정 전체에서 공유</b>되며, 부서져도 같은 설계로 다시 만들 수 있습니다.</p>
+</header>
+
+<main>
+
+<section id="editor">
+  <h2>에디터 한눈에</h2>
+  <p class="kicker">모선(ORBIT) → BLUEPRINTS → 새 설계 또는 기성 설계도 편집. 빈 섀시에서 구획을 쌓아 올립니다.</p>
+  <figure>
+    <img src="assets/img/bp_editor.png" alt="트램플러 에디터 화면">
+    <figcaption>트램플러 에디터(예: 커스텀 빌드 “THICK NOMAD”).
+      <ul class="legend">
+        <li><span class="n">1</span><b>좌측 — 구획 라이브러리</b>(<span class="k">Tab</span>): 카테고리별 부품을 골라 배치.</li>
+        <li><span class="n">2</span><b>가운데 — 빌드 영역</b>: 섀시 위에 구획·갑판을 조립(다리·덱·대포·화물칸).</li>
+        <li><span class="n">3</span><b>우측 — 스탯 패널</b>: 기동성·에너지효율·무게·안정성·최고속도 + Crew/Cannons/Cargo/Engines + 제작비.</li>
+        <li><span class="n">4</span><b>우하단 — 검증 경고</b>: STRUCTURE·OVERHANG·REACHABILITY·UTILITY (빨강 = 미충족, 출격 불가).</li>
+      </ul>
+    </figcaption>
+  </figure>
+  <div class="tw"><table>
+    <thead><tr><th>에디터 조작키</th><th></th></tr></thead>
+    <tbody>
+      <tr><td><span class="k">Tab</span></td><td>구획 라이브러리 열기/이동</td></tr>
+      <tr><td><span class="k">R</span> / <span class="k">F</span></td><td>층(floor) 전환</td></tr>
+      <tr><td><span class="k">G</span></td><td>윗층 구획 숨기기(내부 보기)</td></tr>
+      <tr><td><span class="k">T</span></td><td>문(door) 연결 편집</td></tr>
+      <tr><td><span class="k">Q</span> / <span class="k">E</span></td><td>카메라 회전</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="essential">
+  <h2>필수 구획 5종</h2>
+  <p class="kicker">이게 없으면 트램플러가 작동하지 않습니다. 라이브러리에서 <b>Essential</b> 표시가 붙은 것들.</p>
+  <div class="cards">
+    <div class="c" style="--col:#4493f8"><div class="t">섀시 <span class="en">Chassis</span> <span class="tag">필수</span></div><div class="d">걷는 기반 골격. 크기가 <b>무게 한도</b>와 구획 수용량을 정합니다. 모든 빌드의 출발점.</div></div>
+    <div class="c" style="--col:#4493f8"><div class="t">조향 <span class="en">Steering</span> <span class="tag">필수</span></div><div class="d">조종대(Control Panel)가 들어 있는 칸. 없으면 운전 불가.</div></div>
+    <div class="c" style="--col:#4493f8"><div class="t">모터-리액터 <span class="en">Motor-Reactor</span> <span class="tag">필수</span></div><div class="d">동력원(심장). 에너지 로드로 가동. 적의 1순위 표적이라 <b>안쪽 깊숙이</b> 배치.</div></div>
+    <div class="c" style="--col:#4493f8"><div class="t">선장실 <span class="en">Captain Compartment</span> <span class="tag">필수</span></div><div class="d">부활 침대 + 나포 장치가 있는 칸. 파괴되면 리스폰 거점을 잃습니다.</div></div>
+    <div class="c" style="--col:#4493f8"><div class="t">입구 <span class="en">Entrance</span> <span class="tag">필수</span></div><div class="d">사다리로 갑판에 오르는 탑승 경로. 내부 동선의 시작점.</div></div>
+    <div class="c" style="--col:#6fb24a"><div class="t">승무원실 <span class="en">Crew Room</span></div><div class="d">침대 수 = <b>수용 인원</b>. 6인 풀스쿼드를 노린다면 크루룸을 충분히. 보딩 후 재탈환에도 유리.</div></div>
+  </div>
+  <figure>
+    <img src="assets/img/bp_panel.png" alt="구획 라이브러리 — 필수 구획">
+    <figcaption>구획 라이브러리의 <b>Essential</b> 카테고리(조향·모터리액터·선장실·입구·크루). 각 칸은 여러 변형이 있습니다.</figcaption>
+  </figure>
+</section>
+
+<section id="categories">
+  <h2>구획 카테고리</h2>
+  <p class="kicker">좌측 세로 탭으로 카테고리를 전환합니다.</p>
+  <div class="cards">
+    <div class="c" style="--col:#d9a84c"><div class="t">필수 <span class="en">Essentials</span></div><div class="d">섀시·조향·리액터·선장실·입구·크루 등 작동에 반드시 필요한 칸.</div></div>
+    <div class="c" style="--col:#6fa3bd"><div class="t">유틸리티 <span class="en">Utility</span></div><div class="d">삽·메드킷·연막탄 등 도구류와 보조 칸.</div></div>
+    <div class="c" style="--col:#c1572a"><div class="t">전투 <span class="en">Combat</span></div><div class="d">대포(40/70/80mm)·포 갑판·장갑·돌파장비 등 화력·방어.</div></div>
+    <div class="c" style="--col:#9a8358"><div class="t">갑판·프레임 <span class="en">Decks &amp; Frames</span></div><div class="d">층을 쌓는 구조물. 해치 프레임 위에 새 갑판을 올려 <b>다층</b> 구성. 돌출 지지용으로도 필수.</div></div>
+    <div class="c" style="--col:#b07d8a"><div class="t">발코니 <span class="en">Balconies</span></div><div class="d">구획 주변 이동을 돕는 가벼운 통로. 동선 개선용(약함).</div></div>
+    <div class="c" style="--col:#9a8358"><div class="t">화물 <span class="en">Cargo</span></div><div class="d">화물 갑판·적재고·화물칸. 전리품을 안전하게 보관(추출 인정 위치).</div></div>
+  </div>
+</section>
+
+<section id="stats">
+  <h2>스탯 읽는 법</h2>
+  <div class="tw"><table>
+    <thead><tr><th>스탯</th><th>의미 (인게임 표기 해석)</th></tr></thead>
+    <tbody>
+      <tr><td>기동성 <span class="en">Maneuverability</span></td><td>회전·민첩성. 높을수록 잘 돌고 빠르게 대응. 무게가 늘면 떨어짐.</td></tr>
+      <tr><td>에너지 효율 <span class="en">Energy Efficiency</span></td><td>같은 연료로 더 멀리/오래 주행. 높을수록 에너지 로드가 오래 감.</td></tr>
+      <tr><td>무게 <span class="en">Weight</span></td><td><b>현재 무게 / 섀시 한도</b>(예: 6400 / 20000). 한도를 넘으면 빌드 불가. 무거울수록 느려짐.</td></tr>
+      <tr><td>안정성 <span class="en">Stability Impact</span></td><td>지형·반동에 흔들리는 정도. 무게 분포·중심과 관련.</td></tr>
+      <tr><td>최고 속도 <span class="en">Top Speed</span></td><td>상대값(%). 100%가 기준. 엔진/무게가 영향.</td></tr>
+      <tr><td>Crew / Cannons / Cargo / Engines</td><td>각각 수용 승무원·장착 대포·화물칸·엔진 <b>개수</b>.</td></tr>
+      <tr><td>제작비 <span class="en">Building Cost</span></td><td>이 설계를 실제로 짓는 비용 — <b>크라운 + 재료</b>(예: 크라운 145 + …).</td></tr>
+    </tbody>
+  </table></div>
+  <figure>
+    <img src="assets/img/bp_stats.png" alt="블루프린트 스탯 패널">
+    <figcaption>우측 스탯 패널 예시. 막대가 길수록 좋은 값. <b>무게는 한도(6400/20000) 안에서</b> 관리하세요.</figcaption>
+  </figure>
+  <div class="warn"><b>무게 vs 기동성.</b> 장갑·대포·화물을 더 얹을수록 튼튼하고 화력은 세지만 <b>무게↑ → 기동성·속도↓</b>. 솔로는 과적(overbuild) 금지 — 도망칠 속도가 생존입니다.</div>
+</section>
+
+<section id="valid">
+  <h2>빌드 검증 규칙</h2>
+  <p class="kicker">우하단 경고가 <b>모두 충족(초록)</b>이어야 출격할 수 있습니다. 빨강이면 그 항목을 고쳐야 해요.</p>
+  <div class="cards">
+    <div class="c" style="--col:#c1572a"><div class="t">구조 <span class="en">Structure</span></div><div class="d">모든 칸이 <b>서로 연결·지지</b>돼야 함. 떠 있거나 끊긴 조각이 있으면 실패 → 프레임/갑판으로 이어 붙이기.</div></div>
+    <div class="c" style="--col:#c1572a"><div class="t">돌출 <span class="en">Overhang</span></div><div class="d">받쳐주는 구조 없이 너무 <b>튀어나온 칸</b>은 불가. 아래에 <b>지지 프레임</b>을 깔아 받치세요.</div></div>
+    <div class="c" style="--col:#c1572a"><div class="t">도달성 <span class="en">Reachability</span></div><div class="d">승무원이 <b>입구→복도·계단</b>으로 모든 칸에 걸어갈 수 있어야 함. 고립된 방은 복도/사다리로 연결.</div></div>
+    <div class="c" style="--col:#c1572a"><div class="t">유틸리티 구획 <span class="en">Utility Compartments</span></div><div class="d">필요한 <b>유틸리티/필수 칸</b>이 빠졌을 때 경고. 누락된 카테고리(예: 크루룸·저장 등)를 채우면 해제.</div></div>
+  </div>
+  <div class="note">검증 규칙의 정확한 판정 기준은 <b>인게임 표기</b> 해석입니다(EA — 변동 가능). 경고를 클릭하면 보통 문제 위치가 강조됩니다.</div>
+</section>
+
+<section id="archetype">
+  <h2>빌드 원형 &amp; 팁</h2>
+  <div class="cards">
+    <div class="c" style="--col:#6fa3bd"><div class="t">솔로 정찰형</div><div class="d">가벼운 섀시 + 최소 구획 + 1~2 대포. <b>기동성·속도 우선</b>. 조타·리액터·대포를 <b>가까이</b> 모아 혼자 다 관리. 부서져도 싸게 재건.</div></div>
+    <div class="c" style="--col:#9a8358"><div class="t">화물 운반형</div><div class="d">중·대형 섀시 + <b>화물칸 多</b>. 약탈 효율 최고지만 느리고 표적이 큼. 호위(크루)와 함께.</div></div>
+    <div class="c" style="--col:#c1572a"><div class="t">전투 요새형</div><div class="d">장갑·대포 중무장 + 크루룸 多. 거점 방어·교전에 강함. 대신 매우 느림 — 폭풍 탈주엔 불리.</div></div>
+  </div>
+  <ul>
+    <li><strong>리액터·저장고는 중앙 깊숙이</strong>, 외곽엔 더미 칸·장갑으로 완충. 리액터를 후미에 두지 말 것.</li>
+    <li><strong>멀티 침대 크루룸</strong>이면 보딩당해도 재탈환·재스폰이 강함.</li>
+    <li><strong>자원의 40% 이상 한 대에 몰빵 금지</strong> — 예비 1~2대를 싸게 굴리면 한 번 잃어도 회복 빠름. <em>(커뮤니티 권장)</em></li>
+    <li>좋은 설계는 <strong>블루프린트로 저장</strong> → 부서져도 즉시 재건. 설계도는 계정 전체 공유.</li>
+  </ul>
+  <div class="goal">초보 추천: <b>가볍고 싼 중형</b>으로 시작하세요. 커뮤니티에서 자주 거론되는 <span class="k">Grumpy Walker</span> 류(제작비 ≈ 300크라운대, Crew 3·Cannons 2)가 무난합니다. 기성 설계도(예: Nervous Bug / Dusty Sentinel / Stoic Pilgrim)도 좋은 출발점.</div>
+</section>
+
+</main>
+
+<div id="lb"><img alt="확대 이미지"></div>
+<footer><div class="in">
+  <p><b>데이터 출처.</b> 본 공략은 사용자 인게임 에디터 스크린샷(1차)과 본 가이드 지식베이스를 근거로 작성했습니다. 스탯·검증 규칙의 세부 의미는 인게임 표기 해석이며, 얼리액세스(2026-06-22) 기준이라 패치로 바뀔 수 있습니다 — 인게임 확인 권장.</p>
+  <p>비공식 팬 가이드 · 게임의 모든 권리는 Hologryph·TowerHaus·tinyBuild에 있습니다.</p>
+</div></footer>
+<script>
+(function(){var lb=document.getElementById('lb'),li=lb.querySelector('img');
+[].slice.call(document.querySelectorAll('figure img')).forEach(function(im){im.addEventListener('click',function(){li.src=im.src;lb.classList.add('on');});});
+function close(){lb.classList.remove('on');li.removeAttribute('src');}
+lb.addEventListener('click',close);document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});})();
+</script>
+</body></html>

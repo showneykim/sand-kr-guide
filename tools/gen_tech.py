@@ -221,7 +221,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 <body>
 <div class="topbar"><div class="in">
   <span class="brand">SAND</span>
-  <div class="tabs"><a href="index.html">입문 가이드</a><a class="on" href="tech.html">테크트리</a><a href="items.html">아이템 도감</a></div>
+  <div class="tabs"><a href="index.html">입문 가이드</a><a class="on" href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a></div>
 </div></div>
 
 <header class="h">
