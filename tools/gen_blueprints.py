@@ -43,6 +43,11 @@ def stat_rows(slug):
 CAT_ORDER = ["섀시","동력","조향","대포·포","무기·공성","장갑","화물·보관","승무원·생활","구조·이동","도구·유틸","기타"]
 CAT_COL = {"섀시":"#4493f8","동력":"#d9a84c","조향":"#6fa3bd","대포·포":"#c1572a","무기·공성":"#cf6a4a",
            "장갑":"#9a8358","화물·보관":"#e3a008","승무원·생활":"#8aae66","구조·이동":"#b07d8a","도구·유틸":"#6fb24a","기타":"#7d6f56"}
+CMP = {  # 카테고리별 비교 핵심 스탯(컬럼)
+ "섀시":["적재 한도","에너지 소모","치수"],"동력":["내구도","무게","에너지 용량"],"조향":["내구도","무게","에너지 소모"],
+ "대포·포":["피해","사거리","재장전"],"무기·공성":["피해","사거리","무게"],"장갑":["내구도","무게"],
+ "화물·보관":["적재 슬롯","무게","내구도"],"승무원·생활":["승무원 슬롯","내구도","무게"],
+ "구조·이동":["내구도","무게","치수"],"도구·유틸":["내구도","무게"],"기타":["내구도","무게"]}
 
 def esc(s): return html.escape(str(s or ""))
 from collections import Counter, defaultdict
@@ -70,11 +75,12 @@ def card(p, i):
             f'<span class="it-d">{esc(snip)}</span></span></button>')
 
 cards_html = "\n".join(card(p, i) for i, p in enumerate(P))
-fbtns = '<button class="fbtn active" data-f="all" aria-pressed="true">전체</button>' + "".join(
-    f'<button class="fbtn" data-f="{esc(c)}" aria-pressed="false" style="--col:{CAT_COL[c]}">{esc(c)}</button>'
-    for c in CAT_ORDER if G.get(c))
+fbtns = (f'<button class="fcat active" data-f="all" aria-pressed="true" style="--col:#d9a84c"><span class="dot"></span>전체<span class="n">{len(P)}</span></button>' + "".join(
+    f'<button class="fcat" data-f="{esc(c)}" aria-pressed="false" style="--col:{CAT_COL[c]}"><span class="dot"></span>{esc(c)}<span class="n">{len(G[c])}</span></button>'
+    for c in CAT_ORDER if G.get(c)))
 total = len(P)
 DETAIL_JSON = json.dumps(DETAIL, ensure_ascii=False)
+CMP_JSON = json.dumps(CMP, ensure_ascii=False)
 
 HTML = f'''<!DOCTYPE html>
 <html lang="ko"><head>
@@ -120,8 +126,18 @@ details.guide .gb b{{color:#d6c4a0}}details.guide .gb code{{font-family:"Oswald"
 .fbtn[data-f]:not([data-f=all]){{border-color:var(--edge2);border-color:color-mix(in srgb,var(--col) 55%,var(--edge2))}}
 .fbtn.active{{color:#fff;border-color:var(--col,var(--brass));background:rgba(217,168,76,.22);background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent)}}
 #count{{font-size:12.5px;color:var(--muted);margin-left:auto;white-space:nowrap}}
-main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px}}
-.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:11px}}
+main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px;display:grid;grid-template-columns:204px 1fr;gap:20px;align-items:start}}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px}}
+.sidebar{{position:sticky;top:112px;align-self:start}}
+.sb-h{{font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase;padding:0 11px 8px}}
+.sidebar-in{{display:flex;flex-direction:column;gap:3px}}
+.fcat{{display:flex;align-items:center;gap:9px;width:100%;text-align:left;font-family:inherit;font-size:13.5px;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:7px;padding:8px 11px;cursor:pointer}}
+.fcat:hover{{color:var(--ink);background:rgba(255,255,255,.025)}}
+.fcat .dot{{width:9px;height:9px;border-radius:50%;background:var(--col,var(--brass));flex:none;box-shadow:0 0 6px var(--col,transparent)}}
+.fcat .n{{margin-left:auto;font-size:11px;color:var(--faint);font-family:"Oswald",sans-serif}}
+.fcat.active{{color:#fff;background:color-mix(in srgb,var(--col,#d9a84c) 16%,transparent);border-color:color-mix(in srgb,var(--col,#d9a84c) 45%,var(--edge2))}}
+.fcat.active .n{{color:var(--ink)}}
+@media(max-width:760px){{main{{grid-template-columns:1fr;gap:12px}}.sidebar{{position:static;top:auto}}.sb-h{{display:none}}.sidebar-in{{flex-direction:row;flex-wrap:wrap;gap:6px}}.fcat{{width:auto;padding:6px 11px;border:1px solid var(--edge2);border-radius:999px;font-size:12.5px}}.fcat .n{{margin-left:5px;color:var(--faint)}}}}
 .it{{display:flex;gap:10px;align-items:center;text-align:left;font-family:inherit;cursor:pointer;
  background:linear-gradient(180deg,#241b11,#191309);border:1px solid var(--edge);border-left:3px solid var(--col);
  border-radius:8px;padding:8px 10px;transition:transform .08s,border-color .12s,box-shadow .12s;color:var(--ink)}}
@@ -159,6 +175,14 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px}}
 #mod .mchip{{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);background:#0d0a06;border:1px solid var(--edge2);border-radius:6px;padding:3px 9px 3px 5px}}
 #mod .mchip img{{width:17px;height:17px;object-fit:contain}}#mod .mchip b{{color:var(--brass);font-family:"Oswald",sans-serif;margin-left:1px}}
 #mod .cost{{display:inline-flex;align-items:center;gap:6px;font-family:"Oswald",sans-serif;color:var(--brass);font-weight:700;font-size:15px}}#mod .cost img{{width:18px;height:18px;object-fit:contain}}
+#mod .cmpw{{max-height:262px;overflow:auto;border:1px solid var(--edge);border-radius:7px}}
+#mod table.cmp{{border-collapse:collapse;width:100%;font-size:12px;min-width:0}}
+#mod .cmp th{{position:sticky;top:0;z-index:1;background:#2a2110;color:var(--brass);font-family:"Oswald",sans-serif;font-weight:600;font-size:10px;letter-spacing:.03em;padding:6px 9px;text-align:right;white-space:nowrap}}
+#mod .cmp th:first-child{{text-align:left}}
+#mod .cmp td{{padding:6px 9px;border-top:1px solid var(--edge);text-align:right;color:var(--ink);font-family:"Oswald",sans-serif;white-space:nowrap}}
+#mod .cmp td:first-child{{text-align:left;font-family:"Pretendard",sans-serif;color:var(--muted);max-width:168px;overflow:hidden;text-overflow:ellipsis}}
+#mod .cmp tr[data-i]{{cursor:pointer}}#mod .cmp tr[data-i]:hover td{{background:rgba(217,168,76,.07)}}
+#mod .cmp tr.cur td{{background:rgba(217,168,76,.16)}}#mod .cmp tr.cur td:first-child{{color:#fff;font-weight:600}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
 footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}}footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </style></head>
@@ -189,13 +213,15 @@ footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--mu
 
 <div class="ctrl"><div class="in">
   <input id="q" type="search" aria-label="부품 검색" placeholder="검색 — 부품명·카테고리·설명 (예: 섀시, 캐논, reactor)" autocomplete="off">
-  <div class="fbtns">{fbtns}</div>
   <span id="count"></span>
 </div></div>
 
-<main><div class="grid" id="grid">
+<main>
+  <aside class="sidebar"><div class="sb-h">부품 분류</div><div class="sidebar-in">{fbtns}</div></aside>
+  <div class="grid" id="grid">
 {cards_html}
-</div></main>
+  </div>
+</main>
 
 <div id="ov" role="dialog" aria-modal="true"><div id="mod"></div></div>
 
@@ -206,6 +232,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--mu
 
 <script>
 var PARTS={DETAIL_JSON};
+var CMP={CMP_JSON};
 (function(){{
   var cards=[].slice.call(document.querySelectorAll('.it'));
   var q=document.getElementById('q'),count=document.getElementById('count'),grid=document.getElementById('grid'),fsel='all';
@@ -221,9 +248,9 @@ var PARTS={DETAIL_JSON};
     count.textContent=shown+' / '+cards.length+' 부품';
   }}
   q.addEventListener('input',apply);
-  [].slice.call(document.querySelectorAll('.fbtn')).forEach(function(b){{
+  [].slice.call(document.querySelectorAll('.fcat')).forEach(function(b){{
     b.addEventListener('click',function(){{
-      document.querySelectorAll('.fbtn').forEach(function(x){{x.classList.remove('active');x.setAttribute('aria-pressed','false');}});
+      document.querySelectorAll('.fcat').forEach(function(x){{x.classList.remove('active');x.setAttribute('aria-pressed','false');}});
       b.classList.add('active');b.setAttribute('aria-pressed','true');fsel=b.dataset.f;apply();
     }});
   }});
@@ -232,6 +259,17 @@ var PARTS={DETAIL_JSON};
   function esc(s){{return String(s==null?'':s).replace(/[&<>]/g,function(c){{return {{'&':'&amp;','<':'&lt;','>':'&gt;'}}[c];}});}}
   function chips(arr){{return '<div class="chips">'+arr.map(function(r){{return '<span class="mchip"><img src="assets/tech_icons/'+esc(r[2])+'" alt="">'+esc(r[0])+' <b>×'+esc(r[1])+'</b></span>';}}).join('')+'</div>';}}
   function statRows(arr){{return arr.map(function(s){{var bar=s[2]>0?'<span class="bar"><i style="width:'+s[2]+'%"></i></span>':'';return '<div class="strow"><span class="sk">'+esc(s[0])+'</span><span class="sv">'+esc(s[1])+'</span>'+bar+'</div>';}}).join('');}}
+  function valOf(g,lab){{for(var i=0;i<g.stats.length;i++){{if(g.stats[i][0]===lab)return g.stats[i][1];}}return '—';}}
+  function numOf(g,lab){{var v=valOf(g,lab);var m=String(v).match(/[0-9.,]+/);return m?parseFloat(m[0].replace(/,/g,'')):-1;}}
+  function compareTable(ci){{
+    var d=PARTS[ci],cat=d.cat,cols=CMP[cat]||['내구도','무게'],grp=[];
+    for(var i=0;i<PARTS.length;i++){{if(PARTS[i].cat===cat)grp.push(i);}}
+    if(grp.length<2)return '';
+    grp.sort(function(a,b){{return numOf(PARTS[b],cols[0])-numOf(PARTS[a],cols[0]);}});
+    var hd='<tr><th>부품</th>'+cols.map(function(c){{return '<th>'+esc(c)+'</th>';}}).join('')+'</tr>';
+    var rows=grp.map(function(gi){{var g=PARTS[gi];return '<tr data-i="'+gi+'"'+(gi===ci?' class="cur"':'')+'><td>'+esc(g.name)+'</td>'+cols.map(function(c){{return '<td>'+esc(valOf(g,c))+'</td>';}}).join('')+'</tr>';}}).join('');
+    return '<div class="sec">비교 · 같은 분류 ('+grp.length+'개)</div><div class="cmpw"><table class="cmp">'+hd+rows+'</table></div>';
+  }}
   function open(i){{
     var d=PARTS[i]; if(!d)return; _prev=document.activeElement;
     mod.style.setProperty('--col',d.col);
@@ -242,9 +280,11 @@ var PARTS={DETAIL_JSON};
     h+='<div class="row"><span class="k">연구</span><span class="v">'+esc(d.fac)+' · '+esc(d.node)+' · T'+esc(d.tier)+'</span></div>';
     h+='<div class="row"><span class="k">비용</span><span class="cost"><img src="assets/tech_icons/icon_item_coinCrown.png" alt="">'+esc(d.crowns.toLocaleString('en-US'))+'</span></div>';
     if(d.mats&&d.mats.length){{ h+='<div class="sec">추가 재료</div>'+chips(d.mats); }}
+    h+=compareTable(i);
     h+='</div>';
     mod.innerHTML=h; ov.classList.add('on');
     mod.querySelector('.m-x').addEventListener('click',close);
+    [].slice.call(mod.querySelectorAll('.cmp tr[data-i]')).forEach(function(tr){{tr.addEventListener('click',function(){{open(+tr.dataset.i);}});}});
     mod.scrollTop=0; mod.querySelector('.m-x').focus();
   }}
   function close(){{ ov.classList.remove('on'); if(_prev&&_prev.focus)_prev.focus(); }}
@@ -255,6 +295,7 @@ var PARTS={DETAIL_JSON};
 </script>
 </body></html>'''
 HTML = HTML.replace('{DETAIL_JSON}', DETAIL_JSON)
+HTML = HTML.replace('{CMP_JSON}', json.dumps(CMP, ensure_ascii=False))
 HTML = HTML.replace('font-family:"Oswald"', 'font-family:"Oswald",sans-serif')
 open(os.path.join(ROOT, "blueprints.html"), "w", encoding="utf-8").write(HTML)
 print("wrote blueprints.html", len(HTML), "bytes ;", total, "parts")
