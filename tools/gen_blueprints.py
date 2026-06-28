@@ -5,6 +5,21 @@ import json, html, os
 ROOT = os.path.expanduser("~/sand-kr-guide")
 P = json.load(open(os.path.join(ROOT, "tools/parts_data.json")))["parts"]
 
+# 인게임 블루프린트 에디터에 '배치하는' 트램플러 부품만 남긴다.
+# 테크트리 해금에 따라온 휴대 아이템·탄약·원자재·의류·소모품은 에디터 부품이 아니므로 제외(아이템 도감에 존재).
+NOT_PARTS = {
+ "med-kit", "energy-bar", "smokeless-energy-bar", "treasure-shovel",
+ "resource-fabric-scraps", "resource-threads", "resource-metal-t2", "resource-metal-t3",
+ "old-jacket", "old-jacket-t2", "smoke-grenade", "rifle-musket", "shotgun-handmade",
+ "c4-dynamite", "semi-automatic-pistol", "repeater-rifle", "grenade-contact",
+ "pistol-ammo-high-velocity", "rifle-ammo-high-velocity", "shotgun",
+ "shotgun-turret-ammo", "small-cannon-ammo",
+}
+P = [p for p in P if p["slug"] not in NOT_PARTS]
+for _p in P:  # 밀폐 포실(장갑 포 구조물) → 대포·포로 재분류 (단독 '기타' 제거)
+    if _p["slug"] == "sgow-universal-casemate":
+        _p["cat"] = "대포·포"
+
 import re as _re
 _SP = os.path.join(ROOT, "tools/parts_stats.json")
 STATS = {x["slug"]: x["stats"] for x in (json.load(open(_SP))["items"] if os.path.exists(_SP) else [])}
@@ -46,6 +61,13 @@ def stat_rows(slug):
 CAT_ORDER = ["섀시","동력","조향","대포·포","무기·공성","장갑","화물·보관","승무원·생활","구조·이동","도구·유틸","기타"]
 CAT_COL = {"섀시":"#4493f8","동력":"#d9a84c","조향":"#6fa3bd","대포·포":"#c1572a","무기·공성":"#cf6a4a",
            "장갑":"#9a8358","화물·보관":"#e3a008","승무원·생활":"#8aae66","구조·이동":"#b07d8a","도구·유틸":"#6fb24a","기타":"#7d6f56"}
+# 대 카테고리 — 인게임 에디터처럼 좌측에 두는 상위 분류. 세부 분류(위 CAT)는 상단 태그로 유지.
+MAJOR_OF = {"섀시":"차대·동력","동력":"차대·동력","구조·이동":"이동·구조","조향":"이동·구조",
+            "화물·보관":"화물·생활","승무원·생활":"화물·생활","대포·포":"무장","무기·공성":"무장",
+            "장갑":"장갑","도구·유틸":"유틸리티","기타":"유틸리티"}
+MAJOR_ORDER = ["차대·동력","이동·구조","화물·생활","무장","장갑","유틸리티"]
+MAJOR_COL = {"차대·동력":"#4493f8","이동·구조":"#b07d8a","화물·생활":"#e3a008","무장":"#c1572a","장갑":"#9a8358","유틸리티":"#6fb24a"}
+def major_of(cat): return MAJOR_OF.get(cat, "유틸리티")
 # 비교 컬럼: 카테고리별로 데이터에 실제 존재하는 스탯 상위 3개(치수는 후순위)
 _catlab = _co.defaultdict(_co.Counter)
 for _p in P:
@@ -95,16 +117,24 @@ def card(p, i):
     snip = (p["desc"] or "")[:44]
     col = CAT_COL.get(p["cat"], "#d9a84c")
     key = (p["name"] + " " + p["cat"] + " " + (p["desc"] or "") + " " + p["node"]).lower()
-    return (f'<button class="it" data-i="{i}" data-cat="{esc(p["cat"])}" data-s="{esc(key)}" style="--col:{col}">'
+    return (f'<button class="it" data-i="{i}" data-cat="{esc(p["cat"])}" data-major="{esc(major_of(p["cat"]))}" data-s="{esc(key)}" style="--col:{col}">'
             f'<img class="it-ic" src="assets/tech_icons/{esc(p["icon"])}" alt="" loading="lazy" decoding="async">'
             f'<span class="it-body"><span class="it-n">{esc(p["name"])}</span>'
             f'<span class="it-c">{esc(p["cat"])} · T{esc(p["tier"])}</span>'
             f'<span class="it-d">{esc(snip)}</span></span></button>')
 
 cards_html = "\n".join(card(p, i) for i, p in enumerate(P))
-fbtns = (f'<button class="fcat active" data-f="all" aria-pressed="true" style="--col:#d9a84c"><span class="dot"></span>전체<span class="n">{len(P)}</span></button>' + "".join(
-    f'<button class="fcat" data-f="{esc(c)}" aria-pressed="false" style="--col:{CAT_COL[c]}"><span class="dot"></span>{esc(c)}<span class="n">{len(G[c])}</span></button>'
-    for c in CAT_ORDER if G.get(c)))
+
+# 좌측 = 대 카테고리(상위 분류)
+GM = defaultdict(list)
+for p in P: GM[major_of(p["cat"])].append(p)
+fcats = (f'<button class="fcat active" data-major="all" aria-pressed="true" style="--col:#d9a84c"><span class="dot"></span>전체<span class="n">{len(P)}</span></button>' + "".join(
+    f'<button class="fcat" data-major="{esc(m)}" aria-pressed="false" style="--col:{MAJOR_COL[m]}"><span class="dot"></span>{esc(m)}<span class="n">{len(GM[m])}</span></button>'
+    for m in MAJOR_ORDER if GM.get(m)))
+# 상단 = 세부 분류 태그(대 카테고리 선택 시 해당 그룹만 노출)
+ftags = '<button class="ftag active" data-detail="all" data-major="all" aria-pressed="true">전체</button>' + "".join(
+    f'<button class="ftag" data-detail="{esc(c)}" data-major="{esc(major_of(c))}" aria-pressed="false" style="--col:{CAT_COL[c]}">{esc(c)}<span class="n">{len(G[c])}</span></button>'
+    for c in CAT_ORDER if G.get(c))
 total = len(P)
 DETAIL_JSON = json.dumps(DETAIL, ensure_ascii=False)
 CMP_JSON = json.dumps(CMP, ensure_ascii=False)
@@ -154,7 +184,15 @@ details.guide .gb b{{color:#d6c4a0}}details.guide .gb code{{font-family:"Oswald"
 .fbtn.active{{color:#fff;border-color:var(--col,var(--brass));background:rgba(217,168,76,.22);background:color-mix(in srgb,var(--col,#d9a84c) 26%,transparent)}}
 #count{{font-size:12.5px;color:var(--muted);margin-left:auto;white-space:nowrap}}
 main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px;display:grid;grid-template-columns:204px 1fr;gap:20px;align-items:start}}
+.content{{min-width:0}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px}}
+.ftags{{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}}
+.ftag{{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:1px solid var(--edge2);border-radius:999px;padding:5px 12px;cursor:pointer;transition:color .12s,border-color .12s,background .12s}}
+.ftag .n{{font-size:10.5px;color:var(--faint);font-family:"Oswald",sans-serif}}
+.ftag:hover{{color:var(--ink);border-color:color-mix(in srgb,var(--col,#d9a84c) 50%,var(--edge2))}}
+.ftag.active{{color:#fff;border-color:var(--col,#d9a84c);background:color-mix(in srgb,var(--col,#d9a84c) 22%,transparent)}}
+.ftag.active .n{{color:var(--ink)}}
+.ftag.thide{{display:none}}
 .sidebar{{position:sticky;top:128px;align-self:start}}
 .sb-h{{font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase;padding:0 11px 8px}}
 .sidebar-in{{display:flex;flex-direction:column;gap:3px}}
@@ -246,9 +284,12 @@ footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--mu
 </div></div>
 
 <main>
-  <aside class="sidebar"><div class="sb-h">부품 분류</div><div class="sidebar-in">{fbtns}</div></aside>
-  <div class="grid" id="grid">
+  <aside class="sidebar"><div class="sb-h">대 분류</div><div class="sidebar-in">{fcats}</div></aside>
+  <div class="content">
+    <div class="ftags" id="ftags" role="group" aria-label="세부 분류">{ftags}</div>
+    <div class="grid" id="grid">
 {cards_html}
+    </div>
   </div>
 </main>
 
@@ -264,24 +305,34 @@ var PARTS={DETAIL_JSON};
 var CMP={CMP_JSON};
 (function(){{
   var cards=[].slice.call(document.querySelectorAll('.it'));
-  var q=document.getElementById('q'),count=document.getElementById('count'),grid=document.getElementById('grid'),fsel='all';
+  var q=document.getElementById('q'),count=document.getElementById('count'),grid=document.getElementById('grid');
+  var maj='all',det='all';
   var emptyEl=document.createElement('p');emptyEl.className='empty';emptyEl.setAttribute('role','status');
   emptyEl.textContent='검색 결과가 없습니다.';emptyEl.style.display='none';emptyEl.style.gridColumn='1/-1';grid.appendChild(emptyEl);
   function apply(){{
     var term=q.value.trim().toLowerCase(),shown=0;
     cards.forEach(function(c){{
-      var ok=(fsel==='all'||c.dataset.cat===fsel)&&(!term||c.dataset.s.indexOf(term)>=0);
+      var ok=(maj==='all'||c.dataset.major===maj)&&(det==='all'||c.dataset.cat===det)&&(!term||c.dataset.s.indexOf(term)>=0);
       c.classList.toggle('hide',!ok); if(ok)shown++;
     }});
     emptyEl.style.display=shown?'none':'block';
     count.textContent=shown+' / '+cards.length+' 부품';
   }}
+  function setActive(sel,el){{ document.querySelectorAll(sel).forEach(function(x){{x.classList.remove('active');x.setAttribute('aria-pressed','false');}}); el.classList.add('active');el.setAttribute('aria-pressed','true'); }}
+  function syncTags(){{
+    var allTag=document.querySelector('.ftag[data-detail="all"]');
+    [].slice.call(document.querySelectorAll('.ftag')).forEach(function(t){{
+      var show=(maj==='all')||t.dataset.detail==='all'||t.dataset.major===maj;
+      t.classList.toggle('thide',!show);
+    }});
+    setActive('.ftag',allTag); det='all';
+  }}
   q.addEventListener('input',apply);
   [].slice.call(document.querySelectorAll('.fcat')).forEach(function(b){{
-    b.addEventListener('click',function(){{
-      document.querySelectorAll('.fcat').forEach(function(x){{x.classList.remove('active');x.setAttribute('aria-pressed','false');}});
-      b.classList.add('active');b.setAttribute('aria-pressed','true');fsel=b.dataset.f;apply();
-    }});
+    b.addEventListener('click',function(){{ setActive('.fcat',b); maj=b.dataset.major; syncTags(); apply(); }});
+  }});
+  [].slice.call(document.querySelectorAll('.ftag')).forEach(function(t){{
+    t.addEventListener('click',function(){{ setActive('.ftag',t); det=t.dataset.detail; apply(); }});
   }});
   apply();
   var ov=document.getElementById('ov'),mod=document.getElementById('mod'),_prev=null;
