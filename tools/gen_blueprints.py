@@ -23,31 +23,58 @@ BAR = {"내구도","무게","에너지 소모","적재 한도","에너지 용량
 def _num(v):
     m = _re.match(r'^\s*([\d,]+(?:\.\d+)?)', str(v))
     return float(m.group(1).replace(',','')) if m else None
+import collections as _co
 def _norm(slug):
     r=[]
     for s in STATS.get(slug, []):
-        lab = STAT_KO.get(s["label"], s["label"]); val = SVAL_KO.get(s["value"], s["value"])
+        lab = STAT_KO.get(s["label"], s["label"])
+        val = SVAL_KO.get(s["value"], str(s["value"]).replace("delay", "지연"))
         r.append((lab, val, _num(s["value"]) if lab in BAR else None))
     return r
-_MAX = {}
+_MAX = {}; _CNT = _co.Counter()
 for _sl in STATS:
     for lab, val, n in _norm(_sl):
-        if n is not None: _MAX[lab] = max(_MAX.get(lab, 0), n)
+        if n is not None:
+            _MAX[lab] = max(_MAX.get(lab, 0), n); _CNT[lab] += 1
 def stat_rows(slug):
     out=[]
     for lab, val, n in _norm(slug):
-        pct = round(n/_MAX[lab]*100) if (n is not None and _MAX.get(lab,0) > 0) else 0
+        pct = round(n/_MAX[lab]*100) if (n is not None and _CNT[lab] >= 3 and _MAX.get(lab,0) > 0) else 0
         out.append([lab, val, pct])
     return out
 
 CAT_ORDER = ["섀시","동력","조향","대포·포","무기·공성","장갑","화물·보관","승무원·생활","구조·이동","도구·유틸","기타"]
 CAT_COL = {"섀시":"#4493f8","동력":"#d9a84c","조향":"#6fa3bd","대포·포":"#c1572a","무기·공성":"#cf6a4a",
            "장갑":"#9a8358","화물·보관":"#e3a008","승무원·생활":"#8aae66","구조·이동":"#b07d8a","도구·유틸":"#6fb24a","기타":"#7d6f56"}
-CMP = {  # 카테고리별 비교 핵심 스탯(컬럼)
- "섀시":["적재 한도","에너지 소모","치수"],"동력":["내구도","무게","에너지 용량"],"조향":["내구도","무게","에너지 소모"],
- "대포·포":["피해","사거리","재장전"],"무기·공성":["피해","사거리","무게"],"장갑":["내구도","무게"],
- "화물·보관":["적재 슬롯","무게","내구도"],"승무원·생활":["승무원 슬롯","내구도","무게"],
- "구조·이동":["내구도","무게","치수"],"도구·유틸":["내구도","무게"],"기타":["내구도","무게"]}
+# 비교 컬럼: 카테고리별로 데이터에 실제 존재하는 스탯 상위 3개(치수는 후순위)
+_catlab = _co.defaultdict(_co.Counter)
+for _p in P:
+    for _lab, _val, _pct in stat_rows(_p["slug"]):
+        _catlab[_p["cat"]][_lab] += 1
+CMP = {}
+for _c in CAT_ORDER:
+    _cands = [l for l, _ in _catlab[_c].most_common()]
+    _cands.sort(key=lambda l: (l == "치수", -_catlab[_c][l]))
+    CMP[_c] = _cands[:3] or ["내구도", "무게"]
+NODE_KO = {
+ "Stairs":"계단","Framed Stairs":"프레임 계단","Crew Room":"승무원실","Captain's Cabin":"선장실",
+ "Small Chassis":"소형 섀시","Middling Chassis":"중형 섀시","Great Chassis":"대형 섀시","Royal Chassis":"왕급 섀시",
+ "Motor-Reactor":"모터-리액터","Energy Rod":"에너지 로드","Smokeless Energy Rod":"무연 에너지 로드",
+ "Small Engine":"소형 엔진","Medium Engine":"중형 엔진","MedKit":"메드킷","Shovel":"삽",
+ "Wooden Corridor":"목재 복도","Metal Corridor":"금속 복도","Crafting Materials":"제작 재료","Smoke Grenade":"연막탄",
+ "Framed Steering":"프레임 조타","Steering":"조타","Large Open Steering":"대형 개방 조타","Large Framed Steering":"대형 프레임 조타",
+ "Small Armament Workshop":"소형 병기 공방","Large Armament Workshop":"대형 병기 공방","Artillery Decks":"포 갑판",
+ "Framed Artillery Deck":"프레임 포 갑판","Armored Artillery Decks":"장갑 포 갑판","Framed Armored Artillery Deck":"프레임 장갑 포 갑판",
+ "Armored Artillery Compartment":"장갑 포실","Enclosed Artillery Compartment":"밀폐 포실","Wooden Vestibule":"목재 진입구","Armored Vestibule":"장갑 진입구",
+ "Weapons":"무기","Armor":"장갑","Armor Plate":"장갑판","Improved Ammo":"개량탄","Time Bomb":"시한폭탄","Battering Ram":"충각","Embrasure":"총안","Grenade":"수류탄",
+ "Wooden Decks":"목재 갑판","Armored Deck":"장갑 갑판","Balconies":"발코니","Armored Balconies":"장갑 발코니",
+ "Cargo Deck":"화물 갑판","Cargo Hold":"화물 적재고","Cargo Bay":"화물칸","Cargo Compartment":"화물 구획",
+ "Shotgun Cannon":"샷건 캐논","Auto Cannon":"오토캐논","Autocannon":"오토캐논","Cannon":"캐논","Resources":"자원"}
+def ko_node(n):
+    m = _re.match(r'^(.*?)\s*\((.+)\)\s*$', str(n))
+    base, suf = (m.group(1), m.group(2)) if m else (n, None)
+    ko = NODE_KO.get(base, base)
+    return ko + (f" ({suf})" if suf else "")
 
 def esc(s): return html.escape(str(s or ""))
 from collections import Counter, defaultdict
@@ -61,7 +88,7 @@ for p in P:
         "name": p["name"], "cat": p["cat"], "col": CAT_COL.get(p["cat"], "#d9a84c"),
         "icon": "assets/tech_icons/" + p["icon"], "desc": p["desc"],
         "fac": p["faction"], "tier": p["tier"], "crowns": p["crowns"],
-        "mats": p["mats"], "node": p["node"], "stats": stat_rows(p["slug"]),
+        "mats": p["mats"], "node": ko_node(p["node"]), "stats": stat_rows(p["slug"]),
     })
 
 def card(p, i):
@@ -103,7 +130,7 @@ a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
 .tabs a{{font-size:13px;color:var(--muted);padding:6px 13px;border:1px solid var(--edge2);border-radius:6px}}
 .tabs a.on{{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}}
 .tabs a:hover{{text-decoration:none;color:var(--brass)}}.tabs a.on:hover{{color:var(--bg)}}
-@media(max-width:560px){{.topbar .in{{padding:9px 12px;gap:8px;flex-wrap:wrap}}.brand{{font-size:15px}}.tabs a{{padding:5px 9px;font-size:12px}}}}
+@media(max-width:560px){{.topbar .in{{padding:9px 12px;gap:8px;flex-wrap:wrap}}.brand{{font-size:15px}}.tabs a{{padding:5px 9px;font-size:12px}}.ctrl{{position:static}}}}
 header.h{{max-width:1180px;margin:0 auto;padding:28px 22px 6px}}
 header.h h1{{font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.04em;font-size:clamp(23px,4vw,32px);margin:0;color:#fff}}
 header.h .sub{{color:var(--muted);margin:8px 0 0;font-size:15px;max-width:820px}}
@@ -128,7 +155,7 @@ details.guide .gb b{{color:#d6c4a0}}details.guide .gb code{{font-family:"Oswald"
 #count{{font-size:12.5px;color:var(--muted);margin-left:auto;white-space:nowrap}}
 main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px;display:grid;grid-template-columns:204px 1fr;gap:20px;align-items:start}}
 .grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px}}
-.sidebar{{position:sticky;top:112px;align-self:start}}
+.sidebar{{position:sticky;top:128px;align-self:start}}
 .sb-h{{font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase;padding:0 11px 8px}}
 .sidebar-in{{display:flex;flex-direction:column;gap:3px}}
 .fcat{{display:flex;align-items:center;gap:9px;width:100%;text-align:left;font-family:inherit;font-size:13.5px;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:7px;padding:8px 11px;cursor:pointer}}
@@ -155,18 +182,18 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px;display:grid;grid-te
 #mod{{max-width:540px;width:100%;max-height:88vh;overflow:auto;background:linear-gradient(180deg,#251c12,#15100b);
  border:1px solid var(--edge2);border-left:4px solid var(--col,#d9a84c);border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}}
 #mod .m-h{{display:flex;gap:13px;align-items:center;padding:18px 20px 12px;position:sticky;top:0;background:linear-gradient(180deg,#251c12,#241b11);border-bottom:1px solid var(--edge)}}
-#mod .m-ic{{width:64px;height:64px;flex:none;object-fit:contain;padding:4px;border:1px solid var(--edge2);border-radius:9px;background:radial-gradient(circle at 50% 36%,rgba(255,255,255,.08),transparent 70%),#0d0a06}}
+#mod .m-ic{{width:64px;height:64px;flex:none;object-fit:contain;padding:4px;border:1px solid var(--edge2);border-radius:9px;background:linear-gradient(rgba(217,168,76,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(217,168,76,.05) 1px,transparent 1px),radial-gradient(circle at 50% 36%,rgba(255,255,255,.07),transparent 70%),#0d0a06;background-size:9px 9px,9px 9px,auto,auto}}
 #mod .m-tt{{flex:1;min-width:0}}#mod .m-n{{font-weight:700;font-size:16.5px;color:#fff;line-height:1.25}}
 #mod .m-c{{font-size:12px;color:var(--col,#d9a84c);font-weight:600;margin-top:2px}}
 #mod .m-x{{flex:none;background:transparent;border:1px solid var(--edge2);color:var(--muted);border-radius:7px;width:32px;height:32px;font-size:17px;cursor:pointer}}#mod .m-x:hover{{color:var(--brass);border-color:var(--brass)}}
 #mod .m-b{{padding:14px 20px 22px}}
 #mod .m-desc{{font-size:14px;color:var(--ink);line-height:1.65;margin:0 0 14px}}
 #mod .sec{{font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.06em;color:var(--faint);text-transform:uppercase;margin:16px 0 6px;border-bottom:1px solid var(--edge);padding-bottom:4px}}
-#mod .row{{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:3px 0;border-bottom:1px dashed rgba(79,58,33,.5)}}
+#mod .row{{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:4px 0;border-bottom:1px solid var(--edge)}}
 #mod .row:last-child{{border-bottom:0}}#mod .row .k{{color:var(--muted)}}#mod .row .v{{color:var(--ink);font-weight:600;font-family:"Oswald",sans-serif}}
 #mod .chips{{display:flex;flex-wrap:wrap;gap:6px}}
 #mod .chip{{font-size:12px;color:var(--ink);background:#0d0a06;border:1px solid var(--edge2);border-radius:6px;padding:3px 9px}}#mod .chip b{{color:var(--brass);font-family:"Oswald",sans-serif}}
-#mod .strow{{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px dashed rgba(79,58,33,.5)}}
+#mod .strow{{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:6px 0;border-bottom:1px solid var(--edge)}}
 #mod .strow:last-child{{border-bottom:0}}
 #mod .strow .sk{{color:var(--muted);font-size:13px;flex:1}}
 #mod .strow .sv{{font-family:"Oswald",sans-serif;color:#fff;font-weight:600;font-size:14px}}
@@ -183,6 +210,8 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px;display:grid;grid-te
 #mod .cmp td:first-child{{text-align:left;font-family:"Pretendard",sans-serif;color:var(--muted);max-width:168px;overflow:hidden;text-overflow:ellipsis}}
 #mod .cmp tr[data-i]{{cursor:pointer}}#mod .cmp tr[data-i]:hover td{{background:rgba(217,168,76,.07)}}
 #mod .cmp tr.cur td{{background:rgba(217,168,76,.16)}}#mod .cmp tr.cur td:first-child{{color:#fff;font-weight:600}}
+#mod .cmp td.win{{color:var(--brass);font-weight:600}}
+#mod .cmp tr[tabindex]:focus{{outline:2px solid var(--brass);outline-offset:-2px}}
 footer{{border-top:1px solid var(--edge);background:var(--bg2)}}
 footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--muted);font-size:12px;line-height:1.65}}footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 </style></head>
@@ -237,7 +266,7 @@ var CMP={CMP_JSON};
   var cards=[].slice.call(document.querySelectorAll('.it'));
   var q=document.getElementById('q'),count=document.getElementById('count'),grid=document.getElementById('grid'),fsel='all';
   var emptyEl=document.createElement('p');emptyEl.className='empty';emptyEl.setAttribute('role','status');
-  emptyEl.textContent='검색 결과가 없습니다.';emptyEl.style.display='none';grid.parentNode.appendChild(emptyEl);
+  emptyEl.textContent='검색 결과가 없습니다.';emptyEl.style.display='none';emptyEl.style.gridColumn='1/-1';grid.appendChild(emptyEl);
   function apply(){{
     var term=q.value.trim().toLowerCase(),shown=0;
     cards.forEach(function(c){{
@@ -263,17 +292,18 @@ var CMP={CMP_JSON};
   function numOf(g,lab){{var v=valOf(g,lab);var m=String(v).match(/[0-9.,]+/);return m?parseFloat(m[0].replace(/,/g,'')):-1;}}
   function compareTable(ci){{
     var d=PARTS[ci],cat=d.cat,cols=CMP[cat]||['내구도','무게'],grp=[];
-    for(var i=0;i<PARTS.length;i++){{if(PARTS[i].cat===cat)grp.push(i);}}
-    if(grp.length<2)return '';
+    for(var i=0;i<PARTS.length;i++){{if(PARTS[i].cat===cat&&cols.some(function(c){{return valOf(PARTS[i],c)!=='—';}}))grp.push(i);}}
+    if(grp.length<2||grp.indexOf(ci)<0)return '';
     grp.sort(function(a,b){{return numOf(PARTS[b],cols[0])-numOf(PARTS[a],cols[0]);}});
+    var mx={{}};cols.forEach(function(c){{var m=-Infinity;grp.forEach(function(gi){{var n=numOf(PARTS[gi],c);if(n>m)m=n;}});mx[c]=m;}});
     var hd='<tr><th>부품</th>'+cols.map(function(c){{return '<th>'+esc(c)+'</th>';}}).join('')+'</tr>';
-    var rows=grp.map(function(gi){{var g=PARTS[gi];return '<tr data-i="'+gi+'"'+(gi===ci?' class="cur"':'')+'><td>'+esc(g.name)+'</td>'+cols.map(function(c){{return '<td>'+esc(valOf(g,c))+'</td>';}}).join('')+'</tr>';}}).join('');
+    var rows=grp.map(function(gi){{var g=PARTS[gi];return '<tr data-i="'+gi+'" tabindex="0" role="button"'+(gi===ci?' class="cur"':'')+'><td>'+esc(g.name)+'</td>'+cols.map(function(c){{var n=numOf(g,c),w=(n>0&&n===mx[c])?' class="win"':'';return '<td'+w+'>'+esc(valOf(g,c))+'</td>';}}).join('')+'</tr>';}}).join('');
     return '<div class="sec">비교 · 같은 분류 ('+grp.length+'개)</div><div class="cmpw"><table class="cmp">'+hd+rows+'</table></div>';
   }}
   function open(i){{
-    var d=PARTS[i]; if(!d)return; _prev=document.activeElement;
+    var d=PARTS[i]; if(!d)return; if(!ov.classList.contains('on'))_prev=document.activeElement;
     mod.style.setProperty('--col',d.col);
-    var h='<div class="m-h"><img class="m-ic" src="'+esc(d.icon)+'" alt=""><div class="m-tt"><div class="m-n">'+esc(d.name)+'</div><div class="m-c">'+esc(d.cat)+'</div></div><button class="m-x" aria-label="닫기">×</button></div><div class="m-b">';
+    var h='<div class="m-h"><img class="m-ic" src="'+esc(d.icon)+'" alt=""><div class="m-tt"><div class="m-n" id="mtitle">'+esc(d.name)+'</div><div class="m-c">'+esc(d.cat)+'</div></div><button class="m-x" aria-label="닫기">×</button></div><div class="m-b">';
     if(d.desc) h+='<p class="m-desc">'+esc(d.desc)+'</p>';
     if(d.stats&&d.stats.length){{ h+='<div class="sec">스탯</div>'+statRows(d.stats); }}
     h+='<div class="sec">해금</div>';
@@ -282,15 +312,22 @@ var CMP={CMP_JSON};
     if(d.mats&&d.mats.length){{ h+='<div class="sec">추가 재료</div>'+chips(d.mats); }}
     h+=compareTable(i);
     h+='</div>';
-    mod.innerHTML=h; ov.classList.add('on');
+    mod.innerHTML=h; ov.classList.add('on'); mod.setAttribute('aria-labelledby','mtitle');
     mod.querySelector('.m-x').addEventListener('click',close);
-    [].slice.call(mod.querySelectorAll('.cmp tr[data-i]')).forEach(function(tr){{tr.addEventListener('click',function(){{open(+tr.dataset.i);}});}});
+    [].slice.call(mod.querySelectorAll('.cmp tr[data-i]')).forEach(function(tr){{var go=function(){{open(+tr.dataset.i);}};tr.addEventListener('click',go);tr.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();go();}}}});}});
     mod.scrollTop=0; mod.querySelector('.m-x').focus();
   }}
   function close(){{ ov.classList.remove('on'); if(_prev&&_prev.focus)_prev.focus(); }}
   cards.forEach(function(c){{ c.addEventListener('click',function(){{ open(+c.dataset.i); }}); }});
   ov.addEventListener('click',function(e){{ if(e.target===ov)close(); }});
   document.addEventListener('keydown',function(e){{ if(e.key==='Escape')close(); }});
+  ov.addEventListener('keydown',function(e){{
+    if(e.key!=='Tab'||!ov.classList.contains('on'))return;
+    var f=[].slice.call(mod.querySelectorAll('button,[tabindex="0"]')).filter(function(el){{return el.offsetParent!==null;}});
+    if(!f.length)return; var a=f[0],b=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){{b.focus();e.preventDefault();}}
+    else if(!e.shiftKey&&document.activeElement===b){{a.focus();e.preventDefault();}}
+  }});
 }})();
 </script>
 </body></html>'''
