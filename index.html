@@ -36,15 +36,18 @@ em{color:var(--muted);font-style:normal}
 .topbar .in{max-width:var(--maxw);margin:0 auto;padding:11px 22px;display:flex;gap:14px;align-items:center}
 .brandmark{font-family:"Oswald";font-weight:700;letter-spacing:.2em;color:var(--brass);font-size:17px}
 .brandmark small{color:var(--faint);font-size:10.5px;letter-spacing:.12em;display:block;line-height:1;font-family:"Pretendard"}
-.navlinks{display:flex;gap:2px;flex-wrap:wrap;margin-left:auto}
-.navlinks a{font-size:12px;color:var(--muted);padding:5px 8px;border-radius:5px}
-.navlinks a:hover{color:var(--brass);background:rgba(217,168,76,.07);text-decoration:none}
-.tabs{display:flex;gap:6px;margin-left:14px}
+.toc{position:fixed;top:50%;transform:translateY(-50%);right:calc((100vw - var(--maxw))/2 - 164px);width:150px;z-index:30;display:flex;flex-direction:column;border-left:1px solid var(--edge);padding-left:1px}
+.toc-h{font-family:"Oswald";font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;padding:0 0 8px 12px}
+.toc a{font-size:12px;color:var(--faint);padding:5px 0 5px 12px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:2px solid transparent;margin-left:-1px;transition:color .12s,border-color .12s}
+.toc a:hover{color:var(--brass);text-decoration:none}
+.toc a.active{color:var(--brass);font-weight:600;border-left-color:var(--brass)}
+@media(max-width:1279px){.toc{display:none}}
+.tabs{display:flex;gap:6px;margin-left:auto}
 .tabs a{font-size:13px;color:var(--muted);padding:5px 12px;border:1px solid var(--edge2);border-radius:6px;text-decoration:none}
 .tabs a.on{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}
 .tabs a:hover{color:var(--brass)}.tabs a.on:hover{color:var(--bg)}
 @media(max-width:760px){.tabs{margin-left:8px}.tabs a{padding:5px 9px;font-size:12px}}
-@media(max-width:760px){.topbar .in{padding:9px 12px;gap:8px}.brandmark small{display:none}.navlinks{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.navlinks::-webkit-scrollbar{display:none}.navlinks a{padding:5px 7px}}
+@media(max-width:760px){.topbar .in{padding:9px 12px;gap:8px}.brandmark small{display:none}}
 
 /* hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--edge)}
@@ -123,7 +126,6 @@ footer b{color:var(--muted)}
 /* progress · interactions */
 #progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;transition:width .12s ease-out;
   background:linear-gradient(90deg,var(--brass-d),var(--brass))}
-.navlinks a.active{color:var(--brass);background:rgba(217,168,76,.12)}
 figure img{cursor:zoom-in}
 #lb{position:fixed;inset:0;z-index:100;background:rgba(8,6,4,.93);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
 #lb.on{display:flex}
@@ -142,15 +144,17 @@ figure img{cursor:zoom-in}
   <div class="in">
     <div class="brandmark">SAND<small>한국어 입문 가이드</small></div>
     <div class="tabs"><a class="on" href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a></div>
-    <nav class="navlinks">
-      <a href="#intro">개요</a><a href="#before">시작 전</a>
-      <a href="#s1">설치</a><a href="#s2">모드</a><a href="#s3">트램플러</a>
-      <a href="#s4">출격</a><a href="#s5">정비</a><a href="#s6">조종</a>
-      <a href="#s7">약탈</a><a href="#s8">전투</a><a href="#s9">추출</a>
-      <a href="#faq">FAQ</a><a href="#ref">참조</a>
-    </nav>
   </div>
 </div>
+
+<nav class="toc" aria-label="가이드 목차">
+  <div class="toc-h">목차</div>
+  <a href="#intro">개요</a><a href="#before">시작 전</a>
+  <a href="#s1">설치</a><a href="#s2">모드</a><a href="#s3">트램플러</a>
+  <a href="#s4">출격</a><a href="#s5">정비</a><a href="#s6">조종</a>
+  <a href="#s7">약탈</a><a href="#s8">전투</a><a href="#s9">추출</a>
+  <a href="#faq">FAQ</a><a href="#ref">참조</a>
+</nav>
 
 <header class="hero">
   <div class="bg" style="background-image:url('assets/img/crop_hero.png')"></div>
@@ -503,7 +507,7 @@ figure img{cursor:zoom-in}
   var pb=document.getElementById('progress'),h=document.documentElement;
   function prog(){var m=(h.scrollHeight-h.clientHeight)||1;pb.style.width=((h.scrollTop||0)/m*100)+'%';}
   document.addEventListener('scroll',prog,{passive:true});prog();
-  var links=[].slice.call(document.querySelectorAll('.navlinks a'));
+  var links=[].slice.call(document.querySelectorAll('.toc a'));
   var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){
