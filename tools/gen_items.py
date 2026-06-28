@@ -117,7 +117,7 @@ HTML = f'''<!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a}}
+:root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#9a8966;--brass:#d9a84c;--brass-d:#a9772a}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:16px;line-height:1.6;
  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}}
@@ -246,7 +246,7 @@ var ITEMS={DETAIL_JSON};
     var d=ITEMS[i]; if(!d)return;
     _prev=document.activeElement;
     mod.style.setProperty('--col',d.col);
-    var h='<div class="m-h"><img class="m-ic" src="'+esc(d.icon)+'" alt=""><div class="m-tt"><div class="m-n">'+esc(d.name)+'</div><div class="m-c">'+esc(d.cat)+'</div></div><button class="m-x" aria-label="닫기">×</button></div><div class="m-b">';
+    var h='<div class="m-h"><img class="m-ic" src="'+esc(d.icon)+'" alt=""><div class="m-tt"><div class="m-n" id="mtitle">'+esc(d.name)+'</div><div class="m-c">'+esc(d.cat)+'</div></div><button class="m-x" aria-label="닫기">×</button></div><div class="m-b">';
     if(d.desc) h+='<p class="m-desc">'+esc(d.desc)+'</p>';
     if(d.stats&&d.stats.length) h+='<div class="sec">스탯</div>'+rows(d.stats);
     if(d.sell) h+='<div class="sec">판매가</div><div class="row"><span class="k">판매가</span><span class="v">'+esc(d.sell)+'</span></div>';
@@ -255,14 +255,21 @@ var ITEMS={DETAIL_JSON};
     if(d.ammo&&d.ammo.length) h+='<div class="sec">호환 탄약</div>'+chips(d.ammo);
     if(d.usedIn&&d.usedIn.length) h+='<div class="sec">사용처</div>'+chips(d.usedIn);
     h+='</div>';
-    mod.innerHTML=h; ov.classList.add('on');
+    mod.innerHTML=h; ov.classList.add('on'); mod.setAttribute('aria-labelledby','mtitle'); document.body.style.overflow='hidden';
     mod.querySelector('.m-x').addEventListener('click',close);
     mod.scrollTop=0; mod.querySelector('.m-x').focus();
   }}
-  function close(){{ ov.classList.remove('on'); if(_prev&&_prev.focus)_prev.focus(); }}
+  function close(){{ ov.classList.remove('on'); document.body.style.overflow=''; if(_prev&&_prev.focus)_prev.focus(); }}
   cards.forEach(function(c){{ c.addEventListener('click',function(){{ open(+c.dataset.i); }}); }});
   ov.addEventListener('click',function(e){{ if(e.target===ov)close(); }});
   document.addEventListener('keydown',function(e){{ if(e.key==='Escape')close(); }});
+  ov.addEventListener('keydown',function(e){{
+    if(e.key!=='Tab'||!ov.classList.contains('on'))return;
+    var f=[].slice.call(mod.querySelectorAll('button,[tabindex="0"]')).filter(function(el){{return el.offsetParent!==null;}});
+    if(!f.length)return; var a=f[0],b=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){{b.focus();e.preventDefault();}}
+    else if(!e.shiftKey&&document.activeElement===b){{a.focus();e.preventDefault();}}
+  }});
 }})();
 </script>
 </body></html>'''

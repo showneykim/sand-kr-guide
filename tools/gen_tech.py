@@ -11,7 +11,7 @@ DESC = json.load(open(DESCP)) if os.path.exists(DESCP) else {}  # slug -> 한국
 FAC = {  # faction slug -> (ko, color, role)
  "godlewski": ("고들레프스키 원정대", "#4493f8", "트램플러의 뼈대와 심장 — 섀시·동력(리액터/엔진/로드)·승무원실·생활·유틸리티"),
  "landwehr":  ("K.K. 란트베어", "#6fb24a", "방어와 백병 화력 — 조타·장갑·개인무기·포실·공성 장비·개량탄"),
- "kaiser":    ("카이저의 친구들", "#e3a008", "대포 화력과 적재 — 캐논/오토캐논/샷건캐논·화물 보관·갑판·섀시 변형"),
+ "kaiser":    ("카이저의 친구들", "#e3a008", "대포 화력과 적재 — 캐논/오토캐논/샷건 캐논·화물 보관·갑판·섀시 변형"),
 }
 FAC_ORDER = ["godlewski", "landwehr", "kaiser"]
 ROMAN = {1:"I",2:"II",3:"III",4:"IV"}
@@ -101,8 +101,8 @@ def node_card(n):
     pre1 = ""
     if prs and prs[0] in slug2:
         pp = slug2[prs[0]]
-        pre1 = (f'<span class="tn-pre" data-jump="{esc(pp["slug"])}" role="button" tabindex="0" '
-                f'title="선행 연구: {esc(pp["ko"])} (Tier {ROMAN[pp["tier"]]}) — 눌러서 이동">'
+        pre1 = (f'<span class="tn-pre" data-jump="{esc(pp["slug"])}" '
+                f'title="선행 연구: {esc(pp["ko"])} (Tier {ROMAN[pp["tier"]]}) — 클릭하면 이동">'
                 f'<span class="pre-l">선행</span>'
                 f'<span class="pre-n">{esc(pp["ko"])}</span>'
                 f'<span class="pre-t">{ROMAN[pp["tier"]]}</span></span>')
@@ -147,7 +147,7 @@ HTML = f'''<!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a}}
+:root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#9a8966;--brass:#d9a84c;--brass-d:#a9772a}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:16px;line-height:1.6;
  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}}
@@ -261,7 +261,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
   <p class="sub">연구로 새 트램플러 부품을 해금합니다. <b>3개 진영 · 4개 티어 · {total}개 노드</b>를 한국어로 검색·열람하세요. <b>노드에 마우스를 올리면(또는 탭하면) 재료·선행연구</b>가 나옵니다.</p>
 </header>
 <div class="howto"><div class="box">
-  <b>읽는 법.</b> 노드를 <b>해금</b>하면 그 부품의 <b>레시피(설계도)만</b> 열립니다 — 실제로 에디터에서 만들 땐 <b>재료가 또</b> 듭니다. 비용의 <b>동전은 크라운(Crowns)</b>. <b>노드에 호버/탭</b>하면 필요한 재료와 선행연구가 표시됩니다(상세 표는 <a href="https://github.com/showneykim/sand-kr-guide/blob/main/docs/kb/02_%ED%85%8C%ED%81%AC%ED%8A%B8%EB%A6%AC_%ED%8C%A9%EC%85%98.md">지식베이스</a>).
+  <b>읽는 법.</b> 노드를 <b>해금</b>하면 그 부품의 <b>레시피(설계도)만</b> 열립니다 — 실제로 에디터에서 만들 땐 <b>재료가 또</b> 듭니다. 비용의 <b>동전은 크라운(Crowns)</b>. <b>노드에 호버/탭</b>하면 재료·선행연구가, <b>노드를 클릭</b>하면 그 노드의 <b>선행·후속 연구 전체가 강조</b>됩니다(하단 <b>「전체 보기」</b>로 해제). 상세 표는 <a href="https://github.com/showneykim/sand-kr-guide/blob/main/docs/kb/02_%ED%85%8C%ED%81%AC%ED%8A%B8%EB%A6%AC_%ED%8C%A9%EC%85%98.md">지식베이스</a>.
 </div></div>
 
 <div class="ctrl"><div class="in">
@@ -386,9 +386,9 @@ var TECH={TECH_JSON};
       e.stopPropagation();
       if(pinned===c){{ unpin(); }} else {{ pinned=c; show(c); setLineage(c.dataset.slug); }}
     }});
-  }});
-  [].slice.call(document.querySelectorAll('.tn-pre')).forEach(function(p){{
-    p.addEventListener('keydown',function(e){{ if(e.key==='Enter'||e.key===' '){{ e.preventDefault(); e.stopPropagation(); jumpTo(p.getAttribute('data-jump')); }} }});
+    c.addEventListener('keydown',function(e){{
+      if(e.key==='Enter'||e.key===' '){{ e.preventDefault(); e.stopPropagation(); if(pinned===c){{ unpin(); }} else {{ pinned=c; show(c); setLineage(c.dataset.slug); }} }}
+    }});
   }});
   document.getElementById('linbar').querySelector('button').addEventListener('click',function(e){{ e.stopPropagation(); unpin(); }});
   document.addEventListener('click',function(){{ if(pinned)unpin(); }});

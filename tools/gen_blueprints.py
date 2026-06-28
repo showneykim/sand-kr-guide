@@ -51,11 +51,17 @@ for _sl in STATS:
     for lab, val, n in _norm(_sl):
         if n is not None:
             _MAX[lab] = max(_MAX.get(lab, 0), n); _CNT[lab] += 1
+LOWER_BETTER = {"무게", "에너지 소모"}  # 낮을수록 유리 — 막대를 반전(채움=좋음)하고 비교표 승자는 최소값
 def stat_rows(slug):
     out=[]
     for lab, val, n in _norm(slug):
-        pct = round(n/_MAX[lab]*100) if (n is not None and _CNT[lab] >= 3 and _MAX.get(lab,0) > 0) else 0
-        out.append([lab, val, pct])
+        low = 1 if lab in LOWER_BETTER else 0
+        if n is not None and _CNT[lab] >= 3 and _MAX.get(lab, 0) > 0:
+            ratio = n / _MAX[lab]
+            pct = round((1 - ratio) * 100) if low else round(ratio * 100)
+        else:
+            pct = 0
+        out.append([lab, val, pct, low])
     return out
 
 CAT_ORDER = ["섀시","동력","조향","대포·포","무기·공성","장갑","화물·보관","승무원·생활","구조·이동","도구·유틸","기타"]
@@ -71,7 +77,7 @@ def major_of(cat): return MAJOR_OF.get(cat, "유틸리티")
 # 비교 컬럼: 카테고리별로 데이터에 실제 존재하는 스탯 상위 3개(치수는 후순위)
 _catlab = _co.defaultdict(_co.Counter)
 for _p in P:
-    for _lab, _val, _pct in stat_rows(_p["slug"]):
+    for _lab, _val, _pct, _low in stat_rows(_p["slug"]):
         _catlab[_p["cat"]][_lab] += 1
 CMP = {}
 for _c in CAT_ORDER:
@@ -147,7 +153,7 @@ HTML = f'''<!DOCTYPE html>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#7d6f56;--brass:#d9a84c;--brass-d:#a9772a}}
+:root{{--bg:#13100b;--bg2:#1a150e;--panel:#221a10;--edge:#392b1a;--edge2:#4f3a21;--ink:#e9dfcd;--muted:#ab9a7c;--faint:#9a8966;--brass:#d9a84c;--brass-d:#a9772a}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:16px;line-height:1.6;
  background-image:radial-gradient(1100px 460px at 82% -8%,rgba(217,168,76,.07),transparent 60%)}}
@@ -237,6 +243,8 @@ main{{max-width:1180px;margin:0 auto;padding:16px 22px 80px;display:grid;grid-te
 #mod .strow .sv{{font-family:"Oswald",sans-serif;color:#fff;font-weight:600;font-size:14px}}
 #mod .strow .bar{{flex-basis:100%;height:5px;background:#0d0a06;border:1px solid var(--edge2);border-radius:3px;overflow:hidden;margin-top:1px}}
 #mod .strow .bar i{{display:block;height:100%;background:linear-gradient(90deg,var(--brass-d),var(--brass))}}
+#mod .strow .bar.inv i{{background:linear-gradient(90deg,#587883,#84a6b2)}}
+#mod .strow .sk .dn{{color:var(--muted);font-size:.82em;font-weight:600;margin-left:1px}}
 #mod .mchip{{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);background:#0d0a06;border:1px solid var(--edge2);border-radius:6px;padding:3px 9px 3px 5px}}
 #mod .mchip img{{width:17px;height:17px;object-fit:contain}}#mod .mchip b{{color:var(--brass);font-family:"Oswald",sans-serif;margin-left:1px}}
 #mod .cost{{display:inline-flex;align-items:center;gap:6px;font-family:"Oswald",sans-serif;color:var(--brass);font-weight:700;font-size:15px}}#mod .cost img{{width:18px;height:18px;object-fit:contain}}
@@ -284,7 +292,7 @@ footer .in{{max-width:1180px;margin:0 auto;padding:22px 22px 44px;color:var(--mu
 </div></div>
 
 <main>
-  <aside class="sidebar"><div class="sb-h">대 분류</div><div class="sidebar-in">{fcats}</div></aside>
+  <aside class="sidebar"><div class="sb-h">대분류</div><div class="sidebar-in">{fcats}</div></aside>
   <div class="content">
     <div class="ftags" id="ftags" role="group" aria-label="세부 분류">{ftags}</div>
     <div class="grid" id="grid">
@@ -338,7 +346,8 @@ var CMP={CMP_JSON};
   var ov=document.getElementById('ov'),mod=document.getElementById('mod'),_prev=null;
   function esc(s){{return String(s==null?'':s).replace(/[&<>]/g,function(c){{return {{'&':'&amp;','<':'&lt;','>':'&gt;'}}[c];}});}}
   function chips(arr){{return '<div class="chips">'+arr.map(function(r){{return '<span class="mchip"><img src="assets/tech_icons/'+esc(r[2])+'" alt="">'+esc(r[0])+' <b>×'+esc(r[1])+'</b></span>';}}).join('')+'</div>';}}
-  function statRows(arr){{return arr.map(function(s){{var bar=s[2]>0?'<span class="bar"><i style="width:'+s[2]+'%"></i></span>':'';return '<div class="strow"><span class="sk">'+esc(s[0])+'</span><span class="sv">'+esc(s[1])+'</span>'+bar+'</div>';}}).join('');}}
+  var LOWER={{"무게":1,"에너지 소모":1}};
+  function statRows(arr){{return arr.map(function(s){{var inv=s[3]?' inv':'';var bar=s[2]>0?'<span class="bar'+inv+'"><i style="width:'+s[2]+'%"></i></span>':'';var dn=s[3]?' <span class="dn" title="낮을수록 좋음">↓</span>':'';return '<div class="strow"><span class="sk">'+esc(s[0])+dn+'</span><span class="sv">'+esc(s[1])+'</span>'+bar+'</div>';}}).join('');}}
   function valOf(g,lab){{for(var i=0;i<g.stats.length;i++){{if(g.stats[i][0]===lab)return g.stats[i][1];}}return '—';}}
   function numOf(g,lab){{var v=valOf(g,lab);var m=String(v).match(/[0-9.,]+/);return m?parseFloat(m[0].replace(/,/g,'')):-1;}}
   function compareTable(ci){{
@@ -346,9 +355,9 @@ var CMP={CMP_JSON};
     for(var i=0;i<PARTS.length;i++){{if(PARTS[i].cat===cat&&cols.some(function(c){{return valOf(PARTS[i],c)!=='—';}}))grp.push(i);}}
     if(grp.length<2||grp.indexOf(ci)<0)return '';
     grp.sort(function(a,b){{return numOf(PARTS[b],cols[0])-numOf(PARTS[a],cols[0]);}});
-    var mx={{}};cols.forEach(function(c){{var m=-Infinity;grp.forEach(function(gi){{var n=numOf(PARTS[gi],c);if(n>m)m=n;}});mx[c]=m;}});
+    var mx={{}};cols.forEach(function(c){{var lo=LOWER[c],b=lo?Infinity:-Infinity;grp.forEach(function(gi){{var n=numOf(PARTS[gi],c);if(n<0)return;if(lo){{if(n<b)b=n;}}else{{if(n>b)b=n;}}}});mx[c]=b;}});
     var hd='<tr><th>부품</th>'+cols.map(function(c){{return '<th>'+esc(c)+'</th>';}}).join('')+'</tr>';
-    var rows=grp.map(function(gi){{var g=PARTS[gi];return '<tr data-i="'+gi+'" tabindex="0" role="button"'+(gi===ci?' class="cur"':'')+'><td>'+esc(g.name)+'</td>'+cols.map(function(c){{var n=numOf(g,c),w=(n>0&&n===mx[c])?' class="win"':'';return '<td'+w+'>'+esc(valOf(g,c))+'</td>';}}).join('')+'</tr>';}}).join('');
+    var rows=grp.map(function(gi){{var g=PARTS[gi];return '<tr data-i="'+gi+'" tabindex="0" role="button"'+(gi===ci?' class="cur"':'')+'><td>'+esc(g.name)+'</td>'+cols.map(function(c){{var n=numOf(g,c),w=(n>=0&&n===mx[c])?' class="win"':'';return '<td'+w+'>'+esc(valOf(g,c))+'</td>';}}).join('')+'</tr>';}}).join('');
     return '<div class="sec">비교 · 같은 분류 ('+grp.length+'개)</div><div class="cmpw"><table class="cmp">'+hd+rows+'</table></div>';
   }}
   function open(i){{
@@ -363,12 +372,12 @@ var CMP={CMP_JSON};
     if(d.mats&&d.mats.length){{ h+='<div class="sec">추가 재료</div>'+chips(d.mats); }}
     h+=compareTable(i);
     h+='</div>';
-    mod.innerHTML=h; ov.classList.add('on'); mod.setAttribute('aria-labelledby','mtitle');
+    mod.innerHTML=h; ov.classList.add('on'); mod.setAttribute('aria-labelledby','mtitle'); document.body.style.overflow='hidden';
     mod.querySelector('.m-x').addEventListener('click',close);
     [].slice.call(mod.querySelectorAll('.cmp tr[data-i]')).forEach(function(tr){{var go=function(){{open(+tr.dataset.i);}};tr.addEventListener('click',go);tr.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();go();}}}});}});
     mod.scrollTop=0; mod.querySelector('.m-x').focus();
   }}
-  function close(){{ ov.classList.remove('on'); if(_prev&&_prev.focus)_prev.focus(); }}
+  function close(){{ ov.classList.remove('on'); document.body.style.overflow=''; if(_prev&&_prev.focus)_prev.focus(); }}
   cards.forEach(function(c){{ c.addEventListener('click',function(){{ open(+c.dataset.i); }}); }});
   ov.addEventListener('click',function(e){{ if(e.target===ov)close(); }});
   document.addEventListener('keydown',function(e){{ if(e.key==='Escape')close(); }});
