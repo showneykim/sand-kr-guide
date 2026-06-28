@@ -40,7 +40,7 @@ MAT_KO = {
  "Crate of 1889 Chardonnay":"1889 샤르도네 상자","Canned Sea Deer XL":"바다사슴 통조림 XL","Scrap Metal":"고철",
  "Crystal":"크리스탈","Ficus":"피커스","Reinforced Leather Strips":"강화 가죽끈","Scrapped Ammo":"폐탄약",
  "Coral Dust":"산호 가루","Leviathan Skin":"리바이어던 가죽","Metal Rods":"금속 막대",
- "District Officer's Portable Safe":"지구 관리관 금고","Optic Lenses":"광학 렌즈","Weapon Parts":"무기 부품",
+ "District Officer's Portable Safe":"구역 담당관 금고","Optic Lenses":"광학 렌즈","Weapon Parts":"무기 부품",
  "Fabric":"천","Leviathan Meat":"리바이어던 고기","High-Grade Gunpowder":"고급 화약",
 }
 

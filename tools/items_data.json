@@ -118,7 +118,9 @@
    ],
    "workbench": "Workbench",
    "sellValue": "500 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "적 트램플러 완전 격침 시 리액터 잔해 근처"
+   ],
    "usedIn": [],
    "compatibleAmmo": []
   },
@@ -183,7 +185,9 @@
    "recipe": [],
    "workbench": "Utility T1",
    "sellValue": "100 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "도시 격납고 · 밀폐 건물"
+   ],
    "usedIn": [
     "Canned Food (produces 25×)"
    ],
@@ -226,7 +230,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "500 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "산호 사멸 지대의 거대 결정 파괴(주로 캐논)"
+   ],
    "usedIn": [
     "Crystal",
     "NZ Mk2 Energy Rod"
@@ -248,7 +254,9 @@
    "recipe": [],
    "workbench": "Utility T1",
    "sellValue": "500 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "판자로 막힌 입구 · 제한 구역 · 도시 은닉 구획"
+   ],
    "usedIn": [
     "Valuable Papers (produces 150×)"
    ],
@@ -323,7 +331,7 @@
    "name": "Canned Food",
    "category": "Medical",
    "description_en": "The amount of food on board the trampler determines the number of quick respawns available for the Crew. You also can just eat it to improve your well-being.",
-   "description_ko": "트램플러에 실린 음식의 양이 크루가 쓸 수 있는 빠른 리스폰 횟수를 결정한다. 그냥 먹어서 컨디션을 회복할 수도 있다.",
+   "description_ko": "트램플러에 실린 음식의 양이 크루가 쓸 수 있는 빠른 부활 횟수를 결정한다. 그냥 먹어서 컨디션을 회복할 수도 있다.",
    "stats": [
     {
      "label": "Type",
@@ -1424,7 +1432,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "25 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "자원 상자"
+   ],
    "usedIn": [
     "Pristine 40 mm Autocannon Kit",
     "Pristine 80 mm Naval Cannon Kit",
@@ -1481,7 +1491,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "5 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "자원 상자"
+   ],
    "usedIn": [
     "Coral Dust"
    ],
@@ -1511,7 +1523,9 @@
    ],
    "workbench": "Utility T1",
    "sellValue": "7 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "자원 상자"
+   ],
    "usedIn": [],
    "compatibleAmmo": []
   },
@@ -1656,7 +1670,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "1 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "전용 자원 상자(곳곳)"
+   ],
    "usedIn": [
     "8x21mm Ammo",
     "EB \"Zseb\" Revolver",
@@ -1691,7 +1707,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "7 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "자원 상자"
+   ],
    "usedIn": [
     "M82 Rifle",
     "Blitz 10R Pistol",
@@ -1790,7 +1808,9 @@
    ],
    "workbench": "Resources T3a",
    "sellValue": "50 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "전용 상자"
+   ],
    "usedIn": [],
    "compatibleAmmo": []
   },
@@ -1848,7 +1868,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "75 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "자원 상자"
+   ],
    "usedIn": [
     "1874s Petros Sniper Rifle (×2)",
     "1874e Petros Rifle (×2)",
@@ -1910,7 +1932,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "1 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "컨테이너"
+   ],
    "usedIn": [
     "8x21mm Ammo",
     "9x42mm Ammo",
@@ -1940,7 +1964,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "1 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "전용 상자"
+   ],
    "usedIn": [
     "Old Smuggler's Jacket (×10)",
     "SGOW SW.52 Body Armor (×50)",
@@ -1971,7 +1997,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "7 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "루팅 · 컨테이너"
+   ],
    "usedIn": [
     "M82 Rifle",
     "Blitz 10R Pistol"
@@ -1993,7 +2021,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "감염된 적(우피르) 처치 드롭"
+   ],
    "usedIn": [],
    "compatibleAmmo": []
   },
@@ -3529,7 +3559,9 @@
    "recipe": [],
    "workbench": "",
    "sellValue": "500 Crowns",
-   "obtainedFrom": [],
+   "obtainedFrom": [
+    "등대 꼭대기 탁자 아래 · 도시 잠긴 방"
+   ],
    "usedIn": [],
    "compatibleAmmo": []
   },
