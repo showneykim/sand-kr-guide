@@ -194,7 +194,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 <body>
 <div class="topbar"><div class="in">
   <a class="brand" href="index.html" style="text-decoration:none" aria-label="홈 — 입문 가이드">SAND</a>
-  <div class="tabs"><a href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a class="on" href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a></div>
+  <div class="tabs"><a href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a class="on" href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a><a href="reference.html">수치</a></div>
 </div></div>
 
 <header class="h">
