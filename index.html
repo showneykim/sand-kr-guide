@@ -55,7 +55,7 @@ em{color:var(--muted);font-style:normal}
 .tabs a.on{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}
 .tabs a:hover{color:var(--brass)}.tabs a.on:hover{color:var(--bg)}
 @media(max-width:760px){.tabs{margin-left:8px}.tabs a{padding:5px 9px;font-size:12px}}
-@media(max-width:760px){.topbar .in{padding:9px 12px;gap:8px}.brandmark small{display:none}}
+@media(max-width:760px){.topbar .in{padding:9px 12px;gap:8px;flex-wrap:wrap}.brandmark small{display:none}.tabs{flex-basis:100%;margin-left:0;flex-wrap:wrap}}
 
 /* hero */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--edge)}
@@ -151,7 +151,7 @@ figure img{cursor:zoom-in}
 <div class="topbar">
   <div class="in">
     <a class="brandmark" href="index.html" style="text-decoration:none">SAND<small>한국어 입문 가이드</small></a>
-    <div class="tabs"><a class="on" href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a><a href="reference.html">수치</a></div>
+    <nav class="tabs" aria-label="주요"><a class="on" aria-current="page" href="index.html">입문 가이드</a><a href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a><a href="reference.html">수치</a></nav>
   </div>
 </div>
 
@@ -461,7 +461,7 @@ figure img{cursor:zoom-in}
     <li><strong>크라운 → 연구</strong> — 크라운의 최대 소비처는 <a href="tech.html">테크트리</a> 노드 해금이다. Tier I엔 크라운만으로 풀리는 노드가 많으니 새 섀시·동력·대포부터 단계적으로.</li>
   </ol>
   <div class="warn"><b>이건 절대 팔지 마라 — 신규 1순위 실수.</b> 잡템처럼 보여도 다음 판을 좌우한다. <strong>기계 부품(Mechanical Parts, 주황 고철)</strong>은 격파당한 뒤 트램플러를 싸게 재건하는 핵심 자재 — “두고 오지 말 것 1순위”. <strong>블랙박스</strong>는 무기·장갑 II~IV 연구가 다수 요구하니 테크트리 완성 전까지 비축(잉여분만 ~500에). <strong>고티어 탄약·치료품·희귀 키</strong>는 우클릭 부분 판매로 필요분을 남겨라.</div>
-  <div class="goal">설계 → 출격 → 약탈 → 추출 → <b>판매·연구 → 더 강한 설계</b>. 이 한 바퀴가 SAND다. <b>입문 완료</b> — 다음은 <a href="blueprints.html">블루프린트</a>로 트램플러를 키우고, 익숙해지면 Storm Dive에 도전.</div>
+  <div class="goal">설계 → 출격 → 약탈 → 추출 → <b>판매·연구 → 더 강한 설계</b>. 이 한 바퀴가 SAND다. <b>입문 완료</b> — 다음은 <a href="blueprints.html">블루프린트</a>로 트램플러를 키우고, 익숙해지면 Storm Dive에 도전. 자세한 건 <a href="items.html">아이템 도감</a>(가치·획득처)과 <a href="reference.html">수치</a>(부품 스탯·테크 비용·판매가)에서.</div>
 </section>
 
 <section id="faq">

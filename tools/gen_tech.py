@@ -152,6 +152,9 @@ HTML = f'''<!DOCTYPE html>
 <meta property="og:url" content="https://showneykim.github.io/sand-kr-guide/tech.html">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%2313100b'/%3E%3Ctext%20x='16'%20y='23'%20font-size='21'%20font-weight='700'%20fill='%23d9a84c'%20text-anchor='middle'%20font-family='sans-serif'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -168,7 +171,7 @@ a{{color:var(--brass);text-decoration:none}}a:hover{{text-decoration:underline}}
 .tabs a{{font-size:13px;color:var(--muted);padding:6px 13px;border:1px solid var(--edge2);border-radius:6px}}
 .tabs a.on{{color:var(--bg);background:var(--brass);border-color:var(--brass);font-weight:600}}
 .tabs a:hover{{text-decoration:none;color:var(--brass)}}.tabs a.on:hover{{color:var(--bg)}}
-@media(max-width:520px){{.topbar .in{{padding:9px 12px;gap:8px;flex-wrap:wrap}}.brand{{font-size:15px}}.tabs a{{padding:5px 9px;font-size:12px}}}}
+@media(max-width:520px){{.topbar .in{{padding:9px 12px;gap:8px;flex-wrap:wrap}}.brand{{font-size:15px}}.tabs{{flex-basis:100%;margin-left:0}}.tabs a{{padding:5px 9px;font-size:12px}}}}
 header.h{{max-width:1180px;margin:0 auto;padding:30px 22px 8px}}
 header.h h1{{font-family:"Oswald",sans-serif;font-weight:700;letter-spacing:.04em;font-size:clamp(24px,4vw,34px);margin:0;color:#fff}}
 header.h .sub{{color:var(--muted);margin:8px 0 0;font-size:15px;max-width:780px}}
@@ -261,7 +264,7 @@ footer b{{color:var(--muted)}}footer a{{color:var(--muted)}}
 <body>
 <div class="topbar"><div class="in">
   <a class="brand" href="index.html" style="text-decoration:none" aria-label="홈 — 입문 가이드">SAND</a>
-  <div class="tabs"><a href="index.html">입문 가이드</a><a class="on" href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a><a href="reference.html">수치</a></div>
+  <nav class="tabs" aria-label="주요"><a href="index.html">입문 가이드</a><a class="on" aria-current="page" href="tech.html">테크트리</a><a href="items.html">아이템 도감</a><a href="blueprints.html">블루프린트</a><a href="reference.html">수치</a></nav>
 </div></div>
 
 <header class="h">
