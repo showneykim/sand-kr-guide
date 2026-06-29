@@ -787,7 +787,7 @@
    "name": "Experimental 2x70 mm Twin Shotgun Cannon Kit",
    "category": "Artillery",
    "description_en": "One gun is already good, but two is always better. An experimental twin 70 mm shotgun cannon, created by SGOW as an attempt to increase firepower and salvo weight without significantly increasing the dimensions of the turret. Named \"Eight\" internally for its specific appearance. Manufactured in a limited batch for field testing. A complete set of spare parts and tools for field assembly and disassembly. In perfect condition, as if fresh from the factory. Utilizes 70 mm shells.",
-   "description_ko": "포 하나도 좋지만, 둘이면 언제나 더 낫다. SGOW가 포탑 크기를 크게 키우지 않으면서 화력과 일제 사격 중량을 늘리려고 시도한 실험용 쌍열 70 mm 산탄 캐논이다. 특유의 생김새 때문에 내부적으로 \"에이트\"라 불린다. 야전 시험용으로 소량 한정 생산되었다. 야전 조립·분해용 예비 부품과 공구 일체. 마치 공장에서 갓 출고된 듯 완벽한 상태다. 70 mm 포탄을 사용한다.",
+   "description_ko": "포 하나도 좋지만, 둘이면 언제나 더 낫다. SGOW가 포탑 크기를 크게 키우지 않으면서 화력과 일제 사격 중량을 늘리려고 시도한 실험용 쌍열 70 mm 샷건 캐논이다. 특유의 생김새 때문에 내부적으로 \"에이트\"라 불린다. 야전 시험용으로 소량 한정 생산되었다. 야전 조립·분해용 예비 부품과 공구 일체. 마치 공장에서 갓 출고된 듯 완벽한 상태다. 70 mm 포탄을 사용한다.",
    "stats": [
     {
      "label": "Reload",
@@ -2826,7 +2826,7 @@
    "name": "70 mm Shell",
    "category": "Ammo",
    "description_en": "Canister shot that contains a high number of small projectiles. Utilized by shotgun cannons.",
-   "description_ko": "다수의 작은 발사체가 담긴 캐니스터 탄. 산탄 캐논에서 사용된다.",
+   "description_ko": "다수의 작은 발사체가 담긴 캐니스터 탄. 샷건 캐논에서 사용된다.",
    "stats": [
     {
      "label": "Damage",
@@ -2862,7 +2862,7 @@
    "name": "70 mm Shotgun Cannon Slug",
    "category": "Ammo",
    "description_en": "Armor-piercing ammunition with a solid shell, designed for use with 70 mm shotgun cannons. It can't compete with 80 mm long-barreled artillery shells, but without those – beggars can't be choosers.",
-   "description_ko": "단단한 탄체를 가진 철갑 탄약으로, 70mm 산탄 캐논용으로 설계되었다. 80mm 장포신 포탄에는 미치지 못하지만, 그마저 없을 땐 찬밥 더운밥 가릴 처지가 아니다.",
+   "description_ko": "단단한 탄체를 가진 철갑 탄약으로, 70mm 샷건 캐논용으로 설계되었다. 80mm 장포신 포탄에는 미치지 못하지만, 그마저 없을 땐 찬밥 더운밥 가릴 처지가 아니다.",
    "stats": [
     {
      "label": "Damage",
